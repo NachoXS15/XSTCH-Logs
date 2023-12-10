@@ -1,0 +1,19 @@
+{
+  "name": "xstch-log",
+  "version": "1.0.0",
+  "description": "api to create logs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NachoXS15/XSTCH-Logs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NachoXS15/XSTCH-Logs/issues"
+  },
+  "homepage": "https://github.com/NachoXS15/XSTCH-Logs#readme"
+}
