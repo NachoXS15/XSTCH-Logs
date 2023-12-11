@@ -1,0 +1,14 @@
+import { DataTypes } from "sequelize";
+import db from'../database/db';
+
+const logModel = db.define("logs", {
+    id_logs: {type: DataTypes.INET},
+    id_cliente: {type: DataTypes.INET},
+    precio: {type: DataTypes.INET},
+    id_servicio: {type: DataTypes.INET},
+    egreso: {type: DataTypes.DATE},
+    estado: {type: DataTypes.STRING},
+    pago: {type: DataTypes.STRING}
+})
+
+export default logModel
