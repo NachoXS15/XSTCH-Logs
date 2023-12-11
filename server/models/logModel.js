@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import db from'../database/db';
+import db from'../database/db.js';
 
 const logModel = db.define("logs", {
     id_logs: {type: DataTypes.INET},
