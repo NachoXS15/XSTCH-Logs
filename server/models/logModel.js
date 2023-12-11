@@ -2,7 +2,9 @@ import { DataTypes } from "sequelize";
 import db from'../database/db.js';
 
 const logModel = db.define("logs", {
-    id_logs: {type: DataTypes.INET},
+    id: {type: DataTypes.STRING, 
+            primaryKey: true},
+    id_log: {type: DataTypes.INET},
     id_cliente: {type: DataTypes.INET},
     precio: {type: DataTypes.INET},
     id_servicio: {type: DataTypes.INET},
