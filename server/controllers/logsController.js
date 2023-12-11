@@ -27,7 +27,7 @@ export const createLog = async (req, res) => {
             "message": "operation ok"
         })
     } catch (error) {
-        console.log(error)
+        
     }
 }
 
