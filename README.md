@@ -2,7 +2,7 @@
 
 Target:
 
-- Keep track of every log and client from XSTCH Company:
+- Full-Stack project created to keep track of every log and client from XSTCH Company:
     - Client
     - Service
     - Egress Date
