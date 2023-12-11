@@ -12,12 +12,12 @@ try {
     await db.authenticate()
     console.log("todo bien")
 } catch (error) {
-    console.log("todo mal :c")
+    console.log("todo mal :c", error.message)
 }
 
 app.get('/', (req, res) => {
     res.send("GOD")
 })
 app.listen(3000, () =>{
-    console.log("server on port");
+    console.log("server on port 3000");
 })

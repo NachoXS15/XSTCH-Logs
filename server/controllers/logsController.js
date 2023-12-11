@@ -44,8 +44,10 @@ export const updateLog = async (req, res) => {
 
 export const deleteLog = async (req, res) => {
     try {
-        const log = await logModel.destroy({where: {id_log: req.params.id_log}});
-        res.json(log);
+        const log = await logModel.destroy({where: {id: req.params.id}});
+        res.json({
+            "operation": "ok"
+        });
     } catch (error) {
         console.log(error)
     }
