@@ -21,9 +21,10 @@ export default function Logs() {
     return (
         <>
             <div>
-                <table border={1}>
+                <table border={1} className='w-100'>
                     <tr>
-                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Servicio</th>
                         <th>Precio</th>
                         <th>Estado</th>
                         <th>Pago</th>
@@ -31,7 +32,8 @@ export default function Logs() {
                     {logs.map((log) => {
                         return(
                             <tr key={log.id}>
-                                <td>{log.id_cliente}</td>
+                                <td>{log.nombre_cliente}</td>
+                                <td>{log.nombre_servicio}</td>
                                 <td>{log.precio}</td>
                                 <td>{log.estado}</td>
                                 <td>{log.pago}</td>

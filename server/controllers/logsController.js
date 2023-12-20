@@ -1,10 +1,15 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Sequelize, QueryTypes } from "sequelize";
 import logModel from "../models/logModel.js";
+import db from "../database/db.js";
+import dotenv from 'dotenv'
+dotenv.config({path: './.env'})
+const {GETALLLOGS} = process.env
 
 
 export const getAllLogs = async (req, res) => {
     try {
-        const logs = await logModel.findAll();
+        //const logs = await logModel.findAll();
+        const logs = await db.query(GETALLLOGS, {type: QueryTypes.SELECT});
         res.json(logs);
     } catch (error) {
         console.log(error)
@@ -13,7 +18,7 @@ export const getAllLogs = async (req, res) => {
 
 export const getOneLog = async (req, res) => {
     try {
-        const log = await logModel.findAll({where: {id_log: req.params.id_log}});
+        const log = await logModel.find({where: {id_log: req.params.id_log}});
         res.json(log);
     } catch (error) {
         console.log(error)
