@@ -19,7 +19,6 @@ export default function Header() {
                 <Nav.Link className="text-white" style={{margin: '0 1.5em 0'}} to="/create" as={NavLink}>
                     <Button className="">Create</Button>
                 </Nav.Link>
-
             </div>
         </nav>
     );
