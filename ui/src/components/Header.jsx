@@ -14,8 +14,9 @@ export default function Header() {
                 </button>
             </div>
             <div className="collapse navbar-collapse" id="togglerHeader">
+                <Nav.Link className="text-white" style={{margin: '0 1.5em 0'}} to="/logs" as={NavLink}>Registros</Nav.Link>
                 <Nav.Link className="text-white" style={{margin: '0 1.5em 0'}} to="/clients" as={NavLink}>Clients</Nav.Link>
-                <Nav.Link className="text-white" style={{margin: '0 1.5em 0'}} to="/servicios" as={NavLink}>Services</Nav.Link>
+                <Nav.Link className="text-white" style={{margin: '0 1.5em 0'}} to="/services" as={NavLink}>Services</Nav.Link>
                 <Nav.Link className="text-white" style={{margin: '0 1.5em 0'}} to="/create" as={NavLink}>
                     <Button className="">Create</Button>
                 </Nav.Link>

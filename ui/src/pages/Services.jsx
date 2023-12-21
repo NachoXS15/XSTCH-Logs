@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState} from 'react'
 import Header from '../components/Header'
 import axios from 'axios'
 
@@ -10,10 +10,11 @@ function Services() {
         getServices()
     }, [])
 
-    const getServices = async () => {
+    const getServices = async (res) => {
         try {
             const res = await axios.get(BASE_URI);
             setServices(res.data)
+            console.log(res.data)
         } catch (error) {
             console.log("error al traer servicios: ", error.message)
         }
@@ -26,13 +27,13 @@ function Services() {
                 <table border={1} className='w-100'>
                     <tr>
                         <th>Id</th>
-                        <th>Cliente</th>
+                        <th>Servicio</th>
                     </tr>
-                    {clients.map((client) => {
+                    {services.map((service) => {
                         return (
-                            <tr key={client.id}>
-                                <td>{client.id_cliente}</td>
-                                <td>{client.nombre_cliente}</td>
+                            <tr key={service.id}>
+                                <td>{service.id_servicio}</td>
+                                <td>{service.nombre_servicio}</td>
                             </tr>
                         )
                     })}
