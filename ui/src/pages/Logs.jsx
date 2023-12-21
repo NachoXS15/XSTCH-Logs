@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import Header from '../components/Header';
+import dotenv from 'dotenv'
+
 const BASE_URI = "http://localhost:3000/logs/"
 export default function Logs() {
     const [logs, setLogs] = useState([]);
@@ -20,6 +23,7 @@ export default function Logs() {
 
     return (
         <>
+            <Header />
             <div>
                 <table border={1} className='w-100'>
                     <tr>
@@ -30,7 +34,7 @@ export default function Logs() {
                         <th>Pago</th>
                     </tr>
                     {logs.map((log) => {
-                        return(
+                        return (
                             <tr key={log.id}>
                                 <td>{log.nombre_cliente}</td>
                                 <td>{log.nombre_servicio}</td>
