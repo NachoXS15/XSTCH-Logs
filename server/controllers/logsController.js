@@ -18,7 +18,7 @@ export const getAllLogs = async (req, res) => {
 
 export const getOneLog = async (req, res) => {
     try {
-        const log = await logModel.find({where: {id_log: req.params.id_log}});
+        const log = await logModel.findOne({where: {id_log: req.params.id_log}});
         res.json(log);
     } catch (error) {
         console.log(error)

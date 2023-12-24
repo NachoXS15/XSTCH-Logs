@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Header from '../components/Header';
-import dotenv from 'dotenv'
 
 const BASE_URI = "http://localhost:3000/logs/"
-export default function Logs() {
+
+export default function Logs(props) {
     const [logs, setLogs] = useState([]);
     useEffect(() => {
         getLogs()
@@ -23,7 +23,7 @@ export default function Logs() {
 
     return (
         <>
-            <Header />
+            <Header create="log" />
             <div>
                 <table border={1} className='w-100'>
                     <tr>

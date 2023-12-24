@@ -1,10 +1,10 @@
 import React, { useEffect, useState} from 'react'
-import Header from '../components/Header'
+import Header from '../../components/Header'
 import axios from 'axios'
 
 const BASE_URI = "http://localhost:3000/services/"
 
-function Services() {
+function Services(props) {
     const [services, setServices] = useState([])
     useEffect(() => {
         getServices()
@@ -22,7 +22,7 @@ function Services() {
 
     return (
         <>
-            <Header />
+            <Header create="service" />
             <div>
                 <table border={1} className='w-100'>
                     <tr>
@@ -34,6 +34,7 @@ function Services() {
                             <tr key={service.id}>
                                 <td>{service.id_servicio}</td>
                                 <td>{service.nombre_servicio}</td>
+                                <td><button>Eliminar</button></td>
                             </tr>
                         )
                     })}

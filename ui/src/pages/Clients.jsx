@@ -20,7 +20,7 @@ function Clients() {
   }
   return (
     <>
-      <Header />
+      <Header create="client" />
       <div>
         <table border={1} className='w-100'>
           <tr>
