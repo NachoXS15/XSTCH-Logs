@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { Button } from 'react-bootstrap'
+
 import Header from '../components/Header';
 
 const BASE_URI = "http://localhost:3000/logs/"
@@ -23,7 +25,7 @@ export default function Logs(props) {
 
     return (
         <>
-            <Header create="log" />
+            <Header name="log" />
             <div>
                 <table border={1} className='w-100'>
                     <tr>
@@ -38,9 +40,11 @@ export default function Logs(props) {
                             <tr key={log.id}>
                                 <td>{log.nombre_cliente}</td>
                                 <td>{log.nombre_servicio}</td>
-                                <td>{log.precio}</td>
+                                <td>${log.precio}</td>
                                 <td>{log.estado}</td>
                                 <td>{log.pago}</td>
+                                <td><Button size="sm" className='btn btn-info'>Actualizar</Button></td>
+                                <td><Button size="sm" className='btn btn-danger'>Eliminar</Button></td>
                             </tr>
                         )
                     })}

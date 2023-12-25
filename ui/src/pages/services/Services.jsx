@@ -1,6 +1,7 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import axios from 'axios'
+import { Button } from 'react-bootstrap'
 
 const BASE_URI = "http://localhost:3000/services/"
 
@@ -20,9 +21,19 @@ function Services(props) {
         }
     }
 
+    const deleteService = async(id) => {
+        try {
+            await axios.delete(`${BASE_URI}${id}`);
+            getServices()
+            console.log("Eliminado");
+        } catch (error) {
+            console.error("Error al eliminar", error.message)
+        }
+    }
+
     return (
         <>
-            <Header create="service" />
+            <Header link="serviceCreate" name="service" />
             <div>
                 <table border={1} className='w-100'>
                     <tr>
@@ -34,7 +45,8 @@ function Services(props) {
                             <tr key={service.id}>
                                 <td>{service.id_servicio}</td>
                                 <td>{service.nombre_servicio}</td>
-                                <td><button>Eliminar</button></td>
+                                <td><Button size="sm" className='btn btn-info'>Actualizar</Button></td>
+                                <td><Button size="sm" className='btn btn-danger' onClick={() => deleteService(service.id)}>Eliminar</Button></td>
                             </tr>
                         )
                     })}

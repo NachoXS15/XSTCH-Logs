@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Header from '../components/Header'
+import { Button } from 'react-bootstrap'
 const BASE_URI = "http://localhost:3000/clients/"
 
 function Clients() {
@@ -20,7 +21,7 @@ function Clients() {
   }
   return (
     <>
-      <Header create="client" />
+      <Header name="client" />
       <div>
         <table border={1} className='w-100'>
           <tr>
@@ -32,6 +33,8 @@ function Clients() {
               <tr key={client.id}>
                 <td>{client.id_cliente}</td>
                 <td>{client.nombre_cliente}</td>
+                <td><Button size="sm" className='btn btn-info'>Actualizar</Button></td>
+                <td><Button size="sm" className='btn btn-danger'>Eliminar</Button></td>
               </tr>
             )
           })}

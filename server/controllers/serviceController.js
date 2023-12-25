@@ -13,9 +13,6 @@ export const getAllServices = async (req, res) => {
     }
 }
 
-
-
-
 export const postService = async(req, res) => {
     try {
         await serviceModel.create(req.body)
@@ -24,5 +21,16 @@ export const postService = async(req, res) => {
         })
     } catch (error) {
         console.log("error al crear: ", error.message)
+    }
+}
+
+export const deleteService = async (req, res) => {
+    try {
+        await serviceModel.destroy({where: {id: req.params.id}})
+        res.json({
+            operation: 'ok'
+        })
+    } catch (error) {
+        console.log("error: ", error.message)
     }
 }
