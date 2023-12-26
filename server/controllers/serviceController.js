@@ -13,6 +13,30 @@ export const getAllServices = async (req, res) => {
     }
 }
 
+export const getOneService = async(req, res) => {
+    try {
+        const service = await serviceModel.findOne({where: {id: req.params.id}})
+        res.json(service)
+    } catch (error) {
+        // res.json({
+        //     message: "error al traer: ",
+        //     error: error.message
+        // })
+        console.log(error.message)
+    }
+}
+
+export const updateService = async (req, res) =>{
+    try {
+        await serviceModel.update(req.body)
+        res.json({
+            operation: 'ok'
+        })
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
 export const postService = async(req, res) => {
     try {
         await serviceModel.create(req.body)
