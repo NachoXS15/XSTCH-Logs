@@ -18,17 +18,13 @@ export const getOneService = async(req, res) => {
         const service = await serviceModel.findOne({where: {id: req.params.id}})
         res.json(service)
     } catch (error) {
-        // res.json({
-        //     message: "error al traer: ",
-        //     error: error.message
-        // })
         console.log(error.message)
     }
 }
 
 export const updateService = async (req, res) =>{
     try {
-        await serviceModel.update(req.body)
+        await serviceModel.update(req.body, {where: {id: req.params.id}})
         res.json({
             operation: 'ok'
         })

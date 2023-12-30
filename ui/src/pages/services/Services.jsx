@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import axios from 'axios'
 import { Button } from 'react-bootstrap'
+import { NavLink } from 'react-router-dom'
 
 const BASE_URI = "http://localhost:3000/services/"
 
@@ -43,9 +44,9 @@ function Services(props) {
                     {services.map((service) => {
                         return (
                             <tr key={service.id}>
-                                <td>{service.id_servicio}</td>
+                                <td>{service.id}</td>
                                 <td>{service.nombre_servicio}</td>
-                                <td><Button size="sm" className='btn btn-info'>Actualizar</Button></td>
+                                <td><Button size="sm" to={`/services/editService/${service.id}`} as={NavLink} className='btn btn-info'>Actualizar</Button></td>
                                 <td><Button size="sm" className='btn btn-danger' onClick={() => deleteService(service.id)}>Eliminar</Button></td>
                             </tr>
                         )

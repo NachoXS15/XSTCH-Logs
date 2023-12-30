@@ -7,18 +7,24 @@ import Logs from './pages/Logs'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Clients from './pages/Clients'
 import Start from './pages/Start'
-import CreateServices from './pages/services/CreateServices'
+import CreateServices from './pages/services/CreateService'
 import Services from './pages/services/Services'
+import editService from './pages/services/editService'
+import EditService from './pages/services/editService'
 function App() {
   return (
     <Router>
       <>
         <Routes>
           <Route path='/' element={<Start />} />
+          //logs
           <Route path='/logs' element={<Logs />} />
+          //clients
           <Route path='/clients' element={<Clients />} />
-          <Route path='/services/serviceCreate' element={<CreateServices />} />
+          //services
           <Route path='/services' element={<Services/>}/>
+          <Route path='/services/serviceCreate' element={<CreateServices />} />
+          <Route path='/services/editService/:id' element={<EditService />} />
         </Routes>
       </>
     </Router>
