@@ -49,7 +49,7 @@ export const updateLog = async (req, res) => {
 
 export const deleteLog = async (req, res) => {
     try {
-        const log = await logModel.destroy({where: {id: req.params.id}});
+        await logModel.destroy({where: {id: req.params.id}});
         res.json({
             "operation": "ok"
         });

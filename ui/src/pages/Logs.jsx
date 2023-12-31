@@ -23,6 +23,16 @@ export default function Logs(props) {
         }
     }
 
+    const deleteLog = async(id) => {
+        try {
+            await axios.delete(`${BASE_URI}${id}`);
+            getLogs()
+            console.log("Eliminado");
+        } catch (error) {
+            console.error("Error al eliminar", error.message)
+        }
+    }
+
     return (
         <>
             <Header name="log" />
@@ -32,6 +42,7 @@ export default function Logs(props) {
                         <th>Cliente</th>
                         <th>Servicio</th>
                         <th>Precio</th>
+                        <th>Egreso</th>
                         <th>Estado</th>
                         <th>Pago</th>
                     </tr>
@@ -41,10 +52,11 @@ export default function Logs(props) {
                                 <td>{log.nombre_cliente}</td>
                                 <td>{log.nombre_servicio}</td>
                                 <td>${log.precio}</td>
+                                <td>{log.egreso}</td>
                                 <td>{log.estado}</td>
                                 <td>{log.pago}</td>
                                 <td><Button size="sm" className='btn btn-info'>Actualizar</Button></td>
-                                <td><Button size="sm" className='btn btn-danger'>Eliminar</Button></td>
+                                <td><Button size="sm" className='btn btn-danger' onClick={() => deleteLog(log.id)}>Eliminar</Button></td>
                             </tr>
                         )
                     })}
