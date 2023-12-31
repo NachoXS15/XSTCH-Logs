@@ -24,7 +24,7 @@ function CreateServices() {
             <Container>
                 <h2>Crear servicio</h2>
                 <form onSubmit={postService}>
-                    <input type="text" className='m-2' value={service} onChange={(e) => setService(e.target.value)} />
+                    <input type="text" autoFocus className='m-2' value={service} onChange={(e) => setService(e.target.value)} />
                     <button className='btn btn-primary m-2' >Crear</button>
                 </form>
             </Container>
