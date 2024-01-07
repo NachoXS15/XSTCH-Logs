@@ -18,10 +18,10 @@ export default function Header(props) {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="navbar-nav ms-auto mb-2 mb-lg-0 text-center d-flex align-items-center">
                             <Nav.Link className="text-white" style={{ margin: '0 1.5em 0' }} to="/logs" as={NavLink}>Registros</Nav.Link>
-                            <Nav.Link className="text-white" style={{ margin: '0 1.5em 0' }} to="/clients" as={NavLink}>Clients</Nav.Link>
-                            <Nav.Link className="text-white" style={{ margin: '0 1.5em 0' }} to="/services" as={NavLink}>Services</Nav.Link>
-                            <Nav.Link className="text-white" style={{ margin: '0 1.5em 0' }} to={props.link ? `/services/${props.link}` : `/services/`} as={NavLink}>
-                                <Button>{props.name ? `Add ${props.name}` : "Volver"}</Button>
+                            <Nav.Link className="text-white" style={{ margin: '0 1.5em 0' }} to="/clients" as={NavLink}>Clientes</Nav.Link>
+                            <Nav.Link className="text-white" style={{ margin: '0 1.5em 0' }} to="/services" as={NavLink}>Servicios</Nav.Link>
+                            <Nav.Link className="text-white" style={{ margin: '0 1.5em 0' }} to={props.link ? `/${props.path}/${props.link}` : `/services/`} as={NavLink}>
+                                <Button className="buttonMain">{props.name ? `Añadir ${props.name}` : "Volver"}</Button>
                             </Nav.Link>
                         </Nav>
                     </Navbar.Collapse>

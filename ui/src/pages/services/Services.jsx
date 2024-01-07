@@ -34,7 +34,7 @@ function Services(props) {
 
     return (
         <>
-            <Header link="serviceCreate" name="service" />
+            <Header link="serviceCreate" name="servicio" path="services" />
             <div>
                 <table border={1} className='w-100'>
                     <tr>
@@ -46,7 +46,7 @@ function Services(props) {
                             <tr key={service.id}>
                                 <td>{service.id}</td>
                                 <td>{service.nombre_servicio}</td>
-                                <td><Button size="sm" to={`/services/editService/${service.id}`} as={NavLink} className='btn btn-info'>Actualizar</Button></td>
+                                <td><Button size="sm" to={`/services/editService/${service.id}`} as={NavLink} className='buttonMain'>Actualizar</Button></td>
                                 <td><Button size="sm" className='btn btn-danger' onClick={() => deleteService(service.id)}>Eliminar</Button></td>
                             </tr>
                         )

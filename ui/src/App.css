@@ -8,3 +8,9 @@
 .rounded{
   border-radius: 20px;
 }
+
+.buttonMain{
+  border: none;
+  background-color: #6f42c1;
+  color: white;
+}

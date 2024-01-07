@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import Header from '../components/Header'
+import Header from '../../components/Header'
 import { Button } from 'react-bootstrap'
 const BASE_URI = "http://localhost:3000/clients/"
 
@@ -21,9 +21,9 @@ function Clients() {
   }
   return (
     <>
-      <Header name="client" />
+      <Header link="createClient" name="cliente" path="clients" />
       <div>
-        <table border={1} className='w-100'>
+        <table border={1} className='w-100 pb-1'>
           <tr>
             <th>Id</th>
             <th>Cliente</th>
@@ -31,9 +31,9 @@ function Clients() {
           {clients.map((client) => {
             return (
               <tr key={client.id}>
-                <td>{client.id_cliente}</td>
+                <td>{client.id}</td>
                 <td>{client.nombre_cliente}</td>
-                <td><Button size="sm" className='btn btn-info'>Actualizar</Button></td>
+                <td><Button size="sm" className='buttonMain'>Actualizar</Button></td>
                 <td><Button size="sm" className='btn btn-danger'>Eliminar</Button></td>
               </tr>
             )
