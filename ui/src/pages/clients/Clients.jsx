@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Header from '../../components/Header'
+import { NavLink } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 const BASE_URI = "http://localhost:3000/clients/"
 
@@ -19,6 +20,15 @@ function Clients() {
       console.log("error al traer datos: ", error.message)
     }
   }
+
+  const deleteClient = async(id) => {
+    try {
+      await axios.delete(BASE_URI+id);
+      getClients()
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
   return (
     <>
       <Header link="createClient" name="cliente" path="clients" />
@@ -33,8 +43,8 @@ function Clients() {
               <tr key={client.id}>
                 <td>{client.id}</td>
                 <td>{client.nombre_cliente}</td>
-                <td><Button size="sm" className='buttonMain'>Actualizar</Button></td>
-                <td><Button size="sm" className='btn btn-danger'>Eliminar</Button></td>
+                <td><Button size="sm" to={`/clients/editClient/${client.id}`} as={NavLink} className='buttonMain'>Actualizar</Button></td>
+                <td><Button size="sm" className='btn btn-danger' onClick={() => deleteClient(client.id)}>Eliminar</Button></td>
               </tr>
             )
           })}
