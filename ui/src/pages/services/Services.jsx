@@ -40,12 +40,14 @@ function Services(props) {
                     <tr>
                         <th>Id</th>
                         <th>Servicio</th>
+                        <th>Fecha de creación</th>
                     </tr>
                     {services.map((service) => {
                         return (
                             <tr key={service.id}>
                                 <td>{service.id}</td>
                                 <td>{service.nombre_servicio}</td>
+                                <td>{service.createdAt}</td>
                                 <td><Button size="sm" to={`/services/editService/${service.id}`} as={NavLink} className='buttonMain'>Actualizar</Button></td>
                                 <td><Button size="sm" className='btn btn-danger' onClick={() => deleteService(service.id)}>Eliminar</Button></td>
                             </tr>

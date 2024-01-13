@@ -22,6 +22,7 @@ function CreateClient() {
     return (
         <>
             <Header />
+            <h2>Crear cliente:</h2>
             <form action="" onSubmit={postClient}>
                 <input className='m-2' type="text" autoFocus value={client} onChange={(e) => setClient(e.target.value)}/>
                 <button className='btn m-2 buttonMain'>Agregar</button>

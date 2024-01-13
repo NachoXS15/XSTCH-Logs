@@ -37,12 +37,14 @@ function Clients() {
           <tr>
             <th>Id</th>
             <th>Cliente</th>
+            <th>Fecha de creación</th>
           </tr>
           {clients.map((client) => {
             return (
               <tr key={client.id}>
                 <td>{client.id}</td>
                 <td>{client.nombre_cliente}</td>
+                <td>{client.createdAt}</td>
                 <td><Button size="sm" to={`/clients/editClient/${client.id}`} as={NavLink} className='buttonMain'>Actualizar</Button></td>
                 <td><Button size="sm" className='btn btn-danger' onClick={() => deleteClient(client.id)}>Eliminar</Button></td>
               </tr>
