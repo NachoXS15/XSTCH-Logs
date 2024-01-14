@@ -20,7 +20,7 @@ export default function Header(props) {
                             <Nav.Link className="text-white" style={{ margin: '0 1.5em 0' }} to="/logs" as={NavLink}>Registros</Nav.Link>
                             <Nav.Link className="text-white" style={{ margin: '0 1.5em 0' }} to="/clients" as={NavLink}>Clientes</Nav.Link>
                             <Nav.Link className="text-white" style={{ margin: '0 1.5em 0' }} to="/services" as={NavLink}>Servicios</Nav.Link>
-                            <Nav.Link className="text-white" style={{ margin: '0 1.5em 0' }} to={props.link ? `/${props.path}/${props.link}` : `/services/`} as={NavLink}>
+                            <Nav.Link className="text-white" style={{ margin: '0 1.5em 0' }} to={props.link ? `/${props.path}/${props.link}` : `/${props.path}/`} as={NavLink}>
                                 <Button className="buttonMain">{props.name ? `Añadir ${props.name}` : "Volver"}</Button>
                             </Nav.Link>
                         </Nav>

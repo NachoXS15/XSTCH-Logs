@@ -21,7 +21,7 @@ function CreateClient() {
 
     return (
         <>
-            <Header />
+            <Header path="clients"/>
             <h2>Crear cliente:</h2>
             <form action="" onSubmit={postClient}>
                 <input className='m-2' type="text" autoFocus value={client} onChange={(e) => setClient(e.target.value)}/>

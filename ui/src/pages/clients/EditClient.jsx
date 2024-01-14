@@ -41,7 +41,7 @@ function EditClient() {
 
   return (
     <>
-      <Header />
+      <Header path="clients" />
       <h2>Actualizar cliente: {id}</h2>
       <form onSubmit={updateClient}>
         <input type="text" autoFocus value={client} onChange={(e) => setClient(e.target.value)} className='m-2' />

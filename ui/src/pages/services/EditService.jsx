@@ -39,7 +39,7 @@ function EditService() {
 
     return (
         <>
-            <Header name="service"/>
+            <Header name="service" path="services"/>
             <Container>
                 <h2>Actualizar servicio: {id}</h2>
                 <form onSubmit={updateService}>
