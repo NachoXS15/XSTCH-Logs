@@ -55,7 +55,7 @@ export default function Logs(props) {
                                 <td>{log.egreso}</td>
                                 <td>{log.estado}</td>
                                 <td>{log.pago}</td>
-                                <td><Button size="sm" className='buttonMain' to={`/logs/editLog`} as={NavLink}>Actualizar</Button></td>
+                                <td><Button size="sm" className='buttonMain' to={`/logs/editLog/${log.id}`} as={NavLink}>Actualizar</Button></td>
                                 <td><Button size="sm" className='btn btn-danger' onClick={() => deleteLog(log.id)}>Eliminar</Button></td>
                             </tr>
                         )
