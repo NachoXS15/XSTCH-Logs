@@ -24,6 +24,7 @@ function EditLog() {
 
   const updateLog = async(e) => {
     try {
+      e.preventDefault();
       axios.put(BASE_URI_LOGS+id, log)
       console.log("log actualizado");
     } catch (error) {
@@ -82,7 +83,7 @@ function EditLog() {
             })
           }
         </select>
-        <select name="id_servicio" onChange={handleChange}>
+        <select name="id_servicio" onChange={handleChange} value={log.id_servicio}>
           {
             services.map(service => {
               return(
