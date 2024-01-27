@@ -10,9 +10,16 @@ Target:
     - Status (Penging or Done)
     - Payment (Pending or Done)
 
-Stack:
+- Export data to PDF File
+- Create a responsive design that adapts to every possible screen
 
+Future Targets:
+
+- Create users, each one will have their own logs and clients 
+
+Stack:
 - React
+- Bootstrap
 - Node.js
 - Express
 - MySQL
