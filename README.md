@@ -1,4 +1,4 @@
-## XSTCH-Log - WIP
+## XSTCH-Logs
 
 Target:
 
@@ -15,7 +15,8 @@ Target:
 
 Future Targets:
 
-- Create users, each one will have their own logs and clients 
+- Create users, each one will have their own logs and clients
+- Search Method to find any Log, Client or Service
 
 Stack:
 - React
