@@ -16,9 +16,10 @@ export const getAllClients = async (req, res) => {
 export const getOneClient = async(req, res) => {
     try {
         const client = await clientModel.findOne({where: {id: req.params.id}})
+        console.log(client)
         res.json(client)
     } catch (error) {
-        console.log("error al traer: ", error.message)
+        console.log("error al traer un coso: ", error.message)
     }
 }
 

@@ -3,6 +3,7 @@ import Header from '../../components/Header'
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const BASE_URI_LOGS = "http://localhost:3000/logs/"
 const BASE_URI_CLIENTS = "http://localhost:3000/clients/"
@@ -20,6 +21,7 @@ function EditLog() {
   const [clients, setClients] = useState([]);
   const [services, setServices] = useState([]);
   const {id} = useParams()
+  const navigate = useNavigate();
 
 
   const updateLog = async(e) => {
@@ -27,6 +29,8 @@ function EditLog() {
       e.preventDefault();
       axios.put(BASE_URI_LOGS+id, log)
       console.log("log actualizado");
+      navigate('/logs');
+
     } catch (error) {
       console.error(error.message);
     }
