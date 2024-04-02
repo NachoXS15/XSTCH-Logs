@@ -26,7 +26,7 @@ function CreateLog() {
       console.log(logs.id_servicio)
       await axios.post(BASE_URI_LOGS, logs)
       console.log("log creado")
-      //navigate('/logs');
+      navigate('/logs');
     } catch (error) {
       console.error(error.message);
     }
