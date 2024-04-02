@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from '../../components/Header'
 import axios from 'axios'
 import { Button, Container } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 const BASE_URI_LOGS = "http://localhost:3000/logs/"
 const BASE_URI_CLIENTS = "http://localhost:3000/clients/"
 const BASE_URI_SERVICES = "http://localhost:3000/services/"
@@ -16,13 +17,16 @@ function CreateLog() {
   })
   const [clients, setClients] = useState([])
   const [services, setServices] = useState([])
+  const navigate = useNavigate();
 
   const postLog = async(e) => {
     try {
       e.preventDefault();
+      console.log(logs.id_cliente)
+      console.log(logs.id_servicio)
       await axios.post(BASE_URI_LOGS, logs)
-      console.log(logs)
       console.log("log creado")
+      navigate('/logs');
     } catch (error) {
       console.error(error.message);
     }
@@ -41,7 +45,6 @@ function CreateLog() {
     try {
       const res = await axios.get(BASE_URI_SERVICES)
       setServices(res.data)
-      console.log(services)
     } catch (error) {
       console.error("error al traer servicios: ", error.message)
     }
@@ -51,7 +54,6 @@ function CreateLog() {
     try {
       const res = await axios.get(BASE_URI_CLIENTS)
       setClients(res.data)
-      console.log(clients)
     } catch (error) {
       console.error("error al traer clientes: ", error.message)
     }
@@ -62,20 +64,22 @@ function CreateLog() {
       <Header path="logs"/>
       <h2>Crear registro</h2>
       <form className='' onSubmit={postLog}>
-        <select name="id_cliente" onChange={handleChange} value={logs.id_cliente}>
+        <select name="id_cliente"onChange={handleChange} value={logs.id_cliente}>
+          <option value="Cliente">Cliente</option>
           {
             clients.map(client => {
               return(
-                <option value={client.id}>{client.nombre_cliente}</option>
+                <option key={client.id} value={client.id}>{client.nombre_cliente}</option>
               )
             })
           }
         </select>
-        <select name="id_servicio" onChange={handleChange}>
+        <select name="id_servicio" onChange={handleChange} value={logs.id_servicio}>
+        <option value="Servicio">Servicio</option>
           {
             services.map(service => {
               return(
-                <option value={service.id}>{service.nombre_servicio}</option>
+                <option key={service.id} value={service.id}>{service.nombre_servicio}</option>
               )
             })
           }

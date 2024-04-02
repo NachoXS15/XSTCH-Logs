@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Header from '../../components/Header'
 import { useNavigate, useParams } from 'react-router-dom'
-import axios from 'axios';
 import { Button } from 'react-bootstrap';
+import axios from 'axios';
 
 const BASE_URI = "http://localhost:3000/clients/"
 
@@ -12,13 +12,12 @@ function EditClient() {
   const { id } = useParams()
 
 
-  const updateClient = async (e) => {
+  const updateClient = async(e) => {
     try {
       e.preventDefault();
-      axios.put(BASE_URI + id, {
+      await axios.put(BASE_URI+id, {
         nombre_cliente: client
       })
-      console.log("actualizado")
       navigate('/clients')
     } catch (error) {
       console.log(error.message)
