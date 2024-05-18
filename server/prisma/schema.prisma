@@ -13,7 +13,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model Clientes {
-  
+model Registros {
+  id Int @id @default(autoincrement())
+  cliente Clients?
+  idCliente Int @unique
+  idServicio Int @unique
+  Servicio Servicios?
+  precio Int
+  egreso DateTime
+  estado String
+  pago String
 }
+
+model Clients {
+  id Int @id @default(autoincrement())
+  nombre_cliente String
+  registro Registros? @relation(fields: [id], references: [idCliente])
+}
+
+model Servicios {
+  id Int @id @default(autoincrement())
+  nombre_servicio String
+  registro Registros? @relation(fields: [id], references: [idServicio])
+}
+
+
