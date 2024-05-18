@@ -12,7 +12,11 @@ app.use(express.json());
 app.use('/logs', logRouter)
 app.use('/clients', clientsRouter)
 app.use('/services', servicesRouter)
-
+app.use('/', (req, res) => {
+    res.status(200).json({
+        status: 'ok'
+    });
+})
 try {
     await db.authenticate()
     console.log("todo bien")
