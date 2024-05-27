@@ -3,7 +3,6 @@ import cors from 'cors'
 import logRouter from './routes/logsRoutes.js'
 import clientsRouter from './routes/clientsRoutes.js'
 import servicesRouter from './routes/servicesRoutes.js'
-import axios from 'axios'
 const app = express();
 app.use(cors());
 
