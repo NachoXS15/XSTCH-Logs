@@ -3,7 +3,6 @@ import cors from 'cors'
 import logRouter from './routes/logsRoutes.js'
 import clientsRouter from './routes/clientsRoutes.js'
 import servicesRouter from './routes/servicesRoutes.js'
-import db from './database/db.js';
 import axios from 'axios'
 const app = express();
 app.use(cors());
@@ -17,13 +16,6 @@ app.use('/', (req, res) => {
         status: 'ok'
     });
 })
-try {
-    await db.authenticate()
-    console.log("todo bien")
-} catch (error) {
-    console.log("todo mal :c", error.message)
-}
-
 
 app.listen(3000, () => {
     console.log("server on port 3000");

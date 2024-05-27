@@ -1,11 +1,52 @@
 import express from 'express';
-import { createLog, deleteLog, getAllLogs, getOneLog, updateLog } from '../controllers/logsController.js';
+import { prisma } from '../database/db.js';
 const router = express.Router();
 
-router.get("/", getAllLogs)
-router.get("/:id", getOneLog);
-router.post("/", createLog);
-router.put("/:id", updateLog);
-router.delete("/:id", deleteLog);
+router.get('/', async (req, res) => {
+    try {
+        const logs = await prisma.registros.findMany();
+        res.json(logs)
+    } catch (error) {
+        console.log(error.message);
+    }
+})
+router.post('/', async(req, res) => {
+    try {
+        await prisma.registros.create({
+            data: req.body
+        });
+        res.json({
+            status: 200
+        })
+    } catch (error) {
+        console.log(error.message);
+    }
+})
+
+router.patch('/:id', async(req, res) => {
+    try {
+        await prisma.registros.update({
+            where: req.params.id
+        })
+        res.json({
+            status: 200
+        })
+    } catch (error) {
+        console.log("error al actualizar", error.message);
+    }
+})
+
+router.delete('/:id', async(req, res) => {
+    try {
+        await prisma.registros.delete({
+            where: req.params.id
+        })
+        res.json({
+            status: 200
+        })
+    } catch (error) {
+        console.log("error al Eliminar", error.message);
+    }
+})
 
 export default router;
