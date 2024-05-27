@@ -9,32 +9,31 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
-
+        
 model Registros {
-  id Int @id @default(autoincrement())
-  cliente Clients?
-  idCliente Int @unique
-  idServicio Int @unique
-  Servicio Servicios?
-  precio Int
-  egreso DateTime
-  estado String
-  pago String
+  id         String    @id @default(cuid())
+  clienteId  String?
+  clientes   Clients?   @relation(fields: [clienteId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  servicioId String?
+  servicios  Servicios? @relation(fields: [servicioId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  precio     Int
+  egreso     DateTime
+  estado     String
+  pago       String
 }
 
 model Clients {
-  id Int @id @default(autoincrement())
+  id             String      @id @default(cuid())
   nombre_cliente String
-  registro Registros? @relation(fields: [id], references: [idCliente])
+  registros      Registros[]
 }
 
 model Servicios {
-  id Int @id @default(autoincrement())
+  id              String      @id @default(cuid())
   nombre_servicio String
-  registro Registros? @relation(fields: [id], references: [idServicio])
+  registros       Registros[]
 }
-
-

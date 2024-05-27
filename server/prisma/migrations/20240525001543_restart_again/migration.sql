@@ -3,6 +3,10 @@ CREATE TABLE "Registros" (
     "id" SERIAL NOT NULL,
     "idCliente" INTEGER NOT NULL,
     "idServicio" INTEGER NOT NULL,
+    "precio" INTEGER NOT NULL,
+    "egreso" TIMESTAMP(3) NOT NULL,
+    "estado" TEXT NOT NULL,
+    "pago" TEXT NOT NULL,
 
     CONSTRAINT "Registros_pkey" PRIMARY KEY ("id")
 );
