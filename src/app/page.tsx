@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 export default function Home() {
   return (
     <div className="min-h-screen grid grid-cols-1 m-auto text-black justify-center font-[family-name:var(--font-poppins)]">
@@ -22,7 +23,7 @@ export default function Home() {
               <input type="checkbox" id="check" />
               <label htmlFor="check" className="text-xl">Mantener sesión iniciada</label>
             </div>
-            <button type="submit" className="bg-black px-5 py-2 mt-10 rounded-full text-white text-xl">Iniciar Sesión</button>
+            <Link href="/dashboard" className="bg-black px-5 py-2 mt-10 rounded-full text-white text-xl">Iniciar Sesión</Link>
           </form>
         </div>
       </section>
