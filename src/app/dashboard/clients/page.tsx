@@ -95,7 +95,19 @@ export default function page() {
               </td>
             </tr>
           </tbody>
-          
+          {/* <tfoot>
+            <tr>
+              <td colSpan={2} className="p-4 text-left font-bold text-slate-800 border-t border-slate-300">
+                Total:
+              </td>
+              <td colSpan={2} className="p-4 font-bold text-slate-800 border-t border-slate-300">
+                7
+              </td>
+              <td colSpan={2} className="p-4 font-semibold text-slate-800 border-t border-slate-300">
+                $605.00
+              </td>
+            </tr>
+          </tfoot> */}
         </table>
       </div>
     </section>
