@@ -5,7 +5,7 @@ export default function Home() {
     <div className="min-h-screen grid grid-cols-1 m-auto text-black justify-center font-[family-name:var(--font-poppins)]">
       <section className="flex items-center bg-gray-100 justify-center h-full">
         <div className="w-5/6 xl:w-2/5 h-3/4 relative border shadow-xl rounded-lg flex items-center justify-center flex-col">
-          <Image src="/assets/xs-black.png" alt="logo" width={100} height={100} className="absolute top-3 left-3" />
+          <Image src="/assets/xs-black.png" alt="logo" width={80} height={80} className="absolute top-3 left-3" />
           <div className="flex flex-col items-center">
             <h2 className="mb-2 text-center font-bold text-4xl">Acceso</h2>
             <hr className="border w-20 border-black" />
