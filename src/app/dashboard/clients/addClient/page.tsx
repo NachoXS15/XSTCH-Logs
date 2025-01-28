@@ -1,12 +1,61 @@
-
+"use client"
+import { postClient } from "@/app/lib/data-client"
 export default function page() {
+
+    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        const formData = new FormData(e.currentTarget)
+        const clientName = formData.get("nombre")?.toString();
+        const price = formData.get("price")?.toString();
+        const service = formData.get("service")?.toString();
+        const date = formData.get("date")?.toString();
+        const status = formData.get("status")?.toString();
+        const payment = formData.get("payment")?.toString();
+        const place = formData.get("place")?.toString();
+        const obvs = formData.get("obvs")?.toString()
+
+        console.log({
+            clientName,
+            price,
+            status,
+            date,
+            obvs,
+            payment,
+            place,
+            service,
+        });
+
+        if (!clientName || !price || !service || !date || !status || !payment || !place) {
+            console.error("Todos los campos son obligatorios");
+            return;
+        }
+
+        try {
+            await postClient({
+                client_name: clientName,
+                price: Number(price),
+                service: service,
+                egreso: date,
+                status: status,
+                payment: payment,
+                place: place,
+                obvs: obvs
+            })
+            
+        } catch (error) {
+            console.log("Error: ", error);
+        }
+    }
+
+
     return (
         <section className="xl:w-4/6 px-5 py-10 flex items-center justify-start flex-col">
             <div className="text-left w-full">
                 <h3 className="text-lg font-semibold ml-3 text-slate-800">Agregar cliente</h3>
                 <p className="text-slate-500 mb-5 ml-3">Registro de Clientes pertenecientes a XSTCH</p>
             </div>
-            <form action="" className="w-full px-5 flex flex-col gap-5">
+            <form onSubmit={handleSubmit} className="w-full px-5 flex flex-col gap-5">
                 <div className="flex items-center gap-5">
                     <div className="w-1/2 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Nombre</label>
@@ -30,29 +79,29 @@ export default function page() {
                 <div className="flex items-center gap-5">
                     <div className="w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Estado</label>
-                        <select className="bg-slate-200 rounded h-10 py-2 pl-4">
+                        <select className="bg-slate-200 rounded h-10 py-2 pl-4" name="status">
                             <option value="" disabled defaultChecked>Seleccionar</option>
-                            <option value="">Listo</option>
-                            <option value="">A cumplir</option>
-                            <option value="">A confirmar</option>
+                            <option value="Listo">Listo</option>
+                            <option value="A cumplir">A cumplir</option>
+                            <option value="A confirmar">A confirmar</option>
                         </select>
                     </div>
                     <div className="w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Pago</label>
-                        <select className="bg-slate-200 rounded h-10 py-2 pl-4">
+                        <select className="bg-slate-200 rounded h-10 py-2 pl-4" name="payment">
                             <option value="" disabled defaultChecked>Seleccionar</option>
-                            <option value="">Pagado</option>
-                            <option value="">Señado</option>
-                            <option value="">Pendiente</option>
+                            <option value="Pagado">Pagado</option>
+                            <option value="Señado">Señado</option>
+                            <option value="Pendiente">Pendiente</option>
                         </select>
                     </div>
                     <div className="w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Lugar</label>
-                        <select className="bg-slate-200 rounded h-10 py-2 pl-4">
+                        <select className="bg-slate-200 rounded h-10 py-2 pl-4" name="place">
                             <option value="" disabled defaultChecked>Seleccionar</option>
-                            <option value="">Taller</option>
-                            <option value="">Punto de Encuentro</option>
-                            <option value="">Domicilio</option>
+                            <option value="Taller">Taller</option>
+                            <option value="Punto de Encuentro">Punto de Encuentro</option>
+                            <option value="Domicilio">Domicilio</option>
                         </select>
                     </div>
                 </div>

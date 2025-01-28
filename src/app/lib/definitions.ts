@@ -1,12 +1,12 @@
 export interface clientType{
     client_name: string
-    price: string
-    service: string
+    price: number
     place: string
+    service: string
     status: string
     payment: string
     egreso: string
-    obvs: string
+    obvs?: string
 }
 
 export type searchProp = {

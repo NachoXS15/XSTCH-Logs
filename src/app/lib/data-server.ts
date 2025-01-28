@@ -1,7 +1,6 @@
 import { createClient } from '../utils/supabase/server';
 import {clientType} from './definitions';
 
-
 const fetchClients = async(): Promise <clientType[]> => {
     try {
         const supabase = await createClient();
