@@ -1,4 +1,4 @@
-export default interface clientType{
+export interface clientType{
     client_name: string
     price: string
     service: string
@@ -7,4 +7,8 @@ export default interface clientType{
     payment: string
     egreso: string
     obvs: string
+}
+
+export type searchProp = {
+    search: string;
 }

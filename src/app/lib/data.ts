@@ -1,5 +1,5 @@
 import { createClient } from '../utils/supabase/server';
-import clientType from './definitions';
+import {clientType} from './definitions';
 
 
 const fetchClients = async(): Promise <clientType[]> => {
