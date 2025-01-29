@@ -1,7 +1,8 @@
+
+import Link from 'next/link'
 import {clientType} from "../lib/definitions"
 
-
-export default function Table({ clients }: { clients: clientType[] }) {
+export default async function Table({ clients }: { clients: clientType[] }) {
 
     const StatusField = [
         {title: "Listo", style: "text-green-600 bg-green-200"},
@@ -14,7 +15,6 @@ export default function Table({ clients }: { clients: clientType[] }) {
         {title: "Señado", style: "text-orange-500 bg-orange-200"},
         {title: "Pendiente", style: "text-red-600 bg-red-200"},
     ]
-
 
     return (
         <table className="w-full text-left table-auto min-w-max">
@@ -111,9 +111,9 @@ export default function Table({ clients }: { clients: clientType[] }) {
                                     </p>
                                 </td>
                                 <td className="p-4 border-b border-slate-200">
-                                    <p className="block text-center text-sm cursor-pointer hover:bg-purple-500 hover:text-purple-200 transition border border-purple-500 rounded px-2 py-1 text-purple-500">
+                                    <Link href={`/dashboard/clients/${client.id}`}  className="block text-center text-sm cursor-pointer hover:bg-purple-500 hover:text-purple-200 transition border border-purple-500 rounded px-2 py-1 text-purple-500">
                                         Editar
-                                    </p>
+                                    </Link>
                                 </td>
                                 <td className="p-4 border-b border-slate-200">
                                     <p className="block text-center text-sm cursor-pointer hover:bg-red-500 hover:text-red-200 border border-red-500 rounded px-2 py-1 transition text-red-500">

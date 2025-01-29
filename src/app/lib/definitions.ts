@@ -1,4 +1,5 @@
 export interface clientType{
+    id?: string
     client_name: string
     price: number
     place: string
