@@ -4,7 +4,7 @@ import {clientType} from './definitions';
 const fetchClients = async(): Promise <clientType[]> => {
     try {
         const supabase = await createClient();
-        const { data: clients} = await supabase.from('clients').select('*')
+        const { data: clients} = await supabase.from('clients').select('*').order("egreso", {ascending: false});
         return clients as clientType[]
     } catch (error) {
         console.error("Error: ", error);
