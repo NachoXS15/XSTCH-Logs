@@ -3,7 +3,6 @@ import { editClient } from "./actions"
 export default async function Page({params}: {params: {id: string}}) {
     const { id } = await params
     const client = await fetchClientByID(id);
-    console.log(client);
 
 
     return (
@@ -33,7 +32,7 @@ export default async function Page({params}: {params: {id: string}}) {
                         <input type="date" id="date" name="date" defaultValue={client?.egreso} className="bg-slate-200 rounded h-10 py-2 px-4" placeholder="Ej: Angel Reynoso"/>
                     </div>
                 </div>
-                <input type="hidden" value={id} />
+                <input type="hidden" value={id} name="id" />
                 <div className="flex items-center gap-5">
                     <div className="w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Estado</label>
@@ -68,7 +67,7 @@ export default async function Page({params}: {params: {id: string}}) {
                     <textarea name="obvs" id="obvs" defaultValue={client?.obvs} className="w-full h-24 p-4 bg-slate-200 resize-none" placeholder="Ej: Temperaturas altas"></textarea>
                 </div>
                 <div className="w-full flex gap-4">
-                    <button formAction={editClient} className="w-1/2 transition border bg-green-500 text-white py-3 rounded hover:bg-white hover:text-green-500">Actualizar cliente</button>
+                    <button formAction={editClient} type="submit" className="w-1/2 transition border bg-green-500 text-white py-3 rounded hover:bg-white hover:text-green-500">Actualizar cliente</button>
                     <button type="reset" className="w-1/2 transition border border-red-500 text-red-500 py-3 rounded hover:bg-red-500 hover:text-white">Limpiar</button>
                 </div>
             </form>

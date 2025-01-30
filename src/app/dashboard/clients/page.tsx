@@ -4,8 +4,7 @@ import Link from "next/link";
 
 export default async function page() {
 
-  const clients = await fetchClients();
-
+  const clients = await fetchClients();  
   return (
     <section className='w-full xl:w-5/6 px-5 py-10 flex items-center justify-start flex-col'>
       <div className="w-full flex justify-between items-center">
