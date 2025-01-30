@@ -19,7 +19,7 @@ export default async function Table({ clients }: { clients: clientType[] }) {
 
     
     return (
-        <table className="w-full text-left table-auto min-w-max">
+        <table className="text-left table-auto min-w-max overflow-hidden w-full">
             <thead className="border-b border-slate-300 bg-slate-50">
                 <tr>
                     <th className="p-4 border-b border-slate-300 bg-slate-50">

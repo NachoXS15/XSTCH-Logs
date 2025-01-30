@@ -6,7 +6,7 @@ export default async function page() {
 
   const clients = await fetchClients();  
   return (
-    <section className='w-full xl:w-5/6 px-5 py-10 flex items-center justify-start flex-col'>
+    <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
       <div className="w-full flex flex-col py-5 md:flex-row justify-between items-center">
         <div className="text-left w-full">
           <h3 className="text-lg font-semibold ml-3 text-slate-800">Clientes</h3>
@@ -32,8 +32,10 @@ export default async function page() {
           </div>
         </div>
       </div>
-      <div className="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
-        <Table clients={clients} />
+      <div className="flex flex-col w-full h-full overflow-x-hidden text-gray-700 bg-white shadow-md rounded-lg">
+        <div className="overflow-x-auto">
+          <Table clients={clients} />
+        </div>
       </div>
     </section>
   )
