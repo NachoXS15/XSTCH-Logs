@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import {clientType} from "../lib/definitions"
+import {clientType} from "../../lib/definitions"
 
 export default async function Table({ clients }: { clients: clientType[] }) {
 

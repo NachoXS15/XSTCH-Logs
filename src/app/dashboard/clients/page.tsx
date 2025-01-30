@@ -1,5 +1,5 @@
 import { fetchClients } from "@/app/lib/data-server";
-import Table from "@/app/ui/Table";
+import Table from "@/app/ui/tables/TableClients";
 import Link from "next/link";
 
 export default async function page() {
@@ -7,12 +7,12 @@ export default async function page() {
   const clients = await fetchClients();  
   return (
     <section className='w-full xl:w-5/6 px-5 py-10 flex items-center justify-start flex-col'>
-      <div className="w-full flex justify-between items-center">
+      <div className="w-full flex flex-col py-5 md:flex-row justify-between items-center">
         <div className="text-left w-full">
           <h3 className="text-lg font-semibold ml-3 text-slate-800">Clientes</h3>
           <p className="text-slate-500 mb-5 ml-3">Registro de Clientes pertenecientes a XSTCH</p>
         </div>
-        <div className="ml-3 flex gap-4 items-center">
+        <div className="w-full md:w-fit ml-3 flex gap-4 items-center justify-start md:justify-between">
           <Link href="/dashboard/clients/addClient" className="w-fit text-nowrap text-md text-slate-500 hover:scale-105 transition">Agregar Cliente</Link>
           <div className="w-full max-w-sm min-w-[200px] relative">
             <form className="relative">
