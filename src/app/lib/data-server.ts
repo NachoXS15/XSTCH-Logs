@@ -24,4 +24,16 @@ const fetchClientByID = async(id: string): Promise <clientType | null> => {
     }
 }
 
-export {fetchClients, fetchClientByID};
+const deleteClient = async(id:string) => {
+    try {
+        const supabase = await createClient();
+        const {error} = await supabase.from("client").delete().eq("id", id);
+        if (error) throw error;
+        console.log("Cliente eliminado");
+    } catch (error) {
+        console.log("Error al eliminar", error);
+        
+    }
+}
+
+export {fetchClients, fetchClientByID, deleteClient};

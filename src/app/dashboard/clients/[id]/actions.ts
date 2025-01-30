@@ -19,11 +19,9 @@ export async function editClient(formData: FormData){
       obvs: formData.get("obvs") as string
     }
     
-    console.log("cambios realizados: ", data);
-    console.log("id:", id.trim());
     
     if (!id) {
-      console.error("Error: ID inválido");
+      console.error("id invalido");
       return;
     }
 

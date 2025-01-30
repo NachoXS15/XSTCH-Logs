@@ -1,4 +1,3 @@
-
 import Link from 'next/link'
 import {clientType} from "../lib/definitions"
 
@@ -16,6 +15,9 @@ export default async function Table({ clients }: { clients: clientType[] }) {
         {title: "Pendiente", style: "text-red-600 bg-red-200"},
     ]
 
+    let totalEarned  = 0;
+
+    
     return (
         <table className="w-full text-left table-auto min-w-max">
             <thead className="border-b border-slate-300 bg-slate-50">
@@ -67,7 +69,7 @@ export default async function Table({ clients }: { clients: clientType[] }) {
                     clients.map((client, i) => {
                         const selectedStatusField = StatusField.find(field => field.title === client.status)
                         const selectedPaymentField = PaymentField.find(field => field.title === client.payment)
-
+                        totalEarned = totalEarned + client.price 
                         return (
                             <tr key={i} className="hover:bg-slate-50">
                                 <td className="p-4 border-b border-slate-200">
@@ -107,7 +109,7 @@ export default async function Table({ clients }: { clients: clientType[] }) {
                                 </td>
                                 <td className="p-4 border-b border-slate-200">
                                     <p className="block text-sm text-slate-800">
-                                        {client.obvs ?? "-"}
+                                        {client.obvs == "" ? "-" : client.obvs}
                                     </p>
                                 </td>
                                 <td className="p-4 border-b border-slate-200">
@@ -126,19 +128,16 @@ export default async function Table({ clients }: { clients: clientType[] }) {
                     })
                 }
             </tbody>
-            {/* <tfoot>
-            <tr>
-              <td colSpan={2} className="p-4 text-left font-bold text-slate-800 border-t border-slate-300">
-                Total:
-              </td>
-              <td colSpan={2} className="p-4 font-bold text-slate-800 border-t border-slate-300">
-                7
-              </td>
-              <td colSpan={2} className="p-4 font-semibold text-slate-800 border-t border-slate-300">
-                $605.00
-              </td>
-            </tr>
-          </tfoot> */}
+            <tfoot>
+                <tr className=' w-full '>
+                    <td colSpan={2} className="p-4 text-left font-bold text-slate-800border-t-2 border-slate-300">
+                        Total
+                    </td>
+                    <td colSpan={2} className="p-4 font-semibold text-slate-800 border-t border-slate-300">
+                        ${totalEarned}
+                    </td>
+                </tr>
+          </tfoot>
         </table>
     )
 }

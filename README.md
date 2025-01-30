@@ -20,8 +20,9 @@
 
 ## Stack
 
-- React
-- Bootstrap
-- Node.js
-- Express
-- MySQL
+- Next.js
+- Typescript
+- TailwindCSS
+- Supabase
+- Vite
+- PostgreSQL
