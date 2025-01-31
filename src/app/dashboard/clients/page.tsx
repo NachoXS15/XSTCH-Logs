@@ -9,7 +9,7 @@ export default async function page() {
     <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
       <div className="w-full flex flex-col py-5 md:flex-row justify-between items-center">
         <div className="text-left w-full">
-          <h3 className="text-lg font-semibold ml-3 text-slate-800">Clientes</h3>
+          <h3 className="text-lg font-semibold ml-3 text-slate-800">Registros</h3>
           <p className="text-slate-500 mb-5 ml-3">Registro de Clientes pertenecientes a XSTCH</p>
         </div>
         <div className="w-full md:w-fit ml-3 flex gap-4 items-center justify-start md:justify-between">
@@ -18,7 +18,7 @@ export default async function page() {
             <form className="relative">
               <input
                 className="bg-white w-full pr-11 h-10 pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
-                placeholder="Buscar clientes"
+                placeholder="Buscar registros"
               />
               <button
                 className="absolute h-8 w-8 right-1 top-1 my-auto px-2 flex items-center bg-white rounded "

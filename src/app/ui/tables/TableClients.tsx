@@ -1,7 +1,8 @@
+'use client'
 import Link from 'next/link'
 import {clientType} from "../../lib/definitions"
 
-export default async function Table({ clients }: { clients: clientType[] }) {
+export default function Table({ clients }: { clients: clientType[] }) {
 
     const StatusField = [
         {title: "Listo", style: "text-green-600 bg-green-200"},
@@ -118,9 +119,9 @@ export default async function Table({ clients }: { clients: clientType[] }) {
                                     </Link>
                                 </td>
                                 <td className="p-4 border-b border-slate-200">
-                                    <p className="block text-center text-sm cursor-pointer hover:bg-red-500 hover:text-red-200 border border-red-500 rounded px-2 py-1 transition text-red-500">
+                                    <button className="block text-center text-sm cursor-pointer hover:bg-red-500 hover:text-red-200 border border-red-500 rounded px-2 py-1 transition text-red-500">
                                         Eliminar
-                                    </p>
+                                    </button>
                                 </td>
                             </tr>
 

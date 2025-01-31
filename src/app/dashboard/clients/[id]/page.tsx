@@ -1,6 +1,9 @@
 import { fetchClientByID } from "@/app/lib/data-server"
 import { editClient } from "./actions"
-export default async function Page({params}: {params: {id: string}}) {
+import { InferGetServerSidePropsType } from 'next';
+import { getServerSideProps } from "next/dist/build/templates/pages";
+
+export default async function Page({ params }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const { id } = await params
     const client = await fetchClientByID(id);
 

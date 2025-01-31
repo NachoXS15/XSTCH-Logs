@@ -51,7 +51,7 @@ export default function page() {
     return (
         <section className="xl:w-4/6 px-5 py-10 flex items-center justify-start flex-col">
             <div className="text-left w-full">
-                <h3 className="text-lg font-semibold ml-3 text-slate-800">Agregar cliente</h3>
+                <h3 className="text-lg font-semibold ml-3 text-slate-800">Agregar registro</h3>
                 <p className="text-slate-500 mb-5 ml-3">Registro de Clientes pertenecientes a XSTCH</p>
             </div>
             <form onSubmit={handleSubmit} className="w-full px-5 flex flex-col gap-5">

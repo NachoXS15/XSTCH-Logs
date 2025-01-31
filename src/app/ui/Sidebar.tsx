@@ -11,7 +11,7 @@ export default function Sidebar() {
 
   const links = [
     { id: 1, content: "Inicio", link: "/dashboard", icon: House },
-    { id: 2, content: "Clientes", link: "/dashboard/clients", icon: Computer },
+    { id: 2, content: "Registros", link: "/dashboard/clients", icon: Computer },
     { id: 3, content: "Proyectos", link: "/dashboard/projects", icon: BookMarked },
     { id: 4, content: "Alumnos", link: "/dashboard/students", icon: Star},
   ]
