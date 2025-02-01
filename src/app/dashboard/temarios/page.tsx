@@ -10,7 +10,7 @@ export default function page() {
                     <p className="text-slate-500 mb-5 ml-3">Plan de Contenidos de Cátedras</p>
                 </div>
             </div>
-            <div className="w-full border-t border-slate-400 px-5">
+            <div className="w-full border-t border-slate-400 md:px-5">
                 {TemasCatedras.map((tema, i) => (
                     <Temarios key={i} name={tema.name} temario={tema.temario} />
                 ))}

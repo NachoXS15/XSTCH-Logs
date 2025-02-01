@@ -53,15 +53,15 @@ export default function Sidebar() {
                     </div>
                 </div>
             </aside>
-            <nav className="block md:hidden w-full z-50 fixed overflow-visible bottom-0 bg-slate-100 shadow-sm">
-                <nav className="w-full h-24 flex items-center px-5 justify-evenly gap-4">
+            <nav className="max-w-full block md:hidden w-full z-50 fixed overflow-visible bottom-0 bg-slate-100 shadow-sm">
+                <nav className="h-24 flex items-center px-5 justify-evenly gap-4">
                     {
                         links.map(link => {
                             const LinkIcon = link.icon
                             return (
-                                <Link key={link.id} href={link.link} className={`px-5 py-9 h-12 flex items-center justify-center flex-col gap-2 bg-slate-200 font-medium rounded-md text-md transition hover:scale-105 ${pathname === link.link ? "bg-slate-400" : ""}`}>
-                                    <span><LinkIcon /></span>
-                                    <span>{link.content}</span>
+                                <Link key={link.id} href={link.link} className={`px-3 py-8 h-12 flex items-center justify-center flex-col gap-2 bg-slate-200 font-medium rounded-md text-md transition hover:scale-105 ${pathname === link.link ? "bg-slate-400" : ""}`}>
+                                    <span><LinkIcon size={20} /></span>
+                                    <span className="text-xs">{link.content}</span>
                                 </Link>
                             )
                         }
