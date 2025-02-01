@@ -8,11 +8,11 @@ export default async function page() {
   return (
     <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
       <div className="w-full flex flex-col py-5 md:flex-row justify-between items-center">
-        <div className="text-left w-full">
+        <div className="text-left w-full border-b border-slate-200 mb-4 md:border-0 md:mb-0">
           <h3 className="text-lg font-semibold ml-3 text-slate-800">Registros</h3>
           <p className="text-slate-500 mb-5 ml-3">Registro de Clientes pertenecientes a XSTCH</p>
         </div>
-        <div className="w-full md:w-fit ml-3 flex gap-4 items-center justify-start md:justify-between">
+        <div className="w-full md:w-fit ml-3 flex gap-4 items-center justify-between md:justify-start">
           <Link href="/dashboard/clients/addClient" className="w-fit text-nowrap text-md text-slate-500 hover:scale-105 transition">Agregar Registro</Link>
           <div className="w-full max-w-sm min-w-[200px] relative">
             <form className="relative">

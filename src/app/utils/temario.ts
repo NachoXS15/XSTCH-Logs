@@ -5,19 +5,20 @@ const TemasCatedras: TemarioProps[] = [
     {
         name: "Fundamentos de Programación",
         temario: [{
-                "title": "",
+                "title": "Pseint",
                 "temas": [
-                    "Introducción al codigo y pseudocódigo",
+                    "Introducción al codigo y pseudocódigo.",
+                    "Conceptos de algoritmos.",
                     "Guia por la interfaz de Pseint.",
                     "Variables y tipos de datos",
                     "Funciones basicas: escribir, leer y asignar.",
                     "Estructuras condicionales: si-entonces y según.",
                     "Operadores lógicos.",
                     "Estructuras repetitivas: do-while y while",
-                    "Mayor y Menor",
-                    "Estructura For",
-                    "Arrays unidimensionales (vectores)",
-                    "Arrays Multidimensionales (matrices). /LIBRES"
+                    "Mayor y Menor.",
+                    "Estructura For.",
+                    "Arrays unidimensionales (vectores).",
+                    "Arrays Multidimensionales (matrices). /LIBRES."
                 ]
 
         }]
@@ -111,9 +112,80 @@ const TemasCatedras: TemarioProps[] = [
         ]
     },
     
-    // {name: "Ingles I", index: 4},
-    // {name: "Ingles II", index: 5},
-    // {name: "Seminario de Actualización", index: 6},
+    {
+        name: "Ingles I",
+        temario: [
+            {
+                title: "General",
+                temas: [
+                    "Interpretación de textos",
+                    "Pronombres, Posesivos, WH-words",
+                    "Sustantivos"
+                ]
+            },
+            {
+                title: "Estructuras de oraciones",
+                temas: [
+                    "Afirmación",
+                    "Negación",
+                    "Pregunta"
+                ]
+            },
+            {
+                title: "Adjetivos",
+                temas: [
+                    "Descriptivos",
+                    "de Grado Superlativo",
+                    "de Grado Comparativo"
+                ]
+            },
+            {
+                title: "Verbos",
+                temas: [
+                    "Tiempos verbales",
+                    "Pasado Simple y Pasado Participio",
+                    "Frases Verbales",
+                    "Verbos Modales",
+                    "Voz Pasiva"
+                ]
+            },
+        ]
+    },
+    {
+        name: "Seminario de Actualización",
+        temario: [
+            {
+                title: "Introducción",
+                temas: [
+                    "Android: Caracteristicas y Funcionalidades",
+                    "Introducción a Android Studio, su interfaz, plugins y posibilidades",
+                    "Activities y su ciclo de vida"
+                ]
+            },
+            {
+                title: "Java",
+                temas: [
+                    "Clases",
+                    "Scope",
+                    "Funciones",
+                    "Objetos",
+                    "Paquetes",
+                    "Archivos Build.Gradle"
+                ]
+            },
+            {
+                title: "XML",
+                temas: [
+                    "Etiquetas",
+                    "Relación/Comparación con HTML",
+                    "Atributos",
+                    "Views",
+                    "Layouts",
+                    "Estilos",
+                ]
+            },
+        ]
+    },
 ]
 
 export default TemasCatedras

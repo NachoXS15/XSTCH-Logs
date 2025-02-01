@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import { LogOut, Computer, MenuIcon, Sun, ChevronRight, House, BookMarked, Star, ArrowBigUpIcon } from 'lucide-react'
+import { LogOut, Computer, MenuIcon, Sun, ChevronRight, House, BookMarked, Star} from 'lucide-react'
 import logo from '../assets/xs-black.png';
 export default function Sidebar() {
     const [toggled, setToggled] = useState(false)
@@ -66,10 +66,6 @@ export default function Sidebar() {
                             )
                         }
                         )}
-                    <button className={`px-6 py-9 h-12 flex items-center justify-center flex-col gap-2 bg-slate-200 font-medium rounded-md text-md transition hover:scale-105 `}>
-                        <span><ArrowBigUpIcon /></span>
-                        <span>Más</span>
-                    </button>
                 </nav>
             </nav>
             <div className="pb-24"></div>
