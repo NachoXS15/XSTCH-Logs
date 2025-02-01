@@ -13,3 +13,11 @@ export interface clientType{
 export type searchProp = {
     search: string;
 }
+
+export type TemarioProps = {
+    name: string,
+    temario: {
+        title?: string,
+        temas: string[]
+    }[]
+}
