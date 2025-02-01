@@ -1,102 +1,41 @@
-export default function page() {
+import { fetchClients } from "@/app/lib/data-server";
+import Table from "@/app/ui/tables/TableClients";
+import Link from "next/link";
+
+export default async function page() {
+
+  const clients = await fetchClients();  
   return (
-    <section className='w-full xl:w-3/4 px-5 py-10 flex items-center justify-start flex-col'>
-      <div className="text-left w-full">
-        <h3 className="text-lg font-semibold ml-3 text-slate-800">Clientes</h3>
-        <p className="text-slate-500 mb-5 ml-3">Registro de Clientes pertenecientes a XSTCH</p>
+    <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
+      <div className="w-full flex flex-col py-5 md:flex-row justify-between items-center">
+        <div className="text-left w-full border-b border-slate-200 mb-4 md:border-0 md:mb-0">
+          <h3 className="text-lg font-semibold ml-3 text-slate-800">Registros</h3>
+          <p className="text-slate-500 mb-5 ml-3">Registro de Clientes pertenecientes a XSTCH</p>
+        </div>
+        <div className="w-full md:w-fit ml-3 flex gap-4 items-center justify-between md:justify-start">
+          <Link href="/dashboard/clients/addClient" className="w-fit text-nowrap text-md text-slate-500 hover:scale-105 transition">Agregar Registro</Link>
+          <div className="w-full max-w-sm min-w-[200px] relative">
+            <form className="relative">
+              <input
+                className="bg-white w-full pr-11 h-10 pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
+                placeholder="Buscar registros"
+              />
+              <button
+                className="absolute h-8 w-8 right-1 top-1 my-auto px-2 flex items-center bg-white rounded "
+                type="button"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-8 h-8 text-slate-600">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-      <div className="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
-        <table className="w-full text-left table-auto min-w-max">
-          <thead>
-            <tr>
-              <th className="p-4 border-b border-slate-300 bg-slate-50">
-                <p className="block text-sm font-normal leading-none text-slate-500">
-                  Cliente
-                </p>
-              </th>
-              <th className="p-4 border-b border-slate-300 bg-slate-50">
-                <p className="block text-sm font-normal leading-none text-slate-500">
-                  Servicio
-                </p>
-              </th>
-              <th className="p-4 border-b border-slate-300 bg-slate-50">
-                <p className="block text-sm font-normal leading-none text-slate-500">
-                  Precio
-                </p>
-              </th>
-              <th className="p-4 border-b border-slate-300 bg-slate-50">
-                <p className="block text-sm font-normal leading-none text-slate-500">
-                  Lugar
-                </p>
-              </th>
-              <th className="p-4 border-b border-slate-300 bg-slate-50">
-                <p className="block text-sm font-normal leading-none text-slate-500">
-                  Egreso
-                </p>
-              </th>
-              <th className="p-4 border-b border-slate-300 bg-slate-50">
-                <p className="block text-sm font-normal leading-none text-slate-500">
-                  Estado
-                </p>
-              </th>
-              <th className="p-4 border-b border-slate-300 bg-slate-50">
-                <p className="block text-sm font-normal leading-none text-slate-500">
-                  Pago
-                </p>
-              </th>
-              <th className="p-4 border-b border-slate-300 bg-slate-50">
-                <p className="block text-sm font-normal leading-none text-slate-500">
-                  Observaciones
-                </p>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="hover:bg-slate-50">
-              <td className="p-4 border-b border-slate-200">
-                <p className="block text-sm text-slate-800">
-                  Wooden Chair
-                </p>
-              </td>
-              <td className="p-4 border-b border-slate-200">
-                <p className="block text-sm text-slate-800">
-                  Furniture
-                </p>
-              </td>
-              <td className="p-4 border-b border-slate-200">
-                <p className="block text-sm text-slate-800">
-                  2
-                </p>
-              </td>
-              <td className="p-4 border-b border-slate-200">
-                <p className="block text-sm text-slate-800">
-                  $85.00
-                </p>
-              </td>
-              <td className="p-4 border-b border-slate-200">
-                <p className="block text-sm text-slate-800">
-                  $170.00
-                </p>
-              </td>
-              <td className="p-4 border-b border-slate-200">
-                <p className="block text-sm text-slate-800">
-                  $170.00
-                </p>
-              </td>
-              <td className="p-4 border-b border-slate-200">
-                <p className="block text-sm text-slate-800">
-                  $170.00
-                </p>
-              </td>
-              <td className="p-4 border-b border-slate-200">
-                <p className="block text-sm text-slate-800">
-                  $170.00
-                </p>
-              </td>
-            </tr>
-          </tbody>
-          
-        </table>
+      <div className="flex flex-col w-full h-full overflow-x-hidden text-gray-700 bg-white shadow-md rounded-lg">
+        <div className="overflow-x-auto">
+          <Table clients={clients} />
+        </div>
       </div>
     </section>
   )

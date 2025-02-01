@@ -1,5 +1,7 @@
+import PageWIP from "@/app/ui/WIP";
+
 export default function page() {
   return (
-    <div>projects</div>
+    <PageWIP />
   )
 }
