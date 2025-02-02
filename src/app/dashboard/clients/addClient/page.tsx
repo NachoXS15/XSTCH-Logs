@@ -62,13 +62,13 @@ export default function page() {
                     </div>
                     <div className="w-1/2 flex flex-col">
                         <label htmlFor="service">Servicio</label>
-                        <input type="text" id="service" name="service" className="bg-slate-200 rounded h-10 py-2 pl-4" placeholder="Ej: Angel Reynoso"/>
+                        <input type="text" id="service" name="service" className="bg-slate-200 rounded h-10 py-2 px-4" placeholder="Ej: Limpieza a PC"/>
                     </div>
                 </div>
                 <div className="flex items-center gap-5">
                     <div className="w-1/2 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Precio</label>
-                        <input type="number" id="price" name="price" className="bg-slate-200 rounded h-10 py-2 pl-4" placeholder="Ej: Angel Reynoso"/>
+                        <input type="number" id="price" name="price" className="bg-slate-200 rounded h-10 py-2 pl-4" placeholder="Ej: 12000"/>
                     </div>
                     <div className="w-1/2 flex flex-col">
                         <label htmlFor="service">Fecha de Egreso</label>
@@ -109,7 +109,7 @@ export default function page() {
                     <textarea name="obvs" id="obvs" className="w-full h-24 p-4 bg-slate-200 resize-none" placeholder="Ej: Temperaturas altas"></textarea>
                 </div>
                 <div className="w-full flex gap-4">
-                    <button type="submit" className="w-1/2 transition border bg-green-500 text-white py-3 rounded hover:bg-white hover:text-green-500">Cargar cliente</button>
+                    <button type="submit" className="w-1/2 transition border bg-green-500 text-white py-3 rounded hover:bg-white hover:text-green-500">Cargar Registro</button>
                     <button type="reset" className="w-1/2 transition border border-red-500 text-red-500 py-3 rounded hover:bg-red-500 hover:text-white">Limpiar</button>
                 </div>
             </form>

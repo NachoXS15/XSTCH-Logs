@@ -21,8 +21,8 @@ export default function Table({ clients }: { clients: clientType[] }) {
     
     return (
         <table className="text-left table-auto min-w-max overflow-hidden w-full">
-            <thead className="border-b border-slate-300 bg-slate-50">
-                <tr>
+            <thead className="w-full border-b border-slate-300 bg-slate-50">
+                <tr className='w-full'>
                     <th className="p-4 border-b border-slate-300 bg-slate-50">
                         <p className="block text-sm font-normal leading-none text-slate-500">
                             Cliente
@@ -63,6 +63,10 @@ export default function Table({ clients }: { clients: clientType[] }) {
                             Observaciones
                         </p>
                     </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">     
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">    
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -79,7 +83,7 @@ export default function Table({ clients }: { clients: clientType[] }) {
                                     </p>
                                 </td>
                                 <td className="p-4 border-b border-slate-200">
-                                    <p className="block text-sm text-slate-800">
+                                    <p className="block text-sm leading-6 text-slate-800 max-w-[400px] text-wrap">
                                         {client.service}
                                     </p>
                                 </td>

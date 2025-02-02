@@ -9,7 +9,7 @@ export default async function Page({ params }: InferGetServerSidePropsType<typeo
 
 
     return (
-        <section className="xl:w-4/6 px-5 py-10 flex items-center justify-start flex-col">
+        <section className="xl:w-4/6 px-24 py-10 flex items-center justify-start flex-col">
             <div className="text-left w-full">
                 <h3 className="text-lg font-semibold ml-3 text-slate-800">Editar o actualizar cliente</h3>
                 <p className="text-slate-500 mb-5 ml-3">Registro de Clientes pertenecientes a XSTCH</p>
@@ -22,7 +22,7 @@ export default async function Page({ params }: InferGetServerSidePropsType<typeo
                     </div>
                     <div className="w-1/2 flex flex-col">
                         <label htmlFor="service">Servicio</label>
-                        <input type="text" id="service" defaultValue={client?.service} name="service" className="bg-slate-200 rounded h-10 py-2 pl-4" placeholder="Ej: Angel Reynoso"/>
+                        <input type="text" id="service" defaultValue={client?.service} name="service" className="bg-slate-200 rounded h-10 py-2 px-4" placeholder="Ej: Angel Reynoso"/>
                     </div>
                 </div>
                 <div className="flex items-center gap-5">
@@ -70,7 +70,7 @@ export default async function Page({ params }: InferGetServerSidePropsType<typeo
                     <textarea name="obvs" id="obvs" defaultValue={client?.obvs} className="w-full h-24 p-4 bg-slate-200 resize-none" placeholder="Ej: Temperaturas altas"></textarea>
                 </div>
                 <div className="w-full flex gap-4">
-                    <button formAction={editClient} type="submit" className="w-1/2 transition border bg-green-500 text-white py-3 rounded hover:bg-white hover:text-green-500">Actualizar cliente</button>
+                    <button formAction={editClient} type="submit" className="w-1/2 transition border bg-green-500 text-white py-3 rounded hover:bg-white hover:text-green-500">Actualizar registro</button>
                     <button type="reset" className="w-1/2 transition border border-red-500 text-red-500 py-3 rounded hover:bg-red-500 hover:text-white">Limpiar</button>
                 </div>
             </form>
