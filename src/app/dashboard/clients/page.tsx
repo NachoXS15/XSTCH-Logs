@@ -1,10 +1,12 @@
+
 import { fetchClients } from "@/app/lib/data-server";
 import Table from "@/app/ui/tables/TableClients";
 import Link from "next/link";
 
 export default async function page() {
 
-  const clients = await fetchClients();  
+  const clients = await fetchClients();
+
   return (
     <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
       <div className="w-full flex flex-col py-5 md:flex-row justify-between items-center">

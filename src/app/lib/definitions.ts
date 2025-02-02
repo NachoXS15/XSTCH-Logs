@@ -6,7 +6,7 @@ export interface clientType{
     service: string
     status: string
     payment: string
-    egreso: string
+    egreso?: string
     obvs?: string
 }
 

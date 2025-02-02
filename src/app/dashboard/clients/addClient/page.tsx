@@ -25,7 +25,7 @@ export default function page() {
             place,
             service,
         });
-        if (!clientName || !price || !service || !date || !status || !payment || !place) {
+        if (!clientName || !price || !service || !status || !payment || !place) {
             console.error("Todos los campos son obligatorios");
             return;
         }
