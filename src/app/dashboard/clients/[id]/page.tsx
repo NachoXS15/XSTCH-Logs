@@ -9,35 +9,35 @@ export default async function Page({ params }: InferGetServerSidePropsType<typeo
 
 
     return (
-        <section className="xl:w-4/6 px-24 py-10 flex items-center justify-start flex-col">
+        <section className="w-full md:w-5/6 xl:w-4/6 lg:px-24 py-10 flex items-center justify-start flex-col">
             <div className="text-left w-full">
                 <h3 className="text-lg font-semibold ml-3 text-slate-800">Editar o actualizar cliente</h3>
                 <p className="text-slate-500 mb-5 ml-3">Registro de Clientes pertenecientes a XSTCH</p>
             </div>
             <form className="w-full px-5 flex flex-col gap-5">
-                <div className="flex items-center gap-5">
-                    <div className="w-1/2 flex flex-col">
+                <div className="flex flex-col md:flex-row items-center gap-5">
+                    <div className="w-full md:w-1/2 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Nombre</label>
                         <input type="text" id="nombre" defaultValue={client?.client_name} name="nombre" className="bg-slate-200 rounded h-10 py-2 pl-4" placeholder="Ej: Angel Reynoso"/>
                     </div>
-                    <div className="w-1/2 flex flex-col">
+                    <div className="w-full md:w-1/2 flex flex-col">
                         <label htmlFor="service">Servicio</label>
                         <input type="text" id="service" defaultValue={client?.service} name="service" className="bg-slate-200 rounded h-10 py-2 px-4" placeholder="Ej: Angel Reynoso"/>
                     </div>
                 </div>
-                <div className="flex items-center gap-5">
-                    <div className="w-1/2 flex flex-col">
+                <div className="flex flex-col md:flex-row items-center gap-5">
+                    <div className="w-full md:w-1/2 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Precio</label>
                         <input type="number" id="price" defaultValue={client?.price} name="price" className="bg-slate-200 rounded h-10 py-2 pl-4" placeholder="Ej: Angel Reynoso"/>
                     </div>
-                    <div className="w-1/2 flex flex-col">
+                    <div className="w-full md:w-1/2 flex flex-col">
                         <label htmlFor="service">Fecha de Egreso</label>
                         <input type="date" id="date" name="date" defaultValue={client?.egreso} className="bg-slate-200 rounded h-10 py-2 px-4" placeholder="Ej: Angel Reynoso"/>
                     </div>
                 </div>
                 <input type="hidden" value={id} name="id" />
-                <div className="flex items-center gap-5">
-                    <div className="w-1/3 flex flex-col">
+                <div className="flex flex-col md:flex-row items-center gap-5">
+                    <div className="w-full md:w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Estado</label>
                         <select className="bg-slate-200 px rounded h-10 py-2 px-4" defaultValue={client?.status} name="status">
                             <option value="" disabled defaultChecked>Seleccionar</option>
@@ -46,7 +46,7 @@ export default async function Page({ params }: InferGetServerSidePropsType<typeo
                             <option value="A confirmar">A confirmar</option>
                         </select>
                     </div>
-                    <div className="w-1/3 flex flex-col">
+                    <div className="w-full md:w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Pago</label>
                         <select className="bg-slate-200 px rounded h-10 py-2 px-4" defaultValue={client?.payment} name="payment">
                             <option value="" disabled defaultChecked>Seleccionar</option>
@@ -55,7 +55,7 @@ export default async function Page({ params }: InferGetServerSidePropsType<typeo
                             <option value="Pendiente">Pendiente</option>
                         </select>
                     </div>
-                    <div className="w-1/3 flex flex-col">
+                    <div className="w-full md:w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Lugar</label>
                         <select className="bg-slate-200 px rounded h-10 py-2 px-4" defaultValue={client?.place} name="place">
                             <option value="" disabled defaultChecked>Seleccionar</option>

@@ -49,34 +49,34 @@ export default function page() {
 
 
     return (
-        <section className="xl:w-4/6 px-5 py-10 flex items-center justify-start flex-col">
+        <section className="w-full md:w-5/6 xl:w-4/6 px-5 py-10 flex items-center justify-start flex-col">
             <div className="text-left w-full">
                 <h3 className="text-lg font-semibold ml-3 text-slate-800">Agregar registro</h3>
                 <p className="text-slate-500 mb-5 ml-3">Registro de Clientes pertenecientes a XSTCH</p>
             </div>
-            <form onSubmit={handleSubmit} className="w-full px-5 flex flex-col gap-5">
-                <div className="flex items-center gap-5">
-                    <div className="w-1/2 flex flex-col">
+            <form onSubmit={handleSubmit} className="w-full md:px-5 flex flex-col gap-5">
+                <div className="w-full flex flex-col md:flex-row items-center gap-5">
+                    <div className="w-full md:w-1/2 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Nombre</label>
                         <input type="text" id="nombre" name="nombre" className="bg-slate-200 rounded h-10 py-2 pl-4" placeholder="Ej: Angel Reynoso"/>
                     </div>
-                    <div className="w-1/2 flex flex-col">
+                    <div className="w-full md:w-1/2 flex flex-col">
                         <label htmlFor="service">Servicio</label>
                         <input type="text" id="service" name="service" className="bg-slate-200 rounded h-10 py-2 px-4" placeholder="Ej: Limpieza a PC"/>
                     </div>
                 </div>
-                <div className="flex items-center gap-5">
-                    <div className="w-1/2 flex flex-col">
+                <div className="flex flex-col md:flex-row items-center gap-5">
+                    <div className="w-full md:w-1/2 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Precio</label>
                         <input type="number" id="price" name="price" className="bg-slate-200 rounded h-10 py-2 pl-4" placeholder="Ej: 12000"/>
                     </div>
-                    <div className="w-1/2 flex flex-col">
+                    <div className="w-full md:w-1/2 flex flex-col">
                         <label htmlFor="service">Fecha de Egreso</label>
                         <input type="date" id="date" name="date" className="bg-slate-200 rounded h-10 py-2 px-4" placeholder="Ej: Angel Reynoso"/>
                     </div>
                 </div>
-                <div className="flex items-center gap-5">
-                    <div className="w-1/3 flex flex-col">
+                <div className="flex flex-col md:flex-row items-center gap-5">
+                    <div className="w-full md:w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Estado</label>
                         <select className="bg-slate-200 rounded h-10 py-2 pl-4" name="status">
                             <option value="" disabled defaultChecked>Seleccionar</option>
@@ -85,7 +85,7 @@ export default function page() {
                             <option value="A confirmar">A confirmar</option>
                         </select>
                     </div>
-                    <div className="w-1/3 flex flex-col">
+                    <div className="w-full md:w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Pago</label>
                         <select className="bg-slate-200 rounded h-10 py-2 pl-4" name="payment">
                             <option value="" disabled defaultChecked>Seleccionar</option>
@@ -94,7 +94,7 @@ export default function page() {
                             <option value="Pendiente">Pendiente</option>
                         </select>
                     </div>
-                    <div className="w-1/3 flex flex-col">
+                    <div className="w-full md:w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Lugar</label>
                         <select className="bg-slate-200 rounded h-10 py-2 pl-4" name="place">
                             <option value="" disabled defaultChecked>Seleccionar</option>
