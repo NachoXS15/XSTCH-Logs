@@ -10,6 +10,18 @@ export interface clientType{
     obvs?: string
 }
 
+export interface studentType{
+    id?: string
+    student_name: string
+    materia: string
+    type: string
+    price: number
+    payment: string
+    condition: string
+    grade: string
+    date: string
+}
+
 export type searchProp = {
     search: string;
 }

@@ -1,6 +1,7 @@
 import { createClient } from '../utils/supabase/server';
-import {clientType} from './definitions';
+import {clientType, studentType} from './definitions';
 
+//clients
 const fetchClients = async(): Promise <clientType[]> => {
     try {
         const supabase = await createClient();
@@ -36,4 +37,18 @@ const deleteClient = async(id:string) => {
     }
 }
 
-export {fetchClients, fetchClientByID, deleteClient};
+//------------
+//students
+const fetchStudents = async(): Promise <studentType[]> => {
+    try {
+        const supabase = await createClient();
+        const { data: clients } = await supabase.from('students').select('*').order("date", {ascending: false});
+        return clients as studentType[]
+    } catch (error) {
+        console.error("Error: ", error);
+        return [];
+    }
+}
+
+
+export {fetchClients, fetchClientByID, deleteClient, fetchStudents};
