@@ -1,5 +1,5 @@
 "use client"
-import { postClient } from "@/app/lib/data-client"
+import { postStudent } from "@/app/lib/data-client"
 import Materias from "@/app/utils/materias"
 export default function page() {
 
@@ -7,42 +7,42 @@ export default function page() {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
-        const clientName = formData.get("nombre")?.toString();
+        const student_name = formData.get("nombre")?.toString();
+        const materia = formData.get("materia")?.toString();
+        const type = formData.get("type")?.toString();
         const price = formData.get("price")?.toString();
-        const service = formData.get("service")?.toString();
-        const date = formData.get("date")?.toString();
-        const status = formData.get("status")?.toString();
         const payment = formData.get("payment")?.toString();
-        const place = formData.get("place")?.toString();
-        const obvs = formData.get("obvs")?.toString()
+        const condition = formData.get("condition")?.toString()
+        const grade = formData.get("grade")?.toString();
+        const date = formData.get("date")?.toString();
 
         console.log({
-            clientName,
+            student_name,
+            materia,
+            type,
             price,
-            status,
-            date,
-            obvs,
             payment,
-            place,
-            service,
+            condition,
+            grade, 
+            date,
         });
-        if (!clientName || !price || !service || !status || !payment || !place) {
+        if (!student_name || !price || !materia || !type || !payment || !condition || !grade || !date) {
             console.error("Todos los campos son obligatorios");
             return;
         }
 
         try {
-            await postClient({
-                client_name: clientName,
+            await postStudent({
+                student_name: student_name,
+                materia: materia,
+                type: type,
                 price: Number(price),
-                service: service,
-                egreso: date,
-                status: status,
                 payment: payment,
-                place: place,
-                obvs: obvs
+                condition: condition,
+                grade: grade,
+                date: date
             })
-            window.location.href = "/dashboard/clients"
+            window.location.href = "/dashboard/students"
         } catch (error) {
             console.log("Error: ", error);
         }
@@ -72,13 +72,23 @@ export default function page() {
                     </div>
                 </div>
                 <div className="flex flex-col md:flex-row items-center gap-5">
-                    <div className="w-full md:w-1/2 flex flex-col">
+                    <div className="w-full md:w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Precio</label>
                         <input type="number" id="price" name="price" className="bg-slate-200 rounded h-10 py-2 pl-4" placeholder="Ej: 12000"/>
                     </div>
-                    <div className="w-full md:w-1/2 flex flex-col">
+                    <div className="w-full md:w-1/3 flex flex-col">
+                        <label htmlFor="nombre" className="font-medium">Tipo</label>
+                        <select id="type" name="type" className="bg-slate-200 rounded h-10 py-2 pl-4">
+                            <option value="Catedra Completa">Catedra Completa</option>
+                            <option value="Tema Particular">Tema Particular</option>
+                            <option value="Ayuda Ilegal">Ayuda Ilegal</option>
+                            <option value="Solo Final">Solo Final</option>
+                            <option value="Parcial">Parcial</option>
+                        </select>
+                    </div>
+                    <div className="w-full md:w-1/3 flex flex-col">
                         <label htmlFor="service">Mesa</label>
-                        <input type="text" id="date" name="date" className="bg-slate-200 rounded h-10 py-2 px-4" placeholder="Ej: Angel Reynoso"/>
+                        <input type="text" id="date" name="date" className="bg-slate-200 rounded h-10 py-2 px-4" placeholder="Ej: Marzo 2025"/>
                     </div>
                 </div>
                 <div className="flex flex-col md:flex-row items-center gap-5">
