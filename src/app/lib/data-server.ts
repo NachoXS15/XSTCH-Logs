@@ -42,7 +42,7 @@ const deleteClient = async(id:string) => {
 const fetchStudents = async(): Promise <studentType[]> => {
     try {
         const supabase = await createClient();
-        const { data: clients } = await supabase.from('students').select('*').order("date", {ascending: false});
+        const { data: clients } = await supabase.from('students').select('*').order("created_at", {ascending: false});
         return clients as studentType[]
     } catch (error) {
         console.error("Error: ", error);
@@ -50,5 +50,18 @@ const fetchStudents = async(): Promise <studentType[]> => {
     }
 }
 
+const fetchStudentByID = async(id: string): Promise <studentType | null> => {
+    try {
+        const supabase = await createClient();
+        const { data: client, error} = await supabase.from('students').select('*').eq('id', id).single();
+        if (error) throw error;
+        return client as studentType
+    } catch (error) {
+        console.error("Error: ", error);
+        return null;
+    }
+}
 
-export {fetchClients, fetchClientByID, deleteClient, fetchStudents};
+
+
+export {fetchClients, fetchClientByID, deleteClient, fetchStudents, fetchStudentByID};

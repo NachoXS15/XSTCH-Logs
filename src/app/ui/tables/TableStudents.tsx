@@ -11,20 +11,22 @@ export default function Table({ students }: { students: studentType[] }) {
     ]
 
     const PaymentField = [
-        { title: "Cobrado", style: "text-green-600 bg-green-200" },
+        { title: "Pagado", style: "text-green-600 bg-green-200" },
         { title: "Señado", style: "text-orange-500 bg-orange-200" },
-        { title: "Pendiente", style: "text-red-600 bg-red-200" },
+        { title: "Pendiente", style: "text-pink-600 bg-pink-200" },
+        { title: "No Cobrado", style: "text-red-600 bg-red-200" },
     ]
 
     const GradeField = [
         { title: "Aprobado", style: "text-green-600 bg-green-200" },
         { title: "Ausente", style: "text-orange-500 bg-orange-200" },
         { title: "Reprobado", style: "text-red-600 bg-red-200" },
+        { title: "Abandonó", style: "text-pink-600 bg-pink-200" },
     ]
 
     const MateriasField = [
         { title: "Fundamentos de Programación", style: "text-green-600 bg-green-200" },
-        { title: "Programación I", style: "text-yellow-500 bg-yellow-200" },
+        { title: "Programación I", style: "text-yellow-700 bg-yellow-200" },
         { title: "Programación II", style: "text-purple-600 bg-purple-200" },
         { title: "Inglés", style: "text-blue-600 bg-blue-200" },
         { title: "Seminario de Actualización", style: "text-pink-600 bg-pink-200" },
@@ -50,17 +52,17 @@ export default function Table({ students }: { students: studentType[] }) {
                         </th>
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
                             <p className="block text-sm font-normal leading-none text-slate-500">
+                                Precio
+                            </p>
+                        </th>
+                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                            <p className="block text-sm font-normal leading-none text-slate-500">
                                 Tipo
                             </p>
                         </th>
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
                             <p className="block text-sm font-normal leading-none text-slate-500">
                                 Fecha/Mesa
-                            </p>
-                        </th>
-                        <th className="p-4 border-b border-slate-300 bg-slate-50">
-                            <p className="block text-sm font-normal leading-none text-slate-500">
-                                Precio
                             </p>
                         </th>
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
@@ -102,8 +104,13 @@ export default function Table({ students }: { students: studentType[] }) {
                                         </p>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
-                                        <p className={`block text-sm px-1 rounded text-center py-1 ${selectedMateriaField?.style}`}>
+                                        <p className={`block w-fit text-sm text-start px-3 rounded py-1 ${selectedMateriaField?.style}`}>
                                             {student.materia}
+                                        </p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="block text-sm text-slate-800">
+                                            ${student.price}
                                         </p>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
@@ -114,11 +121,6 @@ export default function Table({ students }: { students: studentType[] }) {
                                     <td className="p-4 border-b border-slate-200">
                                         <p className="block text-sm text-slate-800">
                                             {student.date}
-                                        </p>
-                                    </td>
-                                    <td className="p-4 border-b border-slate-200">
-                                        <p className="block text-sm text-slate-800">
-                                            ${student.price}
                                         </p>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
