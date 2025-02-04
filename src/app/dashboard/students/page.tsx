@@ -14,7 +14,7 @@ export default async function page() {
           <p className="text-slate-500 mb-5 ml-3">Alumnos para clases particulares</p>
         </div>
         <div className="w-full md:w-fit ml-3 flex gap-4 items-center justify-between md:justify-start">
-          <Link href="/dashboard/clients/addClient" className="w-fit text-nowrap text-md text-slate-500 hover:scale-105 transition">Agregar Alumno</Link>
+          <Link href="/dashboard/students/addStudent" className="w-fit text-nowrap text-md text-slate-500 hover:scale-105 transition">Agregar Alumno</Link>
           <div className="w-full max-w-sm min-w-[200px] relative">
             <form className="relative">
               <input
