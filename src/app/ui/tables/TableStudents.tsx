@@ -1,9 +1,12 @@
 'use client'
 import Link from 'next/link'
 import { studentType } from "../../lib/definitions"
+import {EyeIcon, EyeClosedIcon} from 'lucide-react'
+import { useState } from 'react'
 
 export default function Table({ students }: { students: studentType[] }) {
 
+    const [showPrice, setShowPrice] = useState(false)
     const ConditionField = [
         { title: "Promoción", style: "text-green-600 bg-green-200" },
         { title: "Regular", style: "text-blue-500 bg-blue-200" },
@@ -21,6 +24,7 @@ export default function Table({ students }: { students: studentType[] }) {
         { title: "Aprobado", style: "text-green-600 bg-green-200" },
         { title: "Ausente", style: "text-orange-500 bg-orange-200" },
         { title: "Reprobado", style: "text-red-600 bg-red-200" },
+        { title: "Pendiente", style: "text-blue-500 bg-blue-200" },
         { title: "Abandonó", style: "text-pink-600 bg-pink-200" },
     ]
 
@@ -29,7 +33,7 @@ export default function Table({ students }: { students: studentType[] }) {
         { title: "Programación I", style: "text-yellow-700 bg-yellow-200" },
         { title: "Programación II", style: "text-purple-600 bg-purple-200" },
         { title: "Inglés", style: "text-blue-600 bg-blue-200" },
-        { title: "Seminario de Actualización", style: "text-pink-600 bg-pink-200" },
+        { title: "Seminario de Actualización I", style: "text-pink-600 bg-pink-200" },
     ]
 
     let totalEarned = 0;
@@ -51,8 +55,9 @@ export default function Table({ students }: { students: studentType[] }) {
                             </p>
                         </th>
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
-                            <p className="block text-sm font-normal leading-none text-slate-500">
+                            <p className="text-sm font-normal flex items-center gap-2 leading-none text-slate-500">
                                 Precio
+                                <button onClick={() => setShowPrice(!showPrice)}>{showPrice ? <EyeIcon size={20} className='hover:scale-110 transition cursor-pointer' /> : <EyeClosedIcon size={20} className='hover:scale-110 transition cursor-pointer' />}</button>
                             </p>
                         </th>
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
@@ -110,7 +115,7 @@ export default function Table({ students }: { students: studentType[] }) {
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
                                         <p className="block text-sm text-slate-800">
-                                            ${student.price}
+                                            ${showPrice ? student.price : "***"}
                                         </p>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
