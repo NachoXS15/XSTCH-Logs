@@ -1,9 +1,11 @@
 'use client'
 import Link from 'next/link'
 import { clientType } from "../../lib/definitions"
-
+import { EyeIcon, EyeClosedIcon } from 'lucide-react'
+import { useState } from 'react'
 export default function Table({ clients }: { clients: clientType[] }) {
 
+    const [showPrice, setShowPrice] = useState(false)
     const StatusField = [
         { title: "Listo", style: "text-green-600 bg-green-200" },
         { title: "A cumplir", style: "text-blue-500 bg-blue-200" },
@@ -35,8 +37,9 @@ export default function Table({ clients }: { clients: clientType[] }) {
                             </p>
                         </th>
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
-                            <p className="block text-sm font-normal leading-none text-slate-500">
+                            <p className="text-sm font-normal flex items-center gap-2 leading-none text-slate-500">
                                 Precio
+                                <button onClick={() => setShowPrice(!showPrice)}>{showPrice ? <EyeIcon size={20} className='hover:scale-110 transition cursor-pointer' /> : <EyeClosedIcon size={20} className='hover:scale-110 transition cursor-pointer' />}</button>
                             </p>
                         </th>
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
@@ -91,7 +94,7 @@ export default function Table({ clients }: { clients: clientType[] }) {
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
                                         <p className="block text-sm text-slate-800">
-                                            ${client.price}
+                                            ${showPrice ? client.price : "***"}
                                         </p>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">

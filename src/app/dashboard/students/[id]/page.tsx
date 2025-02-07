@@ -78,6 +78,7 @@ export default async function Page({ params }: InferGetServerSidePropsType<typeo
                             <option value="Aprobado">Aprobado</option>
                             <option value="Ausente">Ausente</option>
                             <option value="Reprobado">Reprobado</option>
+                            <option value="Pendiente">Pendiente</option>
                             <option value="Abandonó">Abandonó</option>
                         </select>
                     </div>
