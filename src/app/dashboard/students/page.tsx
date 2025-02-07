@@ -1,10 +1,17 @@
 import { fetchStudents } from "@/app/lib/data-server";
 import Table from "@/app/ui/tables/TableStudents";
+import { createClient } from "@/app/utils/supabase/server";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function page() {
 
   const students = await fetchStudents();
+  const supabase = await createClient()
+  const { data, error } = await supabase.auth.getUser()
+  if (error || !data?.user) {
+    redirect('/login')
+  }
 
   return (
     <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>

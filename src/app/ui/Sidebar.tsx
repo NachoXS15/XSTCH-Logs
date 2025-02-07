@@ -46,7 +46,7 @@ export default function Sidebar() {
                             <button><Sun /></button>
                             <span className={`${toggled ? "inline" : "hidden"}`}>Modo Claro</span>
                         </Link>
-                        <Link href="/" className={`${toggled ? "w-full px-5" : "w-fit px-3"} h-12 flex items-center gap-2 bg-slate-200 font-medium py-0.5 rounded-md text-md transition hover:scale-105`}>
+                        <Link href="/logout" className={`${toggled ? "w-full px-5" : "w-fit px-3"} h-12 flex items-center gap-2 bg-slate-200 font-medium py-0.5 rounded-md text-md transition hover:scale-105`}>
                             <button><LogOut /></button>
                             <span className={`${toggled ? "inline" : "hidden"}`}>Cerrar sesión</span>
                         </Link>

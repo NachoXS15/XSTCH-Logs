@@ -1,7 +1,14 @@
 import Temarios from "@/app/ui/Temarios";
+import { createClient } from "@/app/utils/supabase/server";
 import TemasCatedras from "@/app/utils/temario";
+import { redirect } from "next/navigation";
 
-export default function page() {
+export default async function page() {
+    const supabase = await createClient()
+      const { data, error } = await supabase.auth.getUser()
+      if (error || !data?.user) {
+        redirect('/login')
+      }
     return (
         <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
             <div className="w-full flex flex-col py-5 md:flex-row justify-between items-center">

@@ -1,7 +1,17 @@
 import Image from "next/image";
 import { login } from "./actions";
 import logo from '../assets/xs-black.png'
-export default function Home() {
+import { createClient } from "../utils/supabase/server";
+import { redirect } from "next/navigation";
+
+export default async function Home() {
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.auth.getUser()
+  if (!error || data?.user) {
+    redirect('/dashboard')
+  }
+  
   return (
     <div className="min-h-screen grid grid-cols-1 m-auto text-black justify-center font-[family-name:var(--font-poppins)]">
       <section className="flex items-center bg-gray-100 justify-center h-full">
@@ -20,10 +30,10 @@ export default function Home() {
               <label htmlFor="pass" className="text-md md:text-xl">Contraseña</label>
               <input type="password" name="password" id="pass" className="w-full px-2.5 border-2 h-10 rounded border-black" />
             </div>
-            <div className="w-full flex items-center justify-center gap-2.5">
+            {/* <div className="w-full flex items-center justify-center gap-2.5">
               <input type="checkbox" id="check" />
               <label htmlFor="check" className="text-md md:text-xl">Mantener sesión iniciada</label>
-            </div>
+            </div> */}
             <button formAction={login} className="bg-black px-5 py-2 mt-10 rounded-full text-white text-md md:text-xl">Iniciar Sesión</button>
           </form>
         </div>

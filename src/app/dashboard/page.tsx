@@ -1,7 +1,16 @@
 import React from 'react'
 import Links from '../utils/dashboardLinks'
 import CardD from '../ui/CardD'
-export default function page() {
+import { createClient } from '../utils/supabase/server'
+import { redirect } from 'next/navigation'
+export default async function page() {
+
+  const supabase = await createClient()
+    const { data, error } = await supabase.auth.getUser()
+    if (error || !data?.user) {
+      redirect('/login')
+    }
+
   return (
     <div className='w-full xl:w-5/6  px-5 py-10 flex items-center justify-start flex-col'>
       <div className="w-full flex justify-between items-center">
@@ -14,7 +23,6 @@ export default function page() {
         {Links.map(((link, i) => (
           <CardD key={i} title={link.title} desc={link.desc} link={link.link} />
         )))}
-        
       </div>
     </div>
   )
