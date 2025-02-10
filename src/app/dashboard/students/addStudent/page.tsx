@@ -15,6 +15,7 @@ export default function page() {
         const condition = formData.get("condition")?.toString()
         const grade = formData.get("grade")?.toString();
         const date = formData.get("date")?.toString();
+        const obvs = formData.get("obvs")?.toString();
 
         console.log({
             student_name,
@@ -25,6 +26,7 @@ export default function page() {
             condition,
             grade, 
             date,
+            obvs
         });
         if (!student_name || !price || !materia || !type || !payment || !condition || !grade || !date) {
             console.error("Todos los campos son obligatorios");
@@ -40,7 +42,8 @@ export default function page() {
                 payment: payment,
                 condition: condition,
                 grade: grade,
-                date: date
+                date: date,
+                obvs: obvs
             })
             window.location.href = "/dashboard/students"
         } catch (error) {
@@ -125,7 +128,7 @@ export default function page() {
                 </div>
                 <div className="flex gap-2 flex-col">
                     <label htmlFor="obvs">Observaciones</label>
-                    <textarea name="obvs" id="obvs" className="w-full h-24 p-4 bg-slate-200 resize-none" placeholder="Ej: Temperaturas altas"></textarea>
+                    <textarea name="obvs" id="obvs" className="w-full h-24 p-4 bg-slate-200 resize-none" placeholder="Ej: Quiere ver tal tema..."></textarea>
                 </div>
                 <div className="w-full flex gap-4">
                     <button type="submit" className="w-1/2 transition border bg-green-500 text-white py-3 rounded hover:bg-white hover:text-green-500">Cargar Registro</button>

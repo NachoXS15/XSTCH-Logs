@@ -83,10 +83,10 @@ export default async function Page({ params }: InferGetServerSidePropsType<typeo
                         </select>
                     </div>
                 </div>
-                {/* <div className="flex gap-2 flex-col">
+                <div className="flex gap-2 flex-col">
                     <label htmlFor="obvs">Observaciones</label>
-                    <textarea name="obvs" id="obvs" className="w-full h-24 p-4 bg-slate-200 resize-none" placeholder="Ej: Temperaturas altas"></textarea>
-                </div> */}
+                    <textarea name="obvs" id="obvs" defaultValue={student?.obvs} className="w-full h-24 p-4 bg-slate-200 resize-none" placeholder="Ej: Quiere ver tal tema..."></textarea>
+                </div>
                 <div className="w-full flex gap-4">
                     <button type="submit" formAction={editStudent} className="w-1/2 transition border bg-green-500 text-white py-3 rounded hover:bg-white hover:text-green-500">Cargar Registro</button>
                     <button type="reset" className="w-1/2 transition border border-red-500 text-red-500 py-3 rounded hover:bg-red-500 hover:text-white">Limpiar</button>

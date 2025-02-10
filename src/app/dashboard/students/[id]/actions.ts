@@ -17,7 +17,7 @@ export async function editStudent(formData: FormData){
       condition: formData.get("condition") as string,
       payment: formData.get("payment") as string,
       grade: formData.get("grade") as string,
-      //obvs: formData.get("obvs") as string
+      obvs: formData.get("obvs") as string
     }
     
     

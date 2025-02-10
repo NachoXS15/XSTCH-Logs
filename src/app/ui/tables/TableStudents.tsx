@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { studentType } from "../../lib/definitions"
 import {EyeIcon, EyeClosedIcon} from 'lucide-react'
 import { useState } from 'react'
+import { deleteStudent } from '@/app/dashboard/students/actions'
 
 export default function Table({ students }: { students: studentType[] }) {
 
@@ -86,6 +87,11 @@ export default function Table({ students }: { students: studentType[] }) {
                             </p>
                         </th>
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
+                            <p className="block text-sm font-normal leading-none text-slate-500">
+                                Observaciones
+                            </p>
+                        </th>
+                        <th className="p-4 border-b border-slate-300 bg-slate-50">
                         </th>
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
                         </th>
@@ -98,7 +104,9 @@ export default function Table({ students }: { students: studentType[] }) {
                             const selectedPaymentField = PaymentField.find(field => field.title === student.payment)
                             const selectedGradeField = GradeField.find(field => field.title === student.grade)
                             const selectedMateriaField = MateriasField.find(field => field.title === student.materia)
-                            
+                            const id = student.id
+
+
                             totalEarned = totalEarned + student.price
                             totalLogs = totalLogs + 1
                             return (
@@ -144,12 +152,17 @@ export default function Table({ students }: { students: studentType[] }) {
                                         </p>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
+                                        <p className={`block text-sm px-2 rounded text-start py-1`}>
+                                            {student.obvs ? student.obvs : '-'}
+                                        </p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
                                         <Link href={`/dashboard/students/${student.id}`} className="block text-center text-sm cursor-pointer hover:bg-purple-500 hover:text-purple-200 transition border border-purple-500 rounded px-2 py-1 text-purple-500">
                                             Editar
                                         </Link>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
-                                        <button className="block text-center text-sm cursor-pointer hover:bg-red-500 hover:text-red-200 border border-red-500 rounded px-2 py-1 transition text-red-500">
+                                        <button onClick={() => deleteStudent(id)} className="block text-center text-sm cursor-pointer hover:bg-red-500 hover:text-red-200 border border-red-500 rounded px-2 py-1 transition text-red-500">
                                             Eliminar
                                         </button>
                                     </td>

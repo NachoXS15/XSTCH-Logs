@@ -11,7 +11,7 @@ export interface clientType{
 }
 
 export interface studentType{
-    id?: string
+    id?: number
     student_name: string
     materia: string
     type: string
@@ -20,6 +20,7 @@ export interface studentType{
     condition: string
     grade: string
     date: string
+    obvs?: string
 }
 
 export type searchProp = {
