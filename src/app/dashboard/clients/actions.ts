@@ -3,7 +3,7 @@ import { createClient } from "@/app/utils/supabase/server"
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function deleteStudent(id: number | undefined){
+export async function deleteClient(id: string | undefined){
     const supabase = await createClient();
 
     if (!id) {
@@ -14,7 +14,7 @@ export async function deleteStudent(id: number | undefined){
     }
 
     const { error } = await supabase
-    .from('students')
+    .from('clients')
     .delete()
     .eq("id", id)
     
@@ -22,6 +22,6 @@ export async function deleteStudent(id: number | undefined){
         console.log("Error: ", error);
     }
 
-    revalidatePath('/dashboard/students')
-    redirect('/dashboard/students')
+    revalidatePath('/dashboard/clients')
+    redirect('/dashboard/clients')
 }

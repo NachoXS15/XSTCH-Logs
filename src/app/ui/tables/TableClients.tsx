@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { clientType } from "../../lib/definitions"
 import { EyeIcon, EyeClosedIcon } from 'lucide-react'
 import { useState } from 'react'
+import { deleteClient } from '@/app/dashboard/clients/actions'
 export default function Table({ clients }: { clients: clientType[] }) {
 
     const [showPrice, setShowPrice] = useState(false)
@@ -78,6 +79,8 @@ export default function Table({ clients }: { clients: clientType[] }) {
                         clients.map((client, i) => {
                             const selectedStatusField = StatusField.find(field => field.title === client.status)
                             const selectedPaymentField = PaymentField.find(field => field.title === client.payment)
+                            const id = client.id
+
                             totalEarned = totalEarned + client.price
                             totalLogs = totalLogs + 1
                             return (
@@ -128,7 +131,7 @@ export default function Table({ clients }: { clients: clientType[] }) {
                                         </Link>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
-                                        <button className="block text-center text-sm cursor-pointer hover:bg-red-500 hover:text-red-200 border border-red-500 rounded px-2 py-1 transition text-red-500">
+                                        <button onClick={() => deleteClient(id)} className="block text-center text-sm cursor-pointer hover:bg-red-500 hover:text-red-200 border border-red-500 rounded px-2 py-1 transition text-red-500">
                                             Eliminar
                                         </button>
                                     </td>
