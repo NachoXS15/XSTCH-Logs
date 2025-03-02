@@ -34,3 +34,13 @@ export type TemarioProps = {
         temas: string[]
     }[]
 }
+
+export interface jobsType {
+    clientName: string
+    date: string
+    price: number
+    active: string
+    payment: string
+    account: string
+    obvs: string
+}

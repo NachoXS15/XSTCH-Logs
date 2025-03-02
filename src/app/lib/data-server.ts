@@ -1,5 +1,5 @@
 import { createClient } from '../utils/supabase/server';
-import {clientType, studentType} from './definitions';
+import {clientType, jobsType, studentType} from './definitions';
 
 //clients
 const fetchClients = async(): Promise <clientType[]> => {
@@ -62,6 +62,29 @@ const fetchStudentByID = async(id: string): Promise <studentType | null> => {
     }
 }
 
+//------------
+//students
+const fetchJobs = async(): Promise <jobsType[]> => {
+    try {
+        const supabase = await createClient();
+        const { data: jobs } = await supabase.from('jobs').select('*').order("created_at", {ascending: false});
+        return jobs as jobsType[]
+    } catch (error) {
+        console.error("Error: ", error);
+        return [];
+    }
+}
 
+const fetchJobsByID = async(id: string): Promise <jobsType | null> => {
+    try {
+        const supabase = await createClient();
+        const { data: job, error} = await supabase.from('jobs').select('*').eq('id', id).single();
+        if (error) throw error;
+        return job as jobsType
+    } catch (error) {
+        console.error("Error: ", error);
+        return null;
+    }
+}
 
-export {fetchClients, fetchClientByID, deleteClient, fetchStudents, fetchStudentByID};
+export {fetchClients, fetchClientByID, deleteClient, fetchStudents, fetchStudentByID, fetchJobs, fetchJobsByID};
