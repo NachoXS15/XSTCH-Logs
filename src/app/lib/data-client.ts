@@ -1,5 +1,5 @@
 import { supabaseClient } from '../utils/supabase/client';
-import {clientType, studentType} from './definitions';
+import {clientType, jobsType, studentType} from './definitions';
 
 
 const postClient = async ({
@@ -40,6 +40,8 @@ const postClient = async ({
         throw error;
     }
 };
+
+
 const postStudent = async ({
     student_name,
     materia,
@@ -79,4 +81,39 @@ const postStudent = async ({
     }
 };
 
-export {postClient, postStudent};
+const postJob = async ({
+    client_name,
+    price,
+    active,
+    account,
+    date,
+    obvs
+}: jobsType) => {
+    try {
+        const { data, error } = await supabaseClient
+            .from("jobs")
+            .insert([
+                {
+                    client_name,
+                    price,
+                    active,
+                    account,
+                    date,
+                    obvs
+                },
+            ])
+            .select();
+            console.log({ data, error });
+        if (error) {
+            throw error;
+        }
+
+        console.log("Trabajo insertado:", data);
+        return data;
+    } catch (error) {
+        console.error("Error al insertar Trabajo:", error);
+        throw error;
+    }
+};
+
+export {postClient, postStudent, postJob};

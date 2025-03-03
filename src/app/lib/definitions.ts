@@ -36,11 +36,11 @@ export type TemarioProps = {
 }
 
 export interface jobsType {
-    clientName: string
+    id?: string
+    client_name: string
     date: string
     price: number
     active: string
-    payment: string
     account: string
     obvs: string
 }
