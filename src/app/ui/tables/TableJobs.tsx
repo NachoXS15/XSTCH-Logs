@@ -11,7 +11,7 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
     const ActiveField = [
         { title: "Activo", style: "text-green-600 bg-green-200" },
         { title: "Por confirmar", style: "text-blue-500 bg-blue-200" },
-        { title: "No activo", style: "text-red-600 bg-red-200" },
+        { title: "No Activo", style: "text-red-600 bg-red-300" },
     ]
 
 
@@ -66,7 +66,10 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                             const selectedActiveField = ActiveField.find(field => field.title === job.active)
                             const id = job
 
-                            totalEarned = totalEarned + job.price
+                            if(job.active == "Activo"){
+                                totalEarned = totalEarned + job.price
+                            }
+
                             totalLogs = totalLogs + 1
                             return (
                                 <tr key={i} className="hover:bg-slate-50">
@@ -76,7 +79,7 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                                         </p>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
-                                        <p className={`block text-sm text-center rounded py-1 text-slate-800 ${selectedActiveField?.style}`}>
+                                        <p className={`block text-sm text-center rounded py-1 ${selectedActiveField?.style}`}>
                                             {job.active}
                                         </p>
                                     </td>
