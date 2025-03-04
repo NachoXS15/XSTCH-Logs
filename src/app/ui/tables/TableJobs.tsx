@@ -4,6 +4,7 @@ import { jobsType } from "../../lib/definitions"
 import { EyeIcon, EyeClosedIcon } from 'lucide-react'
 import { useState } from 'react'
 import { deleteJob } from '@/app/dashboard/jobs/actions'
+import { InstagramIcon } from '../Icons'
 export default function Table({ jobs }: { jobs: jobsType[] }) {
 
     const [showPrice, setShowPrice] = useState(false)
@@ -75,7 +76,7 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                                         </p>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
-                                        <p className={`block text-sm text-slate-800 ${selectedActiveField?.style}`}>
+                                        <p className={`block text-sm text-center rounded py-1 text-slate-800 ${selectedActiveField?.style}`}>
                                             {job.active}
                                         </p>
                                     </td>
@@ -85,9 +86,10 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                                         </p>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
-                                        <p className="block text-sm text-slate-800">
-                                            {job.account}
-                                        </p>
+                                        <a href={`https://instagram.com/${job.account}`} target='_blank' className="text-sm flex items-center gap-2 text-slate-800">
+                                            <InstagramIcon color='black'/>
+                                            <span className='hover:underline'>{job.account}</span>
+                                        </a>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
                                         <p className="block text-sm text-slate-800">
@@ -99,12 +101,12 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                                             {job.obvs == "" ? "-" : job.obvs}
                                         </p>
                                     </td>
-                                    <td className="p-4 border-b border-slate-200">
-                                        <Link href={`/dashboard/jobs/${job.id}`} className="block text-center text-sm cursor-pointer hover:bg-purple-500 hover:text-purple-200 transition border border-purple-500 rounded px-2 py-1 text-purple-500">
+                                    <td className="border-b border-slate-200">
+                                        <Link href={`/dashboard/jobs/${job.id}`} className="w-fit block text-center text-sm cursor-pointer hover:bg-purple-500 hover:text-purple-200 transition border border-purple-500 rounded px-2 py-1 text-purple-500">
                                             Editar
                                         </Link>
                                     </td>
-                                    <td className="p-4 border-b border-slate-200">
+                                    <td className="border-b border-slate-200">
                                         <button onClick={() => deleteJob(id.id)} className="block text-center text-sm cursor-pointer hover:bg-red-500 hover:text-red-200 border border-red-500 rounded px-2 py-1 transition text-red-500">
                                             Eliminar
                                         </button>
@@ -116,17 +118,17 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                     }
                 </tbody>
                 <tfoot>
-                    {/* <tr className=' w-full '>
-                        <td colSpan={2} className="p-4 text-left font-bold text-slate-800border-t-2 border-slate-300">
+                    <tr className='w-full border-t-2 border-slate-300'>
+                        <td colSpan={2} className="p-4 text-left font-bold text-slate-800 ">
                             Total: {totalLogs}
                         </td>
                         <td colSpan={2} className="p-4 font-semibold text-slate-800 border-t border-slate-300">
                             ${totalEarned}
                         </td>
-                    </tr> */}
+                    </tr>
                 </tfoot>
             </table>
-            <div className="flex justify-between items-center px-4 py-3">
+            {/* <div className="flex justify-between items-center px-4 py-3">
                 <div className="text-sm text-slate-500">
                     Mostrando <b>1-5</b> de 45
                 </div>
@@ -148,7 +150,7 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                     </button>
                 </div>
                 <div></div>
-            </div>
+            </div> */}
         </>
     )
 }

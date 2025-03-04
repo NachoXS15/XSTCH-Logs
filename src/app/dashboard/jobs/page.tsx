@@ -20,7 +20,7 @@ export default async function page() {
           <p className="text-slate-500 mb-5 ml-3">Manejo de Redes Sociales, Proyectos de Programación, etc</p>
         </div>
         <div className="w-full md:w-fit ml-3 flex gap-4 items-center justify-between md:justify-start">
-          <Link href="/dashboard/students/addStudent" className="w-fit text-nowrap text-md text-slate-500 hover:scale-105 transition">Agregar Trabajo</Link>
+          <Link href="/dashboard/jobs/addJob" className="w-fit text-nowrap text-md text-slate-500 hover:scale-105 transition">Agregar Trabajo</Link>
           <div className="w-full max-w-sm min-w-[200px] relative">
             <form className="relative">
               <input
