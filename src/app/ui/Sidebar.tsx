@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import { LogOut, Computer, MenuIcon, Sun, ChevronRight, House, BookMarked, Star} from 'lucide-react'
+import { LogOut, Computer, MenuIcon, Sun, ChevronRight, House, Star, Shovel} from 'lucide-react'
 import logo from '../assets/xs-black.png';
 export default function Sidebar() {
     const [toggled, setToggled] = useState(false)
@@ -13,7 +13,8 @@ export default function Sidebar() {
         { id: 1, content: "Inicio", link: "/dashboard", icon: House },
         { id: 2, content: "Registros", link: "/dashboard/clients", icon: Computer },
         { id: 3, content: "Alumnos", link: "/dashboard/students", icon: Star },
-        { id: 4, content: "Proyectos", link: "/dashboard/projects", icon: BookMarked },
+        { id: 4, content: "Trabajos", link: "/dashboard/jobs", icon: Shovel },
+        // { id: 5, content: "Proyectos", link: "/dashboard/projects", icon: BookMarked },
     ]
 
 
