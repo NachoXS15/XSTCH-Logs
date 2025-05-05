@@ -43,4 +43,7 @@ export interface jobsType {
     active: string
     account: string
     obvs: string
+    pay_method: string
+    partner: boolean
+    partner_name?: string
 }

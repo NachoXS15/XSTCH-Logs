@@ -15,13 +15,21 @@ export default async function Page({ params }: InferGetServerSidePropsType<typeo
             </div>
             <form className="w-full md:px-5 flex flex-col gap-5">
                 <div className="w-full flex flex-col md:flex-row items-center gap-5">
-                    <div className="w-full md:w-1/2 flex flex-col">
+                    <div className="w-full md:w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Nombre</label>
                         <input type="text" id="nombre" name="nombre" defaultValue={job?.client_name} className="bg-slate-200 rounded h-10 py-2 pl-4" placeholder="Empresa X"/>
                     </div>
-                    <div className="w-full md:w-1/2 flex flex-col">
+                    <div className="w-full md:w-1/3 flex flex-col">
                         <label htmlFor="nombre" className="font-medium">Precio</label>
                         <input type="number" id="price" name="price" defaultValue={job?.price} className="bg-slate-200 rounded h-10 py-2 pl-4" placeholder="Ej: 12000"/>
+                    </div>
+                    <div className="w-full md:w-1/3 flex flex-col">
+                        <label htmlFor="nombre" className="font-medium">Método de Pago</label>
+                        <select name="method" defaultValue={job?.pay_method} className="bg-slate-200 rounded h-10 py-2 px-4">
+                            <option value="" disabled defaultChecked>Seleccionar</option>
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Transferencia">Transferencia</option>
+                        </select>
                     </div>
                 </div>
                 <input type="hidden" defaultValue={job?.id} name="id" />
@@ -42,6 +50,20 @@ export default async function Page({ params }: InferGetServerSidePropsType<typeo
                     <div className="w-full md:w-1/3 flex flex-col">
                         <label htmlFor="service">Cuenta</label>
                         <input type="text" id="date" name="account" defaultValue={job?.account} className="bg-slate-200 rounded h-10 py-2 px-4" placeholder="Ej: @cuenta123_"/>
+                    </div>
+                </div>
+                <div className="w-full flex flex-col md:flex-row items-center gap-5">
+                    <div className="w-full md:w-1/2 flex flex-col">
+                        <label htmlFor="nombre" className="font-medium">Compañero?</label>
+                        <select className="bg-slate-200 rounded h-10 py-2 pl-4" defaultValue={job?.partner == true ? "Acompañado" : "Solo"} name="partner">
+                            <option value="" disabled defaultChecked>Seleccionar</option>
+                            <option value="Solo">Solo</option>
+                            <option value="Acompañado">Acompañado</option>
+                        </select>
+                    </div>
+                    <div className="w-full md:w-1/2 flex flex-col">
+                        <label htmlFor="nombre" className="font-medium">Nombre de Compañero</label>
+                        <input type="text" id="partner_name" defaultValue={job?.partner_name} name="partner_name" className="bg-slate-200 rounded h-10 py-2 pl-4" placeholder="Lucas"/>
                     </div>
                 </div>
                 <div className="flex gap-2 flex-col">
