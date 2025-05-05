@@ -10,7 +10,7 @@ export default async function Page({ params }: InferGetServerSidePropsType<typeo
     return (
         <section className="w-full md:w-5/6 xl:w-4/6 px-5 py-10 flex items-center justify-start flex-col">
             <div className="text-left w-full">
-                <h3 className="text-lg font-semibold ml-3 text-slate-800">Agregar Trabajo</h3>
+                <h3 className="text-lg font-semibold ml-3 text-slate-800">Editar Trabajo</h3>
                 <p className="text-slate-500 mb-5 ml-3">Manejo de Redes Sociales, Proyectos de Programación, etc</p>
             </div>
             <form className="w-full md:px-5 flex flex-col gap-5">
@@ -29,6 +29,7 @@ export default async function Page({ params }: InferGetServerSidePropsType<typeo
                             <option value="" disabled defaultChecked>Seleccionar</option>
                             <option value="Efectivo">Efectivo</option>
                             <option value="Transferencia">Transferencia</option>
+                            <option value="Mixto">Mixto</option>
                         </select>
                     </div>
                 </div>

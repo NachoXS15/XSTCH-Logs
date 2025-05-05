@@ -87,7 +87,10 @@ const postJob = async ({
     active,
     account,
     date,
-    obvs
+    obvs,
+    pay_method,
+    partner,
+    partner_name
 }: jobsType) => {
     try {
         const { data, error } = await supabaseClient
@@ -99,7 +102,10 @@ const postJob = async ({
                     active,
                     account,
                     date,
-                    obvs
+                    obvs,
+                    pay_method,
+                    partner,
+                    partner_name
                 },
             ])
             .select();

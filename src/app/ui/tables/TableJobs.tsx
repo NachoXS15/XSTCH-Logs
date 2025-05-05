@@ -46,7 +46,12 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                         </th>
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
                             <p className="block text-sm font-normal leading-none text-slate-500">
-                                Egreso/Fecha
+                                Fecha de Cobro Estimada
+                            </p>
+                        </th>
+                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                            <p className="block text-sm font-normal leading-none text-slate-500">
+                                Método de Pago
                             </p>
                         </th>
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
@@ -97,6 +102,11 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                                     <td className="p-4 border-b border-slate-200">
                                         <p className="block text-sm text-slate-800">
                                             {job.date}
+                                        </p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="block text-sm text-slate-800">
+                                            {job.pay_method}
                                         </p>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">

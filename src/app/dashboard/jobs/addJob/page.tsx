@@ -3,8 +3,8 @@ import { postJob } from "@/app/lib/data-client"
 export default function page() {
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-
+        e.preventDefault();
+        
         const formData = new FormData(e.currentTarget)
         const clientName = formData.get("nombre")?.toString();
         const price = formData.get("price")?.toString();
@@ -12,20 +12,16 @@ export default function page() {
         const active = formData.get("active")?.toString();
         const account = formData.get("account")?.toString();
         const obvs = formData.get("obvs")?.toString();
-
-        console.log({
-            clientName,
-            price,
-            date,
-            obvs,
-            account,
-            active
-        });
+        const partner = formData.get("partner") == "Solo" ? false : true;
+        const pay_method = formData.get("method")?.toString();
+        const partner_name = formData.get("partner_name")?.toString();
+        
         if (!clientName || !price || !account || !active || !date ||!obvs) {
             console.error("Todos los campos son obligatorios");
             return;
         }
-
+        console.log(pay_method);
+        
         try {
             await postJob({
                 client_name: clientName,
@@ -33,9 +29,12 @@ export default function page() {
                 date: date,
                 obvs: obvs,
                 account: account,
-                active: active
+                active: active,
+                partner: partner,
+                partner_name: partner_name, 
+                pay_method: pay_method
             })
-            window.location.href = "/dashboard/jobs"
+            // window.location.href = "/dashboard/jobs"
         } catch (error) {
             console.log("Error: ", error);
         }
@@ -64,6 +63,7 @@ export default function page() {
                             <option value="" disabled defaultChecked>Seleccionar</option>
                             <option value="Efectivo">Efectivo</option>
                             <option value="Transferencia">Transferencia</option>
+                            <option value="Mixto">Mixto</option>
                         </select>
                     </div>
                 </div>
