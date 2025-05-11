@@ -74,83 +74,86 @@ export default function Table({ clients }: { clients: clientType[] }) {
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    {
-                        clients.map((client, i) => {
-                            const selectedStatusField = StatusField.find(field => field.title === client.status)
-                            const selectedPaymentField = PaymentField.find(field => field.title === client.payment)
-                            const id = client.id
+                
+                            <tbody>
+                            {
+                                clients.map((client, i) => {
+                                    const selectedStatusField = StatusField.find(field => field.title === client.status)
+                                    const selectedPaymentField = PaymentField.find(field => field.title === client.payment)
+                                    const id = client.id
 
-                            totalEarned = totalEarned + client.price
-                            totalLogs = totalLogs + 1
-                            return (
-                                <tr key={i} className="hover:bg-slate-50">
-                                    <td className="p-4 border-b border-slate-200">
-                                        <p className="block text-sm text-slate-800">
-                                            {client.client_name}
-                                        </p>
+                                    totalEarned = totalEarned + client.price
+                                    totalLogs = totalLogs + 1
+                                    return (
+                                        
+                                        <tr key={i} className="hover:bg-slate-50">
+                                            <td className="p-4 border-b border-slate-200">
+                                                <p className="block text-sm text-slate-800">
+                                                    {client.client_name}
+                                                </p>
+                                            </td>
+                                            <td className="p-4 border-b border-slate-200">
+                                                <p className="block text-sm leading-6 text-slate-800 max-w-[400px] text-wrap">
+                                                    {client.service}
+                                                </p>
+                                            </td>
+                                            <td className="p-4 border-b border-slate-200">
+                                                <p className="block text-sm text-slate-800">
+                                                    ${showPrice ? client.price : "***"}
+                                                </p>
+                                            </td>
+                                            <td className="p-4 border-b border-slate-200">
+                                                <p className="block text-sm text-slate-800">
+                                                    {client.place}
+                                                </p>
+                                            </td>
+                                            <td className="p-4 border-b border-slate-200">
+                                                <p className="block text-sm text-slate-800">
+                                                    {client.egreso}
+                                                </p>
+                                            </td>
+                                            <td className="p-4 border-b border-slate-200">
+                                                <p className={`block text-sm rounded px-2 text-center py-1 ${selectedStatusField?.style}`}>
+                                                    {client.status}
+                                                </p>
+                                            </td>
+                                            <td className="p-4 border-b border-slate-200">
+                                                <p className={`block text-sm px-2 rounded text-center py-1 ${selectedPaymentField?.style}`}>
+                                                    {client.payment}
+                                                </p>
+                                            </td>
+                                            <td className="p-4 w-32 border-b border-slate-200">
+                                                <p className="block text-sm text-slate-800">
+                                                    {client.obvs == "" ? "-" : client.obvs}
+                                                </p>
+                                            </td>
+                                            <td className="p-4 border-b border-slate-200">
+                                                <Link href={`/dashboard/clients/${client.id}`} className="block text-center text-sm cursor-pointer hover:bg-purple-500 hover:text-purple-200 transition border border-purple-500 rounded px-2 py-1 text-purple-500">
+                                                    Editar
+                                                </Link>
+                                            </td>
+                                            <td className="p-4 border-b border-slate-200">
+                                                <button onClick={() => deleteClient(id)} className="block text-center text-sm cursor-pointer hover:bg-red-500 hover:text-red-200 border border-red-500 rounded px-2 py-1 transition text-red-500">
+                                                    Eliminar
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                    )
+                                })
+                            }
+                            </tbody>
+                            <tfoot>
+                                <tr className=' w-full '>
+                                    <td colSpan={2} className="p-4 text-left font-bold text-slate-800border-t-2 border-slate-300">
+                                        Total: {totalLogs}
                                     </td>
-                                    <td className="p-4 border-b border-slate-200">
-                                        <p className="block text-sm leading-6 text-slate-800 max-w-[400px] text-wrap">
-                                            {client.service}
-                                        </p>
-                                    </td>
-                                    <td className="p-4 border-b border-slate-200">
-                                        <p className="block text-sm text-slate-800">
-                                            ${showPrice ? client.price : "***"}
-                                        </p>
-                                    </td>
-                                    <td className="p-4 border-b border-slate-200">
-                                        <p className="block text-sm text-slate-800">
-                                            {client.place}
-                                        </p>
-                                    </td>
-                                    <td className="p-4 border-b border-slate-200">
-                                        <p className="block text-sm text-slate-800">
-                                            {client.egreso}
-                                        </p>
-                                    </td>
-                                    <td className="p-4 border-b border-slate-200">
-                                        <p className={`block text-sm rounded px-2 text-center py-1 ${selectedStatusField?.style}`}>
-                                            {client.status}
-                                        </p>
-                                    </td>
-                                    <td className="p-4 border-b border-slate-200">
-                                        <p className={`block text-sm px-2 rounded text-center py-1 ${selectedPaymentField?.style}`}>
-                                            {client.payment}
-                                        </p>
-                                    </td>
-                                    <td className="p-4 w-32 border-b border-slate-200">
-                                        <p className="block text-sm text-slate-800">
-                                            {client.obvs == "" ? "-" : client.obvs}
-                                        </p>
-                                    </td>
-                                    <td className="p-4 border-b border-slate-200">
-                                        <Link href={`/dashboard/clients/${client.id}`} className="block text-center text-sm cursor-pointer hover:bg-purple-500 hover:text-purple-200 transition border border-purple-500 rounded px-2 py-1 text-purple-500">
-                                            Editar
-                                        </Link>
-                                    </td>
-                                    <td className="p-4 border-b border-slate-200">
-                                        <button onClick={() => deleteClient(id)} className="block text-center text-sm cursor-pointer hover:bg-red-500 hover:text-red-200 border border-red-500 rounded px-2 py-1 transition text-red-500">
-                                            Eliminar
-                                        </button>
+                                    <td colSpan={2} className="p-4 font-semibold text-slate-800 border-t border-slate-300">
+                                        ${showPrice ? totalEarned: "***"}
                                     </td>
                                 </tr>
-
-                            )
-                        })
-                    }
-                </tbody>
-                <tfoot>
-                    <tr className=' w-full '>
-                        <td colSpan={2} className="p-4 text-left font-bold text-slate-800border-t-2 border-slate-300">
-                            Total: {totalLogs}
-                        </td>
-                        <td colSpan={2} className="p-4 font-semibold text-slate-800 border-t border-slate-300">
-                            ${showPrice ? totalEarned: "***"}
-                        </td>
-                    </tr>
-                </tfoot>
+                            </tfoot>
+   
             </table>
             <div className="flex justify-between items-center px-4 py-3">
                 <div className="text-sm text-slate-500">

@@ -3,13 +3,13 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import Table from "@/app/ui/tables/TableJobs";
 import { fetchJobs } from "@/app/lib/data-server";
-export default async function page({ searchParams }: {searchParams?: {q?: string}}) {
+export default async function page({searchParams}: {searchParams: {q?: string}}) {
 
-  const search = searchParams?.q?.toLowerCase() || ""
+  const { q = "" } = await searchParams;
 
   const jobs = await fetchJobs();
   const filteredJobs = jobs.filter(job =>
-    job.client_name.toLowerCase().includes(search)
+    job.client_name.toLowerCase().includes(q)
   );
   const supabase = await createClient()
   const { data, error } = await supabase.auth.getUser()
@@ -33,7 +33,7 @@ export default async function page({ searchParams }: {searchParams?: {q?: string
               <input
                 className="bg-white w-full pr-11 h-10 pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
                 placeholder="Buscar Trabajos"
-                defaultValue={search}
+                defaultValue={q}
                 name="q"
               />
               <button
@@ -46,6 +46,7 @@ export default async function page({ searchParams }: {searchParams?: {q?: string
               </button>
             </form>
           </div>
+          <Link href="/dashboard/jobs" className={`${q != "" ? "text-nowrap text-md text-slate-500 hover:scale-105" : "hidden"}`}>Limpiar</Link>
         </div>
       </div>
       <div className="flex flex-col w-full h-full overflow-x-hidden text-gray-700 bg-white shadow-md rounded-lg">

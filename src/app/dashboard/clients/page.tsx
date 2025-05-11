@@ -7,10 +7,14 @@ import { redirect } from "next/navigation";
 
 export default async function page({searchParams}: {searchParams: {q?: string}}) {
 
-  const search = searchParams?.q?.toLowerCase() || "";
+  //const search = await searchParams?.q?.toLowerCase() || "";
+
+  const { q = "" } = await searchParams;
+  
 
   const clients = await fetchClients();
-  const filteredClients = clients.filter(client => client.client_name.toLowerCase().includes(search))
+  const filteredClients = clients.filter(client => client.client_name.toLowerCase().includes(q))
+  
 
   const supabase = await createClient()
   const { data, error } = await supabase.auth.getUser()
@@ -33,31 +37,19 @@ export default async function page({searchParams}: {searchParams: {q?: string}})
                 className="bg-white w-full pr-11 h-10 pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
                 placeholder="Buscar registros"
                 name="q"
-                defaultValue={search}
+                defaultValue={q}
               />
-              {
-                search == "" ? (
-                  <button
-                    className="absolute hover:scale-105 transition h-8 w-8 right-1 top-1 my-auto px-2 flex items-center bg-white rounded "
-                    type="submit"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-8 h-8 text-slate-600">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                    </svg>
-                  </button>
-                ) : (
-                  <button
-                    className="absolute h-8 w-8 right-1 top-1 my-auto px-2 flex items-center bg-white rounded"
-                    type="reset"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                )
-              }
+              <button
+                className="absolute hover:scale-105 transition h-8 w-8 right-1 top-1 my-auto px-2 flex items-center bg-white rounded "
+                type="submit"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-8 h-8 text-slate-600">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+              </button>
             </form>
           </div>
+          <Link href="/dashboard/clients" className={`${q != "" ? "text-nowrap text-md text-slate-500 hover:scale-105" : "hidden"}`}>Limpiar</Link>
         </div>
       </div>
       <div className="flex flex-col w-full h-[700px] overflow-x-hidden text-gray-700 bg-white shadow-md rounded-lg">
