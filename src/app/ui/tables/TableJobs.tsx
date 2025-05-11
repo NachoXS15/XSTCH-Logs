@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { jobsType } from "../../lib/definitions"
-import { EyeIcon, EyeClosedIcon } from 'lucide-react'
+import { EyeIcon, EyeClosedIcon, UserIcon } from 'lucide-react'
 import { useState } from 'react'
 import { deleteJob } from '@/app/dashboard/jobs/actions'
 import { InstagramIcon } from '../Icons'
@@ -11,7 +11,7 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
     const ActiveField = [
         { title: "Activo", style: "text-green-600 bg-green-200" },
         { title: "Por confirmar", style: "text-blue-500 bg-blue-200" },
-        { title: "No Activo", style: "text-red-600 bg-red-300" },
+        { title: "No Activo", style: "text-red-600 bg-red-300 px-2" },
     ]
 
 
@@ -47,6 +47,11 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
                             <p className="block text-sm font-normal leading-none text-slate-500">
                                 Fecha de Cobro Estimada
+                            </p>
+                        </th>
+                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                            <p className="block text-sm font-normal leading-none text-slate-500">
+                                Compañero/a
                             </p>
                         </th>
                         <th className="p-4 border-b border-slate-300 bg-slate-50">
@@ -105,6 +110,12 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                                         </p>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
+                                        <p className="text-sm text-slate-800 flex items-center">
+                                            <UserIcon />
+                                            {job.partner_name == "" ? "Solo" : job.partner_name}
+                                        </p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
                                         <p className="block text-sm text-slate-800">
                                             {job.pay_method}
                                         </p>
@@ -114,18 +125,17 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                                             {job.obvs == "" ? "-" : job.obvs}
                                         </p>
                                     </td>
-                                    <td className="border-b border-slate-200">
+                                    <td className="border-b border-slate-200 pr-5">
                                         <Link href={`/dashboard/jobs/${job.id}`} className="w-fit block text-center text-sm cursor-pointer hover:bg-purple-500 hover:text-purple-200 transition border border-purple-500 rounded px-2 py-1 text-purple-500">
                                             Editar
                                         </Link>
                                     </td>
-                                    <td className="border-b border-slate-200">
+                                    <td className="border-b border-slate-200 pr-5">
                                         <button onClick={() => deleteJob(id.id)} className="block text-center text-sm cursor-pointer hover:bg-red-500 hover:text-red-200 border border-red-500 rounded px-2 py-1 transition text-red-500">
                                             Eliminar
                                         </button>
                                     </td>
                                 </tr>
-
                             )
                         })
                     }
@@ -136,7 +146,8 @@ export default function Table({ jobs }: { jobs: jobsType[] }) {
                             Total: {totalLogs}
                         </td>
                         <td colSpan={2} className="p-4 font-semibold text-slate-800 border-t border-slate-300">
-                            ${totalEarned}
+                            ${showPrice ? totalEarned : "***"}
+                            <button onClick={() => setShowPrice(!showPrice)}>{showPrice ? <EyeIcon size={20} className='hover:scale-110 transition cursor-pointer' /> : <EyeClosedIcon size={20} className='hover:scale-110 transition cursor-pointer' />}</button>
                         </td>
                     </tr>
                 </tfoot>

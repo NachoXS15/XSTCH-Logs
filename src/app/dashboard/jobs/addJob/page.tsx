@@ -34,7 +34,7 @@ export default function page() {
                 partner_name: partner_name, 
                 pay_method: pay_method
             })
-            // window.location.href = "/dashboard/jobs"
+            window.location.href = "/dashboard/jobs"
         } catch (error) {
             console.log("Error: ", error);
         }

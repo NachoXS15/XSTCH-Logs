@@ -3,14 +3,21 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import Table from "@/app/ui/tables/TableJobs";
 import { fetchJobs } from "@/app/lib/data-server";
-export default async function page() {
+export default async function page({ searchParams }: {searchParams?: {q?: string}}) {
+
+  const search = searchParams?.q?.toLowerCase() || ""
 
   const jobs = await fetchJobs();
+  const filteredJobs = jobs.filter(job =>
+    job.client_name.toLowerCase().includes(search)
+  );
   const supabase = await createClient()
   const { data, error } = await supabase.auth.getUser()
   if (error || !data?.user) {
     redirect('/login')
   }
+
+
 
   return (
     <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
@@ -22,14 +29,16 @@ export default async function page() {
         <div className="w-full md:w-fit ml-3 flex gap-4 items-center justify-between md:justify-start">
           <Link href="/dashboard/jobs/addJob" className="w-fit text-nowrap text-md text-slate-500 hover:scale-105 transition">Agregar Trabajo</Link>
           <div className="w-full max-w-sm min-w-[200px] relative">
-            <form className="relative">
+            <form className="relative" method="GET">
               <input
                 className="bg-white w-full pr-11 h-10 pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
                 placeholder="Buscar Trabajos"
+                defaultValue={search}
+                name="q"
               />
               <button
                 className="absolute h-8 w-8 right-1 top-1 my-auto px-2 flex items-center bg-white rounded"
-                type="button"
+                type="submit"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-8 h-8 text-slate-600">
                   <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -41,7 +50,7 @@ export default async function page() {
       </div>
       <div className="flex flex-col w-full h-full overflow-x-hidden text-gray-700 bg-white shadow-md rounded-lg">
         <div className="overflow-x-auto">
-          <Table jobs={jobs} />
+          <Table jobs={filteredJobs} />
         </div>
       </div>
     </section>
