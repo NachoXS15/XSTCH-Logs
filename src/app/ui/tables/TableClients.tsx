@@ -120,7 +120,7 @@ export default function Table({ clients }: { clients: clientType[] }) {
                                             {client.payment}
                                         </p>
                                     </td>
-                                    <td className="p-4 border-b border-slate-200">
+                                    <td className="p-4 w-32 border-b border-slate-200">
                                         <p className="block text-sm text-slate-800">
                                             {client.obvs == "" ? "-" : client.obvs}
                                         </p>
@@ -147,7 +147,7 @@ export default function Table({ clients }: { clients: clientType[] }) {
                             Total: {totalLogs}
                         </td>
                         <td colSpan={2} className="p-4 font-semibold text-slate-800 border-t border-slate-300">
-                            ${totalEarned}
+                            ${showPrice ? totalEarned: "***"}
                         </td>
                     </tr>
                 </tfoot>

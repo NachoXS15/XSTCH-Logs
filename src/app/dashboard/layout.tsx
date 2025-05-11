@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 
 export default async function layout({children}: {children: React.ReactNode}) {
-
   
   return (
     <main className="w-full min-h-screen overflow-x-hidden flex flex-col-reverse md:flex-row md:justify-start justify-between bg-white text-black font-[family-name:var(--font-poppins)]">
