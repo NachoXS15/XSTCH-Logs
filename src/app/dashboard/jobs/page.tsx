@@ -4,17 +4,11 @@ import { redirect } from "next/navigation";
 import Table from "@/app/ui/tables/TableJobs";
 import { fetchJobs } from "@/app/lib/data-server";
 
-interface PageProps {
-  searchParams?: Record<string, string | string[] | undefined>;
-}
-export default async function Page({searchParams}: PageProps) {
+export default async function Page() {
 
-  const search = searchParams?.q?.toString().toLowerCase() ?? "";
 
   const jobs = await fetchJobs();
-  const filteredJobs = jobs.filter(job =>
-    job.client_name.toLowerCase().includes(search)
-  );
+
   const supabase = await createClient()
   const { data, error } = await supabase.auth.getUser()
   if (error || !data?.user) {
@@ -37,7 +31,6 @@ export default async function Page({searchParams}: PageProps) {
               <input
                 className="bg-white w-full pr-11 h-10 pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
                 placeholder="Buscar Trabajos"
-                defaultValue={search}
                 name="q"
               />
               <button
@@ -50,12 +43,12 @@ export default async function Page({searchParams}: PageProps) {
               </button>
             </form>
           </div>
-          <Link href="/dashboard/jobs" className={`${search != "" ? "text-nowrap text-md text-slate-500 hover:scale-105" : "hidden"}`}>Limpiar</Link>
+          {/* <Link href="/dashboard/jobs" className={`${search != "" ? "text-nowrap text-md text-slate-500 hover:scale-105" : "hidden"}`}>Limpiar</Link> */}
         </div>
       </div>
       <div className="flex flex-col w-full h-full overflow-x-hidden text-gray-700 bg-white shadow-md rounded-lg">
         <div className="overflow-x-auto">
-          <Table jobs={filteredJobs} />
+          <Table jobs={jobs} />
         </div>
       </div>
     </section>
