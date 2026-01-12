@@ -14,6 +14,9 @@ importers:
       '@supabase/ssr':
         specifier: ^0.5.2
         version: 0.5.2(@supabase/supabase-js@2.90.1(bufferutil@4.1.0))
+      '@supabase/supabase-js':
+        specifier: ^2.90.1
+        version: 2.90.1(bufferutil@4.1.0)
       '@vercel/postgres':
         specifier: ^0.10.0
         version: 0.10.0
