@@ -14,7 +14,7 @@ export default function Sidebar() {
         { id: 2, content: "Registros", link: "/dashboard/clients", icon: Computer },
         { id: 3, content: "Alumnos", link: "/dashboard/students", icon: Star },
         { id: 4, content: "Trabajos", link: "/dashboard/jobs", icon: Shovel },
-        { id: 5, content: "Calculadora", link: "/dashboard/jobs", icon: Calculator },
+        { id: 5, content: "Calculadora", link: "/dashboard/calculator", icon: Calculator },
         // { id: 6, content: "Proyectos", link: "/dashboard/projects", icon: BookMarked },
     ]
 
