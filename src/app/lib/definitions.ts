@@ -1,3 +1,5 @@
+import type { CookieOptions } from '@supabase/ssr'
+
 export interface clientType{
     id?: string
     client_name: string
@@ -46,4 +48,10 @@ export interface jobsType {
     pay_method?: string
     partner: boolean
     partner_name?: string
+}
+
+export type CookieSetup = {
+  name: string
+  value: string
+  options: CookieOptions
 }
