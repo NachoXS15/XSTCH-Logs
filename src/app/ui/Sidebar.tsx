@@ -4,12 +4,14 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 import { LogOut, Computer, MenuIcon, Sun, ChevronRight, House, Star, Shovel, Calculator} from 'lucide-react'
-import logo from '../assets/xs-black.png';
+import logo1 from '../assets/xs-black.png';
+import logo2 from '../assets/xs-white.png';
+import { useTheme } from "next-themes"
 import ToggleTheme from "./ToggleTheme"
 export default function Sidebar() {
     const [toggled, setToggled] = useState(false)
     const pathname = usePathname()
-
+    const {theme, setTheme} = useTheme()
     const links = [
         { id: 1, content: "Inicio", link: "/dashboard", icon: House },
         { id: 2, content: "Registros", link: "/dashboard/clients", icon: Computer },
@@ -26,7 +28,7 @@ export default function Sidebar() {
                 <div className="flex flex-col items-center justify-between h-full">
                     <div className="w-full flex flex-col gap-8">
                         <div className={`flex items-center ${toggled ? "flex-row" : "flex-col-reverse gap-5"} justify-between`}>
-                            <Image src={logo} alt="logo" className={`${toggled ? "w-20 h-20 object-contain" : "min-w-12 min-h-12 object-contain"}`} />
+                            <Image src={theme == "light" ? logo1 : logo2} alt="logo" className={`${toggled ? "w-20 h-20 object-contain" : "min-w-12 min-h-12 object-contain"}`} />
                             {/* <button className="hidden md:block" onClick={() => setToggled(!toggled)}>{toggled ? <MenuIcon /> : <ChevronRight />}</button> */}
                         </div>
                         <nav className="w-full flex items-center flex-col gap-4">
