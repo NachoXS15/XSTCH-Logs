@@ -15,7 +15,7 @@ export default async function page() {
     <div className='w-full xl:w-5/6  px-5 py-10 flex items-center justify-start flex-col'>
       <div className="w-full flex justify-between items-center">
         <div className="text-left w-full">
-            <h3 className="text-lg font-semibold ml-3 text-slate-800">¡Bienvenido, Nacho!</h3>
+            <h3 className="text-lg font-semibold ml-3 text-slate-800 dark:text-slate-50">¡Bienvenido, Nacho!</h3>
             <p className="text-slate-500 mb-5 ml-3">¿Qué necesitas revisar o registrar hoy?</p>
           </div>
         </div>
