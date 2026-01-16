@@ -55,3 +55,8 @@ export type CookieSetup = {
   value: string
   options: CookieOptions
 }
+
+export interface Service {
+  name: string;
+  price: number;
+}
