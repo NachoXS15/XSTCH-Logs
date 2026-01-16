@@ -13,7 +13,7 @@ export default function CardD({title, desc, link}: CardType) {
                 <h2 className='text-slate-800 dark:text-white font-bold text-xl'>{title}</h2>
                 <p className='text-slate-500 dark:text-slate-400'>{desc}</p>
             </div>
-            <Link href={link} className='rounded-md bg-black dark:bg-transparent w-fit px-3 py-1 text-white hover:bg-white hover:text-black dark:hover:text-white transition border'>Ver Más</Link>
+            <Link href={link} className='rounded-md bg-black dark:bg-transparent w-fit px-3 py-1 text-white hover:bg-white hover:text-black dark:hover:bg-white dark:hover:text-slate-900 transition border'>Ver Más</Link>
         </div>
     )
 }
