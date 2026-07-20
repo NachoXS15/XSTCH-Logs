@@ -1,16 +1,17 @@
 'use client'
 
 import { Services } from "@/app/utils/services";
-import { GripVertical, X } from "lucide-react";
+import { GripVertical, X, Minus, Plus, FileDown } from "lucide-react";
 import { useState } from "react";
 import { Service } from "@/app/lib/definitions";
-
 
 export default function page() {
 
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
+    const [quantities, setQuantities] = useState<Record<string, number>>({});
     const [draggedItem, setDraggedItem] = useState<Service | null>(null);
     const [isDomicilio, setIsDomicilio] = useState(false)
+
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>, service: Service): void => {
         setDraggedItem(service);
         e.dataTransfer.effectAllowed = 'copy';
@@ -25,19 +26,122 @@ export default function page() {
         e.preventDefault();
         if (draggedItem && !selectedServices.find(s => s.name === draggedItem.name)) {
             setSelectedServices([...selectedServices, draggedItem]);
+            setQuantities(prev => ({ ...prev, [draggedItem.name]: 1 }));
         }
         setDraggedItem(null);
     };
 
     const handleRemoveService = (serviceName: string): void => {
         setSelectedServices(selectedServices.filter(s => s.name !== serviceName));
+        setQuantities(prev => {
+            const next = { ...prev };
+            delete next[serviceName];
+            return next;
+        });
+    };
+
+    const handleQuantityChange = (serviceName: string, delta: number): void => {
+        setQuantities(prev => {
+            const current = prev[serviceName] ?? 1;
+            const next = Math.max(1, current + delta);
+            return { ...prev, [serviceName]: next };
+        });
     };
 
     const calculateTotal = (): number => {
-        const servicesTotal = selectedServices.reduce((sum, service) => sum + service.price, 0);
-        const valorDomicilio = isDomicilio ? 5000 : 0
-        return servicesTotal + valorDomicilio
+        const servicesTotal = selectedServices.reduce(
+            (sum, service) => sum + service.price * (quantities[service.name] ?? 1),
+            0
+        );
+        return servicesTotal + (isDomicilio ? 5000 : 0);
     };
+
+    const exportToPDF = async (): Promise<void> => {
+        const { jsPDF } = await import('jspdf')
+        const doc = new jsPDF()
+
+        const pageWidth = doc.internal.pageSize.getWidth()
+        const today = new Date().toLocaleDateString('es-AR', {
+            day: '2-digit', month: '2-digit', year: 'numeric'
+        })
+
+        // Header
+        doc.setFontSize(20)
+        doc.setFont('helvetica', 'bold')
+        doc.text('XSTCH - Presupuesto', pageWidth / 2, 20, { align: 'center' })
+
+        doc.setFontSize(10)
+        doc.setFont('helvetica', 'normal')
+        doc.setTextColor(120)
+        doc.text(`Fecha: ${today}`, pageWidth / 2, 28, { align: 'center' })
+        doc.setTextColor(0)
+
+        // Table header
+        const startY = 40
+        const colX = { servicio: 14, cant: 120, precio: 140, subtotal: 165 }
+
+        doc.setFillColor(30, 41, 59)
+        doc.rect(14, startY - 6, pageWidth - 28, 10, 'F')
+        doc.setTextColor(255)
+        doc.setFontSize(10)
+        doc.setFont('helvetica', 'bold')
+        doc.text('Servicio', colX.servicio + 2, startY)
+        doc.text('Cant.', colX.cant, startY)
+        doc.text('P. Unit.', colX.precio, startY)
+        doc.text('Subtotal', colX.subtotal, startY)
+        doc.setTextColor(0)
+
+        // Rows
+        doc.setFont('helvetica', 'normal')
+        doc.setFontSize(9)
+        let y = startY + 10
+
+        selectedServices.forEach((service, i) => {
+            const qty = quantities[service.name] ?? 1
+            const subtotal = service.price * qty
+
+            if (i % 2 === 0) {
+                doc.setFillColor(241, 245, 249)
+                doc.rect(14, y - 5, pageWidth - 28, 9, 'F')
+            }
+
+            const nameLines = doc.splitTextToSize(service.name, 100)
+            doc.text(nameLines, colX.servicio + 2, y)
+            doc.text(String(qty), colX.cant + 4, y)
+            doc.text(`$${service.price.toLocaleString('es-AR')}`, colX.precio, y)
+            doc.text(`$${subtotal.toLocaleString('es-AR')}`, colX.subtotal, y)
+
+            y += nameLines.length > 1 ? nameLines.length * 6 + 2 : 10
+        })
+
+        // Domicilio row
+        if (isDomicilio) {
+            doc.setFillColor(254, 243, 199)
+            doc.rect(14, y - 5, pageWidth - 28, 9, 'F')
+            doc.text('Visita a domicilio', colX.servicio + 2, y)
+            doc.text('1', colX.cant + 4, y)
+            doc.text('$5.000', colX.precio, y)
+            doc.text('$5.000', colX.subtotal, y)
+            y += 10
+        }
+
+        // Total
+        y += 4
+        doc.setDrawColor(30, 41, 59)
+        doc.line(14, y - 2, pageWidth - 14, y - 2)
+        doc.setFont('helvetica', 'bold')
+        doc.setFontSize(11)
+        doc.text('TOTAL', colX.precio - 20, y + 6)
+        doc.text(`$${calculateTotal().toLocaleString('es-AR')}`, colX.subtotal, y + 6)
+
+        // Footer
+        doc.setFont('helvetica', 'italic')
+        doc.setFontSize(8)
+        doc.setTextColor(150)
+        doc.text('Presupuesto generado por XSTCH Logs', pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' })
+
+        doc.save(`presupuesto-xstch-${today.replace(/\//g, '-')}.pdf`)
+    }
 
     return (
         <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
@@ -48,41 +152,6 @@ export default function page() {
                 </div>
             </div>
             <section className="w-full flex flex-col md:flex-row gap-14">
-                {/* <table className="text-left table-auto w-1/4 overflow-hidden">
-                    <thead className="w-full border-b border-slate-300 bg-slate-50">
-                        <tr className='w-full'>
-                            <th className="p-4 border-b border-slate-300 bg-slate-50">
-                                <p className="block text-sm font-normal leading-none text-slate-500 dark:text-slate-950">
-                                    Servicio
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-300 bg-slate-50">
-                                <p className="block text-sm font-normal leading-none text-slate-500 dark:text-slate-950">
-                                    Precio
-                                </p>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            Services.map((service, i) => (
-                                <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-500 text-slate-500 dark:text-slate-50">
-                                    <td className="p-4 border-b border-slate-200">
-                                        <p className="block text-sm">
-                                            {service.name}
-                                        </p>
-                                    </td>
-                                    <td className="p-4 border-b border-slate-200">
-                                        <p className="block text-sm">
-                                            ${service.price}
-                                        </p>
-                                    </td>
-                                </tr>
-                            ))
-                        }
-
-                    </tbody>
-                </table> */}
                 <div className="w-full">
                     <p className="text-slate-500 mb-4">Arrastra los servicios solicitados para calcular el costo</p>
                     <div className="w-full flex flex-col md:flex-row gap-5">
@@ -118,38 +187,67 @@ export default function page() {
                                 </div>
                             ) : (
                                 <div className="flex flex-col gap-2">
-                                    <div className="flex justify-between">
-                                        <h5 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">Servicios seleccionados:</h5>
-                                        <div>
+                                    <div className="flex justify-between items-center mb-2">
+                                        <h5 className="text-sm font-semibold text-slate-700 dark:text-slate-200">Servicios seleccionados:</h5>
+                                        <div className="flex items-center gap-2">
                                             <input type="checkbox" id="checkDomicilio" onChange={() => setIsDomicilio(!isDomicilio)} />
-                                            <label htmlFor="checkDomicilio" className="px-2 text-slate-700 dark:text-slate-200">Realizar en Domicilio</label>
+                                            <label htmlFor="checkDomicilio" className="text-slate-700 dark:text-slate-200 text-sm">Domicilio</label>
                                         </div>
                                     </div>
-                                    {selectedServices.map((service, i) => (
-                                        <div
-                                            key={i}
-                                            className="flex items-center justify-between bg-white dark:bg-slate-700 p-3 rounded-lg shadow-sm"
-                                        >
-                                            <span className="text-slate-700 dark:text-slate-100 text-sm">{service.name}</span>
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-slate-600 dark:text-slate-300 font-medium">${service.price}</span>
+                                    {selectedServices.map((service, i) => {
+                                        const qty = quantities[service.name] ?? 1
+                                        return (
+                                            <div
+                                                key={i}
+                                                className="flex items-center justify-between bg-white dark:bg-slate-700 p-3 rounded-lg shadow-sm gap-2"
+                                            >
+                                                <span className="text-slate-700 dark:text-slate-100 text-sm flex-1 min-w-0 truncate">{service.name}</span>
+                                                <div className="flex items-center gap-1 shrink-0">
+                                                    <button
+                                                        onClick={() => handleQuantityChange(service.name, -1)}
+                                                        className="w-6 h-6 flex items-center justify-center rounded bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-500 text-slate-700 dark:text-slate-100 transition-colors"
+                                                    >
+                                                        <Minus size={12} />
+                                                    </button>
+                                                    <span className="w-6 text-center text-sm font-medium text-slate-700 dark:text-slate-100">{qty}</span>
+                                                    <button
+                                                        onClick={() => handleQuantityChange(service.name, 1)}
+                                                        className="w-6 h-6 flex items-center justify-center rounded bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-500 text-slate-700 dark:text-slate-100 transition-colors"
+                                                    >
+                                                        <Plus size={12} />
+                                                    </button>
+                                                </div>
+                                                <span className="text-slate-600 dark:text-slate-300 font-medium text-sm shrink-0">
+                                                    ${(service.price * qty).toLocaleString('es-AR')}
+                                                </span>
                                                 <button
                                                     onClick={() => handleRemoveService(service.name)}
-                                                    className="text-red-500 hover:text-red-700 transition-colors"
+                                                    className="text-red-500 hover:text-red-700 transition-colors shrink-0"
                                                     aria-label={`Eliminar ${service.name}`}
                                                 >
                                                     <X size={18} />
                                                 </button>
                                             </div>
-                                        </div>
-                                    ))}
+                                        )
+                                    })}
                                 </div>
                             )}
                         </div>
                     </div>
                 </div>
             </section>
-            <span className="self-end dark:text-white text-lg mt-3">Total: <strong>${calculateTotal()}</strong></span>
+            <div className="self-end flex items-center gap-4 mt-3">
+                <span className="dark:text-white text-lg">Total: <strong>${calculateTotal().toLocaleString('es-AR')}</strong></span>
+                {selectedServices.length > 0 && (
+                    <button
+                        onClick={exportToPDF}
+                        className="flex items-center gap-2 bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-800 px-4 py-2 rounded-lg hover:bg-slate-700 dark:hover:bg-slate-300 transition-colors text-sm font-medium"
+                    >
+                        <FileDown size={16} />
+                        Exportar PDF
+                    </button>
+                )}
+            </div>
         </section>
     )
 }

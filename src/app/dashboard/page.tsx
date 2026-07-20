@@ -5,11 +5,11 @@ import { createClient } from '../utils/supabase/server'
 import { redirect } from 'next/navigation'
 export default async function page() {
 
-  const supabase = await createClient()
-    const { data, error } = await supabase.auth.getUser()
-    if (error || !data?.user) {
-      redirect('/login')
-    }
+  // const supabase = await createClient()
+  //   const { data, error } = await supabase.auth.getUser()
+  //   if (error || !data?.user) {
+  //     redirect('/login')
+  //   }
 
   return (
     <div className='w-full xl:w-5/6  px-5 py-10 flex items-center justify-start flex-col'>

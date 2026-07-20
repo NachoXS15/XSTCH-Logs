@@ -1,5 +1,5 @@
 import { createClient } from '../utils/supabase/server';
-import {clientType, jobsType, studentType} from './definitions';
+import {clientType, jobsType, studentType, expenseType, savingsProjectType} from './definitions';
 
 //clients
 const fetchClients = async(): Promise <clientType[]> => {
@@ -87,4 +87,26 @@ const fetchJobsByID = async(id: string): Promise <jobsType | null> => {
     }
 }
 
-export {fetchClients, fetchClientByID, deleteClient, fetchStudents, fetchStudentByID, fetchJobs, fetchJobsByID};
+const fetchExpenses = async(): Promise<expenseType[]> => {
+    try {
+        const supabase = await createClient();
+        const { data: expenses } = await supabase.from('expenses').select('*').order('created_at', {ascending: false});
+        return expenses as expenseType[]
+    } catch (error) {
+        console.error("Error: ", error);
+        return [];
+    }
+}
+
+const fetchSavingsProjects = async(): Promise<savingsProjectType[]> => {
+    try {
+        const supabase = await createClient();
+        const { data: projects } = await supabase.from('savings_projects').select('*').order('created_at', {ascending: false});
+        return projects as savingsProjectType[]
+    } catch (error) {
+        console.error("Error: ", error);
+        return [];
+    }
+}
+
+export {fetchClients, fetchClientByID, deleteClient, fetchStudents, fetchStudentByID, fetchJobs, fetchJobsByID, fetchExpenses, fetchSavingsProjects};

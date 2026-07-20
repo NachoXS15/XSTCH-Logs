@@ -60,3 +60,22 @@ export interface Service {
   name: string;
   price: number;
 }
+
+export interface expenseType {
+  id?: string
+  name: string
+  amount: number
+  category: string
+  active: boolean
+  created_at?: string
+}
+
+export interface savingsProjectType {
+  id?: string
+  name: string
+  goal_amount: number
+  current_amount: number
+  description?: string
+  deadline?: string
+  created_at?: string
+}

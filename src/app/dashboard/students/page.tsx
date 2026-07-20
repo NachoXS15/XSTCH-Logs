@@ -17,15 +17,15 @@ export default async function page() {
     <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
       <div className="w-full flex flex-col py-5 md:flex-row justify-between items-center">
         <div className="text-left w-full border-b border-slate-200 mb-4 md:border-0 md:mb-0">
-          <h3 className="text-lg font-semibold ml-3 text-slate-800">Alumnos</h3>
-          <p className="text-slate-500 mb-5 ml-3">Alumnos para clases particulares</p>
+          <h3 className="text-lg font-semibold ml-3 text-slate-800 dark:text-slate-50">Alumnos</h3>
+          <p className="text-slate-500 dark:text-slate-400 mb-5 ml-3">Alumnos para clases particulares</p>
         </div>
         <div className="w-full md:w-fit ml-3 flex gap-4 items-center justify-between md:justify-start">
-          <Link href="/dashboard/students/addStudent" className="w-fit text-nowrap text-md text-slate-500 hover:scale-105 transition">Agregar Alumno</Link>
+          <Link href="/dashboard/students/addStudent" className="w-fit text-nowrap text-md text-slate-500 dark:text-slate-300 hover:scale-105 transition">Agregar Alumno</Link>
           <div className="w-full max-w-sm min-w-[200px] relative">
             <form className="relative">
               <input
-                className="bg-white w-full pr-11 h-10 pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
+                className="bg-white dark:bg-slate-900 dark:text-slate-200 dark:border-slate-700 dark:placeholder:text-slate-500 w-full pr-11 h-10 pl-3 py-2 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-300 ease focus:outline-none focus:border-slate-400 dark:focus:border-slate-500 hover:border-slate-400 shadow-sm focus:shadow-md"
                 placeholder="Buscar Alumnos"
               />
               <button
@@ -40,7 +40,7 @@ export default async function page() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full h-full overflow-x-hidden text-gray-700 bg-white shadow-md rounded-lg">
+      <div className="flex flex-col w-full h-full overflow-x-hidden text-gray-700 dark:text-slate-200 bg-white dark:bg-slate-900 shadow-md rounded-lg">
         <div className="overflow-x-auto">
           <Table students={students} />
         </div>
