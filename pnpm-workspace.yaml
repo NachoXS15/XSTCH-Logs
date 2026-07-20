@@ -1,6 +1,0 @@
-allowBuilds:
-  bufferutil: false
-  core-js: false
-  sharp: true
-  supabase: false
-  unrs-resolver: false
