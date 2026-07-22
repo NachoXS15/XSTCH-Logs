@@ -20,6 +20,7 @@
     "postgres": "^3.4.5",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "recharts": "^3.10.0",
     "supabase": "^2.6.8"
   },
   "devDependencies": {

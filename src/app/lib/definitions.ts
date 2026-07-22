@@ -79,3 +79,20 @@ export interface savingsProjectType {
   deadline?: string
   created_at?: string
 }
+
+export interface projectContributionType {
+  id?: string
+  project_id: string
+  amount: number
+  note?: string
+  created_at?: string
+}
+
+export interface projectExpenseType {
+  id?: string
+  project_id: string
+  name: string
+  amount: number
+  note?: string
+  created_at?: string
+}

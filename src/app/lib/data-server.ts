@@ -1,5 +1,5 @@
 import { createClient } from '../utils/supabase/server';
-import {clientType, jobsType, studentType, expenseType, savingsProjectType} from './definitions';
+import {clientType, jobsType, studentType, expenseType, savingsProjectType, projectContributionType, projectExpenseType} from './definitions';
 
 //clients
 const fetchClients = async(): Promise <clientType[]> => {
@@ -109,4 +109,38 @@ const fetchSavingsProjects = async(): Promise<savingsProjectType[]> => {
     }
 }
 
-export {fetchClients, fetchClientByID, deleteClient, fetchStudents, fetchStudentByID, fetchJobs, fetchJobsByID, fetchExpenses, fetchSavingsProjects};
+const fetchSavingsProjectById = async(id: string): Promise<savingsProjectType | null> => {
+    try {
+        const supabase = await createClient();
+        const { data: project, error } = await supabase.from('savings_projects').select('*').eq('id', id).single();
+        if (error) throw error;
+        return project as savingsProjectType
+    } catch (error) {
+        console.error("Error: ", error);
+        return null;
+    }
+}
+
+const fetchProjectContributions = async(project_id: string): Promise<projectContributionType[]> => {
+    try {
+        const supabase = await createClient();
+        const { data } = await supabase.from('project_contributions').select('*').eq('project_id', project_id).order('created_at', {ascending: false});
+        return (data as projectContributionType[]) ?? []
+    } catch (error) {
+        console.error("Error: ", error);
+        return [];
+    }
+}
+
+const fetchProjectExpenses = async(project_id: string): Promise<projectExpenseType[]> => {
+    try {
+        const supabase = await createClient();
+        const { data } = await supabase.from('project_expenses').select('*').eq('project_id', project_id).order('created_at', {ascending: false});
+        return (data as projectExpenseType[]) ?? []
+    } catch (error) {
+        console.error("Error: ", error);
+        return [];
+    }
+}
+
+export {fetchClients, fetchClientByID, deleteClient, fetchStudents, fetchStudentByID, fetchJobs, fetchJobsByID, fetchExpenses, fetchSavingsProjects, fetchSavingsProjectById, fetchProjectContributions, fetchProjectExpenses};

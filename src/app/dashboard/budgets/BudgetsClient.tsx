@@ -8,8 +8,11 @@ import {
 } from '@/app/lib/data-client'
 import { Plus, Trash2, Pencil, Search, X } from 'lucide-react'
 import { InstagramIcon } from '@/app/ui/Icons'
+import AnalysisTab from './AnalysisTab'
+import Link from 'next/link'
+import { usePriceVisibility } from './PriceVisibilityContext'
 
-type Tab = 'sueldos' | 'gastos' | 'presupuestos'
+type Tab = 'sueldos' | 'gastos' | 'presupuestos' | 'analisis'
 
 const CATEGORIES = ['alquiler', 'servicios', 'comida', 'transporte', 'salud', 'educacion', 'entretenimiento', 'otros'] as const
 
@@ -35,6 +38,9 @@ interface Props {
 }
 
 export default function BudgetsClient({ jobs, expenses: init_expenses, savingsProjects: init_savings }: Props) {
+    const { showPrices } = usePriceVisibility()
+    const fmt = (n: number) => showPrices ? '$' + n.toLocaleString('es-AR') : '$***'
+
     const [activeTab, setActiveTab] = useState<Tab>('sueldos')
     const [expenses, setExpenses] = useState<expenseType[]>(init_expenses ?? [])
     const [savings, setSavings] = useState<savingsProjectType[]>(init_savings ?? [])
@@ -182,7 +188,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
             <div className="w-full flex flex-col gap-6">
                 {/* Tab buttons */}
                 <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-1 w-full sm:w-fit gap-1">
-                    {(['sueldos', 'gastos', 'presupuestos'] as Tab[]).map(tab => (
+                    {(['sueldos', 'gastos', 'presupuestos', 'analisis'] as Tab[]).map(tab => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
@@ -192,7 +198,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
                             }`}
                         >
-                            {tab === 'sueldos' ? 'Sueldos' : tab === 'gastos' ? 'Gastos' : 'Presupuestos'}
+                            {tab === 'sueldos' ? 'Sueldos' : tab === 'gastos' ? 'Gastos' : tab === 'presupuestos' ? 'Presupuestos' : 'Análisis'}
                         </button>
                     ))}
                 </div>
@@ -203,18 +209,18 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                             <div className="bg-slate-100 dark:bg-slate-800 rounded-lg p-4">
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Ingreso mensual</p>
-                                <p className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100">${totalIncome.toLocaleString('es-AR')}</p>
+                                <p className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100">{fmt(totalIncome)}</p>
                                 <p className="text-xs text-slate-400 mt-1">{activeJobs.length} trabajo{activeJobs.length !== 1 ? 's' : ''} activos</p>
                             </div>
                             <div className="bg-slate-100 dark:bg-slate-800 rounded-lg p-4">
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Gastos fijos</p>
-                                <p className="text-xl sm:text-2xl font-bold text-red-500 dark:text-red-400">${totalExpenses.toLocaleString('es-AR')}</p>
+                                <p className="text-xl sm:text-2xl font-bold text-red-500 dark:text-red-400">{fmt(totalExpenses)}</p>
                                 <p className="text-xs text-slate-400 mt-1">{expenses.filter(e => e.active).length} gastos activos</p>
                             </div>
                             <div className={`col-span-2 md:col-span-1 rounded-lg p-4 ${balance >= 0 ? 'bg-green-50 dark:bg-green-900/20' : 'bg-red-50 dark:bg-red-900/20'}`}>
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Disponible</p>
                                 <p className={`text-xl sm:text-2xl font-bold ${balance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                                    ${balance.toLocaleString('es-AR')}
+                                    {fmt(balance)}
                                 </p>
                             </div>
                         </div>
@@ -250,7 +256,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                                                 <td className="px-4 py-3 text-slate-500 dark:text-slate-400 hidden md:table-cell">{job.date}</td>
                                                 <td className="px-4 py-3 text-slate-500 dark:text-slate-400 hidden md:table-cell">{job.obvs || '-'}</td>
                                                 <td className="px-4 py-3 text-right font-medium text-slate-800 dark:text-slate-200">
-                                                    ${job.price.toLocaleString('es-AR')}
+                                                    {fmt(job.price)}
                                                 </td>
                                             </tr>
                                         ))}
@@ -260,7 +266,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                                             <td colSpan={5} className="px-4 py-3 font-semibold text-slate-700 dark:text-slate-200 hidden sm:table-cell">Total</td>
                                             <td colSpan={1} className="px-4 py-3 font-semibold text-slate-700 dark:text-slate-200 sm:hidden">Total</td>
                                             <td className="px-4 py-3 text-right font-bold text-slate-800 dark:text-white">
-                                                ${totalIncome.toLocaleString('es-AR')}
+                                                {fmt(totalIncome)}
                                             </td>
                                         </tr>
                                     </tfoot>
@@ -277,18 +283,18 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                             <div className="bg-slate-100 dark:bg-slate-800 rounded-lg p-4">
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Ingreso mensual</p>
-                                <p className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100">${totalIncome.toLocaleString('es-AR')}</p>
+                                <p className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100">{fmt(totalIncome)}</p>
                                 <p className="text-xs text-slate-400 mt-1">{activeJobs.length} trabajos activos</p>
                             </div>
                             <div className="bg-slate-100 dark:bg-slate-800 rounded-lg p-4">
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Gastos fijos</p>
-                                <p className="text-lg sm:text-xl font-bold text-red-500 dark:text-red-400">${totalExpenses.toLocaleString('es-AR')}</p>
+                                <p className="text-lg sm:text-xl font-bold text-red-500 dark:text-red-400">{fmt(totalExpenses)}</p>
                                 <p className="text-xs text-slate-400 mt-1">{expenses.filter(e => e.active).length} activos</p>
                             </div>
                             <div className={`col-span-2 md:col-span-1 rounded-lg p-4 ${balance >= 0 ? 'bg-green-50 dark:bg-green-900/20' : 'bg-red-50 dark:bg-red-900/20'}`}>
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Disponible</p>
                                 <p className={`text-lg sm:text-xl font-bold ${balance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                                    ${balance.toLocaleString('es-AR')}
+                                    {fmt(balance)}
                                 </p>
                             </div>
                         </div>
@@ -423,7 +429,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                                                         {expense.name}
                                                     </span>
                                                     <span className="font-semibold text-slate-800 dark:text-slate-100 text-sm shrink-0">
-                                                        ${expense.amount.toLocaleString('es-AR')}
+                                                        {fmt(expense.amount)}
                                                     </span>
                                                 </div>
                                                 {/* Bottom: badge + actions */}
@@ -466,7 +472,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                                         {filteredExpenses.length} de {expenses.length} gastos
                                     </span>
                                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                        Total activos: ${totalExpenses.toLocaleString('es-AR')}
+                                        Total activos: {fmt(totalExpenses)}
                                     </span>
                                 </div>
                             </div>
@@ -474,12 +480,17 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                     </div>
                 )}
 
+                {/* ── ANÁLISIS ── */}
+                {activeTab === 'analisis' && (
+                    <AnalysisTab jobs={allJobs} expenses={expenses} savings={savings} />
+                )}
+
                 {/* ── PRESUPUESTOS ── */}
                 {activeTab === 'presupuestos' && (
                     <div className="flex flex-col gap-5">
                         <div className="bg-slate-100 dark:bg-slate-800 rounded-lg p-4">
                             <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Total ahorrado</p>
-                            <p className="text-2xl font-bold text-slate-800 dark:text-slate-100">${totalSaved.toLocaleString('es-AR')}</p>
+                            <p className="text-2xl font-bold text-slate-800 dark:text-slate-100">{fmt(totalSaved)}</p>
                             <p className="text-xs text-slate-400 mt-1">{savings.length} proyecto{savings.length !== 1 ? 's' : ''}</p>
                         </div>
 
@@ -533,15 +544,23 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                                                         <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{project.description}</p>
                                                     )}
                                                 </div>
-                                                <button onClick={() => handleDeleteSavings(project.id!)} className="text-red-400 hover:text-red-600 transition-colors">
-                                                    <Trash2 size={15} />
-                                                </button>
+                                                <div className="flex items-center gap-3 shrink-0 ml-2">
+                                                    <Link
+                                                        href={`/dashboard/budgets/projects/${project.id}`}
+                                                        className="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                                                    >
+                                                        Ver detalle →
+                                                    </Link>
+                                                    <button onClick={() => handleDeleteSavings(project.id!)} className="text-red-400 hover:text-red-600 transition-colors">
+                                                        <Trash2 size={15} />
+                                                    </button>
+                                                </div>
                                             </div>
 
                                             <div>
                                                 <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
-                                                    <span>${project.current_amount.toLocaleString('es-AR')}</span>
-                                                    <span>${project.goal_amount.toLocaleString('es-AR')}</span>
+                                                    <span>{fmt(project.current_amount)}</span>
+                                                    <span>{fmt(project.goal_amount)}</span>
                                                 </div>
                                                 <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
                                                     <div
@@ -561,7 +580,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
 
                                             {remaining > 0 && (
                                                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                    Faltan: <strong className="text-slate-700 dark:text-slate-200">${remaining.toLocaleString('es-AR')}</strong>
+                                                    Faltan: <strong className="text-slate-700 dark:text-slate-200">{fmt(remaining)}</strong>
                                                 </p>
                                             )}
 

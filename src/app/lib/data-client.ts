@@ -196,4 +196,45 @@ const updateExpense = async (id: string, fields: Pick<expenseType, 'name' | 'amo
     }
 }
 
-export {postClient, postStudent, postJob, postExpense, deleteExpense, toggleExpense, updateExpense, postSavingsProject, deleteSavingsProject, updateSavingsAmount};
+const addProjectContribution = async (project_id: string, amount: number, note: string, new_current: number) => {
+    const { data, error } = await supabaseClient
+        .from("project_contributions")
+        .insert([{ project_id, amount, note: note || null }])
+        .select()
+    if (error) { logSupabaseError("Error al agregar ingreso:", error); throw error }
+    const { error: e2 } = await supabaseClient.from("savings_projects").update({ current_amount: new_current }).eq("id", project_id)
+    if (e2) { logSupabaseError("Error al actualizar monto:", e2); throw e2 }
+    return data
+}
+
+const deleteProjectContribution = async (id: string, project_id: string, new_current: number) => {
+    const { error } = await supabaseClient.from("project_contributions").delete().eq("id", id)
+    if (error) { logSupabaseError("Error al eliminar ingreso:", error); throw error }
+    const { error: e2 } = await supabaseClient.from("savings_projects").update({ current_amount: new_current }).eq("id", project_id)
+    if (e2) { logSupabaseError("Error al actualizar monto:", e2); throw e2 }
+}
+
+const addProjectExpense = async (project_id: string, name: string, amount: number, note: string, new_current: number) => {
+    const { data, error } = await supabaseClient
+        .from("project_expenses")
+        .insert([{ project_id, name, amount, note: note || null }])
+        .select()
+    if (error) { logSupabaseError("Error al agregar egreso:", error); throw error }
+    const { error: e2 } = await supabaseClient.from("savings_projects").update({ current_amount: new_current }).eq("id", project_id)
+    if (e2) { logSupabaseError("Error al actualizar monto:", e2); throw e2 }
+    return data
+}
+
+const deleteProjectExpense = async (id: string, project_id: string, new_current: number) => {
+    const { error } = await supabaseClient.from("project_expenses").delete().eq("id", id)
+    if (error) { logSupabaseError("Error al eliminar egreso:", error); throw error }
+    const { error: e2 } = await supabaseClient.from("savings_projects").update({ current_amount: new_current }).eq("id", project_id)
+    if (e2) { logSupabaseError("Error al actualizar monto:", e2); throw e2 }
+}
+
+const updateProject = async (id: string, fields: { name?: string; goal_amount?: number; description?: string; deadline?: string | null }) => {
+    const { error } = await supabaseClient.from("savings_projects").update(fields).eq("id", id)
+    if (error) { logSupabaseError("Error al actualizar proyecto:", error); throw error }
+}
+
+export {postClient, postStudent, postJob, postExpense, deleteExpense, toggleExpense, updateExpense, postSavingsProject, deleteSavingsProject, updateSavingsAmount, addProjectContribution, deleteProjectContribution, addProjectExpense, deleteProjectExpense, updateProject};
