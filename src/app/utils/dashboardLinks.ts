@@ -5,7 +5,8 @@ const Links = [
     {title: "Temarios", desc: "Plan de Estudio de Materias", link: "/dashboard/temarios"},
     {title: "Proyectos", desc: "Proyectos de Programación", link: "/dashboard/projects"},
     {title: "Calculadora de Costo", desc: "Lista de precios y cuánto cobrar", link: "/dashboard/calculator"},
-    {title: "Finanzas", desc: "Sueldos, gastos fijos y proyectos de ahorro", link: "/dashboard/budgets"}
+    {title: "Finanzas", desc: "Sueldos, gastos fijos y proyectos de ahorro", link: "/dashboard/budgets"},
+    {title: "Ropero", desc: "Gestión de ropa y prendas", link: "/dashboard/clothes"},
 ]
 
 export default Links

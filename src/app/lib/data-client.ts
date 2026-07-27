@@ -1,5 +1,5 @@
 import { supabaseClient } from '../utils/supabase/client';
-import {clientType, jobsType, studentType, expenseType, savingsProjectType} from './definitions';
+import {clientType, jobsType, studentType, expenseType, savingsProjectType, clothesType} from './definitions';
 
 
 const postClient = async ({
@@ -237,4 +237,32 @@ const updateProject = async (id: string, fields: { name?: string; goal_amount?: 
     if (error) { logSupabaseError("Error al actualizar proyecto:", error); throw error }
 }
 
-export {postClient, postStudent, postJob, postExpense, deleteExpense, toggleExpense, updateExpense, postSavingsProject, deleteSavingsProject, updateSavingsAmount, addProjectContribution, deleteProjectContribution, addProjectExpense, deleteProjectExpense, updateProject};
+const postCloth = async ({ name, category, condition }: clothesType) => {
+    const { data, error } = await supabaseClient
+        .from("clothes")
+        .insert([{ name, category, condition }])
+        .select();
+    if (error) {
+        logSupabaseError("Error al insertar prenda:", error);
+        throw error;
+    }
+    return data;
+}
+
+const deleteCloth = async (id: string) => {
+    const { error } = await supabaseClient.from("clothes").delete().eq("id", id);
+    if (error) {
+        logSupabaseError("Error al eliminar prenda:", error);
+        throw error;
+    }
+}
+
+const updateCloth = async (id: string, fields: Partial<Pick<clothesType, 'name' | 'category' | 'condition'>>) => {
+    const { error } = await supabaseClient.from("clothes").update(fields).eq("id", id);
+    if (error) {
+        logSupabaseError("Error al actualizar prenda:", error);
+        throw error;
+    }
+}
+
+export {postClient, postStudent, postJob, postExpense, deleteExpense, toggleExpense, updateExpense, postSavingsProject, deleteSavingsProject, updateSavingsAmount, addProjectContribution, deleteProjectContribution, addProjectExpense, deleteProjectExpense, updateProject, postCloth, deleteCloth, updateCloth};

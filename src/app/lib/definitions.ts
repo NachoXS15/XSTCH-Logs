@@ -96,3 +96,11 @@ export interface projectExpenseType {
   note?: string
   created_at?: string
 }
+
+export interface clothesType {
+  id?: string
+  name: string
+  category: string
+  condition: "Nuevo" | "Gastado" | "Muy desgastado"
+  created_at?: string
+}

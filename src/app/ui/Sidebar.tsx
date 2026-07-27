@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import { LogOut, Computer, MenuIcon, Sun, ChevronRight, House, Star, Shovel, Calculator, Wallet } from 'lucide-react'
+import { LogOut, Computer, MenuIcon, Sun, ChevronRight, House, Star, Shovel, Calculator, Wallet, Shirt } from 'lucide-react'
 import logo1 from '../assets/xs-black.png';
 import logo2 from '../assets/xs-white.png';
 import { useTheme } from "next-themes"
@@ -19,6 +19,7 @@ export default function Sidebar() {
         { id: 4, content: "Trabajos", link: "/dashboard/jobs", icon: Shovel },
         { id: 5, content: "Calculadora", link: "/dashboard/calculator", icon: Calculator },
         { id: 6, content: "Finanzas", link: "/dashboard/budgets", icon: Wallet },
+        { id: 7, content: "Ropa", link: "/dashboard/clothes", icon: Shirt },
     ]
 
 
