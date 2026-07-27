@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import { LogOut, Computer, MenuIcon, Sun, ChevronRight, House, Star, Shovel, Calculator, Wallet, Shirt } from 'lucide-react'
+import { LogOut, Computer, MenuIcon, Sun, Moon, ChevronRight, House, Star, Shovel, Calculator, Wallet, Shirt } from 'lucide-react'
 import logo1 from '../assets/xs-black.png';
 import logo2 from '../assets/xs-white.png';
 import { useTheme } from "next-themes"
@@ -56,20 +56,28 @@ export default function Sidebar() {
                     </div>
                 </div>
             </aside>
-            <nav className="max-w-full block md:hidden w-full z-50 fixed overflow-visible bottom-0 bg-slate-100 dark:bg-slate-900 shadow-sm">
-                <nav className="h-24 flex items-center px-5 justify-evenly gap-4">
-                    {
-                        links.slice(0, 3).map(link => {
-                            const LinkIcon = link.icon
-                            return (
-                                <Link key={link.id} href={link.link} className={`px-3 py-8 h-12 flex items-center justify-center flex-col gap-2 bg-slate-200 dark:bg-transparent font-medium rounded-md text-md transition hover:scale-105 ${pathname === link.link ? "bg-slate-400" : ""}`}>
-                                    <span><LinkIcon size={20} className="dark:text-white" /></span>
-                                    <span className="text-xs dark:text-white">{link.content}</span>
-                                </Link>
-                            )
-                        }
-                        )}
-                </nav>
+            <nav className="block md:hidden w-full z-50 fixed bottom-0 bg-slate-100 dark:bg-gray-900 border-t border-slate-200 dark:border-slate-800">
+                <div className="h-20 flex items-center justify-evenly px-2">
+                    {[links[0], links[1], links[3], links[5], links[6]].map(link => {
+                        const LinkIcon = link.icon
+                        const active = pathname === link.link
+                        return (
+                            <Link
+                                key={link.id}
+                                href={link.link}
+                                className="flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition"
+                            >
+                                <LinkIcon
+                                    size={22}
+                                    className={active ? "text-black dark:text-white" : "text-slate-400 dark:text-slate-500"}
+                                />
+                                <span className={`text-[10px] font-medium ${active ? "text-black dark:text-white" : "text-slate-400 dark:text-slate-500"}`}>
+                                    {link.content}
+                                </span>
+                            </Link>
+                        )
+                    })}
+                </div>
             </nav>
             <div className="pb-24"></div>
         </>
