@@ -12,7 +12,7 @@ export default async function page() {
   //   }
 
   return (
-    <div className='w-full xl:w-5/6  px-5 py-10 flex items-center justify-start flex-col'>
+    <div className='w-full lg:px-20  px-5 py-10 flex items-center justify-start flex-col'>
       <div className="w-full flex justify-between items-center">
         <div className="text-left w-full">
             <h3 className="text-lg font-semibold ml-3 text-slate-800 dark:text-slate-50">¡Bienvenido, Nacho!</h3>

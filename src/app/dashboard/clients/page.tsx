@@ -16,7 +16,7 @@ export default async function Page() {
   }
 
   return (
-    <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
+    <section className='w-full z-40 lg:px-20 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
       <SearchForm clients={clients}/>
     </section>
   )

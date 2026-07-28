@@ -18,7 +18,7 @@ export default async function Page() {
 
 
   return (
-    <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
+    <section className='w-full z-40 lg:px-20 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
       <div className="w-full flex flex-col py-5 md:flex-row justify-between items-center">
         <div className="text-left w-full border-b border-slate-200 mb-4 md:border-0 md:mb-0">
           <h3 className="text-lg font-semibold ml-3 text-slate-800 dark:text-slate-50">Trabajos</h3>

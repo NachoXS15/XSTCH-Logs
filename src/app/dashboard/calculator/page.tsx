@@ -2,7 +2,7 @@
 
 import { Services } from "@/app/utils/services";
 import { GripVertical, X, Minus, Plus, FileDown } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Service } from "@/app/lib/definitions";
 
 export default function page() {
@@ -10,25 +10,38 @@ export default function page() {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [quantities, setQuantities] = useState<Record<string, number>>({});
     const [draggedItem, setDraggedItem] = useState<Service | null>(null);
+    const [dragPosition, setDragPosition] = useState<{ x: number; y: number } | null>(null);
+    const [isOverTarget, setIsOverTarget] = useState(false);
     const [isDomicilio, setIsDomicilio] = useState(false)
+    const targetRef = useRef<HTMLDivElement>(null);
 
-    const handleDragStart = (e: React.DragEvent<HTMLDivElement>, service: Service): void => {
+    const isOverTargetRect = (x: number, y: number): boolean => {
+        const rect = targetRef.current?.getBoundingClientRect();
+        if (!rect) return false;
+        return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    };
+
+    const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>, service: Service): void => {
+        e.currentTarget.setPointerCapture(e.pointerId);
         setDraggedItem(service);
-        e.dataTransfer.effectAllowed = 'copy';
+        setDragPosition({ x: e.clientX, y: e.clientY });
+        setIsOverTarget(isOverTargetRect(e.clientX, e.clientY));
     };
 
-    const handleDragOver = (e: React.DragEvent<HTMLDivElement>): void => {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'copy';
+    const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>): void => {
+        if (!draggedItem) return;
+        setDragPosition({ x: e.clientX, y: e.clientY });
+        setIsOverTarget(isOverTargetRect(e.clientX, e.clientY));
     };
 
-    const handleDrop = (e: React.DragEvent<HTMLDivElement>): void => {
-        e.preventDefault();
-        if (draggedItem && !selectedServices.find(s => s.name === draggedItem.name)) {
-            setSelectedServices([...selectedServices, draggedItem]);
+    const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>): void => {
+        if (draggedItem && isOverTargetRect(e.clientX, e.clientY) && !selectedServices.find(s => s.name === draggedItem.name)) {
+            setSelectedServices(prev => [...prev, draggedItem]);
             setQuantities(prev => ({ ...prev, [draggedItem.name]: 1 }));
         }
         setDraggedItem(null);
+        setDragPosition(null);
+        setIsOverTarget(false);
     };
 
     const handleRemoveService = (serviceName: string): void => {
@@ -144,7 +157,7 @@ export default function page() {
     }
 
     return (
-        <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
+        <section className='w-full z-40 lg:px-20 overflow-hidden px-5 py-10 flex items-center justify-start flex-col'>
             <div className="w-full flex flex-col py-5 md:flex-row justify-between items-center">
                 <div className="text-left w-full border-b border-slate-200 mb-4 md:border-0 md:mb-0">
                     <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-50">Calculadora de Costos</h3>
@@ -160,9 +173,12 @@ export default function page() {
                             {Services.map((service, i) => (
                                 <div
                                     key={i}
-                                    draggable
-                                    onDragStart={(e) => handleDragStart(e, service)}
-                                    className="h-10 py-5 flex items-center gap-2 text-slate-500 dark:bg-slate-900 bg-slate-200 dark:hover:bg-transparent rounded-lg px-4 cursor-move dark:hover:bg-white hover:bg-slate-600 transition-colors"
+                                    onPointerDown={(e) => handlePointerDown(e, service)}
+                                    onPointerMove={handlePointerMove}
+                                    onPointerUp={handlePointerUp}
+                                    onPointerCancel={handlePointerUp}
+                                    style={{ touchAction: 'none' }}
+                                    className={`h-10 py-5 flex items-center gap-2 text-slate-500 dark:bg-slate-900 bg-slate-200 dark:hover:bg-transparent rounded-lg px-4 cursor-grab active:cursor-grabbing select-none dark:hover:bg-white hover:bg-slate-600 transition-colors ${draggedItem?.name === service.name ? 'opacity-40' : ''}`}
                                 >
                                     <span><GripVertical className="text-slate-500 dark:text-white" size={20} /></span>
                                     <span className="text-slate-500 hover:text-white dark:text-white text-sm">{service.name}</span>
@@ -174,9 +190,8 @@ export default function page() {
                         {/* Área de destino */}
                         <div
                             id="target"
-                            onDragOver={handleDragOver}
-                            onDrop={handleDrop}
-                            className="bg-slate-100 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-600 w-full md:w-1/2 min-h-64 rounded-lg p-4 transition-colors hover:border-slate-400"
+                            ref={targetRef}
+                            className={`bg-slate-100 dark:bg-slate-800 border-2 border-dashed w-full md:w-1/2 min-h-64 rounded-lg p-4 transition-colors ${isOverTarget ? 'border-slate-500 dark:border-slate-400 bg-slate-200 dark:bg-slate-700' : 'border-slate-300 dark:border-slate-600'}`}
                         >
                             {selectedServices.length === 0 ? (
                                 <div className="h-full flex items-center justify-center">
@@ -248,6 +263,15 @@ export default function page() {
                     </button>
                 )}
             </div>
+            {draggedItem && dragPosition && (
+                <div
+                    className="fixed z-50 pointer-events-none flex items-center gap-2 bg-slate-800 text-white text-sm px-4 py-2 rounded-lg shadow-lg"
+                    style={{ left: dragPosition.x + 12, top: dragPosition.y + 12 }}
+                >
+                    <GripVertical size={16} />
+                    {draggedItem.name}
+                </div>
+            )}
         </section>
     )
 }
