@@ -13,6 +13,7 @@ export default function page() {
     const [dragPosition, setDragPosition] = useState<{ x: number; y: number } | null>(null);
     const [isOverTarget, setIsOverTarget] = useState(false);
     const [isDomicilio, setIsDomicilio] = useState(false)
+    const [clientName, setClientName] = useState('')
     const targetRef = useRef<HTMLDivElement>(null);
 
     const isOverTargetRect = (x: number, y: number): boolean => {
@@ -89,8 +90,14 @@ export default function page() {
         doc.text(`Fecha: ${today}`, pageWidth / 2, 28, { align: 'center' })
         doc.setTextColor(0)
 
+        if (clientName.trim()) {
+            doc.setFontSize(11)
+            doc.setFont('helvetica', 'bold')
+            doc.text(`Cliente: ${clientName.trim()}`, 14, 36)
+        }
+
         // Table header
-        const startY = 40
+        const startY = clientName.trim() ? 46 : 40
         const colX = { servicio: 14, cant: 120, precio: 140, subtotal: 165 }
 
         doc.setFillColor(30, 41, 59)
@@ -148,10 +155,10 @@ export default function page() {
         doc.text(`$${calculateTotal().toLocaleString('es-AR')}`, colX.subtotal, y + 6)
 
         // Footer
-        doc.setFont('helvetica', 'italic')
+        doc.setFont('helvetica', 'normal')
         doc.setFontSize(8)
         doc.setTextColor(150)
-        doc.text('Presupuesto generado por XSTCH Logs', pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' })
+        doc.text('Presupuesto generado por Ignacio Joaquín Pantoja', pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' })
 
         doc.save(`presupuesto-xstch-${today.replace(/\//g, '-')}.pdf`)
     }
@@ -178,10 +185,10 @@ export default function page() {
                                     onPointerUp={handlePointerUp}
                                     onPointerCancel={handlePointerUp}
                                     style={{ touchAction: 'none' }}
-                                    className={`h-10 py-5 flex items-center gap-2 text-slate-500 dark:bg-slate-900 bg-slate-200 dark:hover:bg-transparent rounded-lg px-4 cursor-grab active:cursor-grabbing select-none dark:hover:bg-white hover:bg-slate-600 transition-colors ${draggedItem?.name === service.name ? 'opacity-40' : ''}`}
+                                    className={`h-10 py-5 flex items-center gap-2 text-slate-500 dark:bg-slate-900 bg-slate-200 dark:hover:bg-slate-900 rounded-lg px-4 cursor-grab active:cursor-grabbing select-none hover:bg-slate-600 transition-colors ${draggedItem?.name === service.name ? 'opacity-40' : ''}`}
                                 >
-                                    <span><GripVertical className="text-slate-500 dark:text-white" size={20} /></span>
-                                    <span className="text-slate-500 hover:text-white dark:text-white text-sm">{service.name}</span>
+                                    <span><GripVertical className="text-slate-700 dark:text-white" size={20} /></span>
+                                    <span className="text-slate-700 hover:text-white dark:text-white text-sm">{service.name}</span>
                                     <span className="text-slate-700 hover:text-white dark:text-slate-300 text-sm ml-auto">${service.price}</span>
                                 </div>
                             ))}
@@ -191,7 +198,7 @@ export default function page() {
                         <div
                             id="target"
                             ref={targetRef}
-                            className={`bg-slate-100 dark:bg-slate-800 border-2 border-dashed w-full md:w-1/2 min-h-64 rounded-lg p-4 transition-colors ${isOverTarget ? 'border-slate-500 dark:border-slate-400 bg-slate-200 dark:bg-slate-700' : 'border-slate-300 dark:border-slate-600'}`}
+                            className={`bg-slate-100 dark:bg-slate-800 border-2 border-dashed w-full md:w-1/2 min-h-64 rounded-lg p-4 transition-colors flex flex-col ${isOverTarget ? 'border-slate-500 dark:border-slate-400 bg-slate-200 dark:bg-slate-700' : 'border-slate-300 dark:border-slate-600'}`}
                         >
                             {selectedServices.length === 0 ? (
                                 <div className="h-full flex items-center justify-center">
@@ -201,7 +208,7 @@ export default function page() {
                                     </p>
                                 </div>
                             ) : (
-                                <div className="flex flex-col gap-2">
+                                <div className="flex-1 flex flex-col gap-2">
                                     <div className="flex justify-between items-center mb-2">
                                         <h5 className="text-sm font-semibold text-slate-700 dark:text-slate-200">Servicios seleccionados:</h5>
                                         <div className="flex items-center gap-2">
@@ -245,6 +252,17 @@ export default function page() {
                                             </div>
                                         )
                                     })}
+                                    <div className="mt-auto pt-2">
+                                        <label htmlFor="clientName" className="text-slate-700 dark:text-slate-200 text-sm block mb-1">Nombre del cliente</label>
+                                        <input
+                                            type="text"
+                                            id="clientName"
+                                            value={clientName}
+                                            onChange={(e) => setClientName(e.target.value)}
+                                            placeholder="Ingresá el nombre del cliente"
+                                            className="w-full bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-100 text-sm p-2 rounded-lg border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                                        />
+                                    </div>
                                 </div>
                             )}
                         </div>

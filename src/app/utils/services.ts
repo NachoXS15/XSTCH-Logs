@@ -8,5 +8,9 @@ export const Services: Service[] = [
     {"name": "Limpieza General y cambio de Pasta Térmica a Notebook", "price": 30000},
     {"name": "Formateo e Instalación y Activación de S.O.", "price": 15000},
     {"name": "Instalación y Activación de Office", "price": 12000},
-    {"name": "Instalación de suite Adobe", "price": 10000},
+    {"name": "Instalación de software Adobe", "price": 10000},
+    {"name": "Diagnóstico y Reparación", "price": 10000},
+    {"name": "Instalación de software CorelDraw", "price": 10000},
+    {"name": "Instalación de software AutoCAD", "price": 10000},
+    {"name": "Instalación de software SketchUp", "price": 10000},
 ]
