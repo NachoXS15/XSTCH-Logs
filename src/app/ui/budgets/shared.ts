@@ -1,4 +1,4 @@
-export const CATEGORIES = ['alquiler', 'servicios', 'comida', 'transporte', 'salud', 'educacion', 'entretenimiento', 'otros'] as const
+export const CATEGORIES = ['servicios', 'comida', 'transporte', 'educacion', 'entretenimiento', 'otros'] as const
 
 export type ExpenseCategory = typeof CATEGORIES[number]
 

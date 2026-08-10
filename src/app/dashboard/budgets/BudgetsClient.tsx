@@ -272,7 +272,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
 
                         {/* Header + add button */}
                         <div className="flex items-center justify-between">
-                            <h4 className="font-medium text-slate-700 dark:text-slate-200">Gastos fijos</h4>
+                            <h4 className="font-bold text-slate-700 dark:text-slate-200">Gastos fijos</h4>
                             <button
                                 onClick={() => { setShowExpenseForm(v => !v); cancelEdit() }}
                                 className={btnPrimary + ' flex items-center gap-1.5'}
