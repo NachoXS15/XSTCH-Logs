@@ -104,3 +104,12 @@ export interface clothesType {
   condition: "Nuevo" | "Gastado" | "Muy desgastado"
   created_at?: string
 }
+
+export interface outfitType {
+  id?: string
+  name: string
+  top_id: string | null
+  bottom_id: string | null
+  shoes_id: string | null
+  created_at?: string
+}

@@ -1,5 +1,5 @@
 import { supabaseClient } from '../utils/supabase/client';
-import {clientType, jobsType, studentType, expenseType, savingsProjectType, clothesType} from './definitions';
+import {clientType, jobsType, studentType, expenseType, savingsProjectType, clothesType, outfitType} from './definitions';
 
 
 const postClient = async ({
@@ -265,4 +265,32 @@ const updateCloth = async (id: string, fields: Partial<Pick<clothesType, 'name' 
     }
 }
 
-export {postClient, postStudent, postJob, postExpense, deleteExpense, toggleExpense, updateExpense, postSavingsProject, deleteSavingsProject, updateSavingsAmount, addProjectContribution, deleteProjectContribution, addProjectExpense, deleteProjectExpense, updateProject, postCloth, deleteCloth, updateCloth};
+const postOutfit = async ({ name, top_id, bottom_id, shoes_id }: outfitType) => {
+    const { data, error } = await supabaseClient
+        .from("outfits")
+        .insert([{ name, top_id, bottom_id, shoes_id }])
+        .select();
+    if (error) {
+        logSupabaseError("Error al insertar conjunto:", error);
+        throw error;
+    }
+    return data;
+}
+
+const deleteOutfit = async (id: string) => {
+    const { error } = await supabaseClient.from("outfits").delete().eq("id", id);
+    if (error) {
+        logSupabaseError("Error al eliminar conjunto:", error);
+        throw error;
+    }
+}
+
+const updateOutfit = async (id: string, fields: Partial<Pick<outfitType, 'name' | 'top_id' | 'bottom_id' | 'shoes_id'>>) => {
+    const { error } = await supabaseClient.from("outfits").update(fields).eq("id", id);
+    if (error) {
+        logSupabaseError("Error al actualizar conjunto:", error);
+        throw error;
+    }
+}
+
+export {postClient, postStudent, postJob, postExpense, deleteExpense, toggleExpense, updateExpense, postSavingsProject, deleteSavingsProject, updateSavingsAmount, addProjectContribution, deleteProjectContribution, addProjectExpense, deleteProjectExpense, updateProject, postCloth, deleteCloth, updateCloth, postOutfit, deleteOutfit, updateOutfit};

@@ -1,7 +1,7 @@
-import { fetchClothes } from '@/app/lib/data-server'
+import { fetchClothes, fetchOutfits } from '@/app/lib/data-server'
 import ClothesClient from './ClothesClient'
 
 export default async function ClothesPage() {
-    const clothes = await fetchClothes()
-    return <ClothesClient clothes={clothes} />
+    const [clothes, outfits] = await Promise.all([fetchClothes(), fetchOutfits()])
+    return <ClothesClient clothes={clothes} outfits={outfits} />
 }
