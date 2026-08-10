@@ -67,6 +67,7 @@ export interface expenseType {
   amount: number
   category: string
   active: boolean
+  pay_day?: number | null
   created_at?: string
 }
 

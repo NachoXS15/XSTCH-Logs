@@ -9,27 +9,14 @@ import {
 import { Plus, Trash2, Pencil, Search, X } from 'lucide-react'
 import { InstagramIcon } from '@/app/ui/Icons'
 import AnalysisTab from './AnalysisTab'
+import ExpenseCalendar from '@/app/ui/budgets/ExpenseCalendar'
+import ExpenseForm, { ExpenseFormPayload } from '@/app/ui/budgets/ExpenseForm'
+import SavingsForm, { SavingsFormPayload } from '@/app/ui/budgets/SavingsForm'
+import { CATEGORIES, CATEGORY_COLORS, btnGhost, btnPrimary, inputClass, parsePayDay } from '@/app/ui/budgets/shared'
 import Link from 'next/link'
 import { usePriceVisibility } from './PriceVisibilityContext'
 
-type Tab = 'sueldos' | 'gastos' | 'presupuestos' | 'analisis'
-
-const CATEGORIES = ['alquiler', 'servicios', 'comida', 'transporte', 'salud', 'educacion', 'entretenimiento', 'otros'] as const
-
-const CATEGORY_COLORS: Record<string, string> = {
-    alquiler: 'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300',
-    servicios: 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300',
-    comida: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300',
-    transporte: 'bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300',
-    salud: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300',
-    educacion: 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300',
-    entretenimiento: 'bg-pink-100 dark:bg-pink-900/40 text-pink-700 dark:text-pink-300',
-    otros: 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300',
-}
-
-const inputClass = 'border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 dark:text-white rounded px-3 py-2 text-sm w-full focus:outline-none focus:ring-1 focus:ring-slate-400'
-const btnPrimary = 'text-sm bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-800 px-4 py-2 rounded-lg hover:bg-slate-700 dark:hover:bg-slate-300 transition-colors disabled:opacity-50'
-const btnGhost = 'text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 px-3 py-2 transition-colors'
+type Tab = 'sueldos' | 'gastos' | 'calendario' | 'presupuestos' | 'analisis'
 
 interface Props {
     jobs: jobsType[]
@@ -45,12 +32,8 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
     const [expenses, setExpenses] = useState<expenseType[]>(init_expenses ?? [])
     const [savings, setSavings] = useState<savingsProjectType[]>(init_savings ?? [])
 
-    // Add form
     const [showExpenseForm, setShowExpenseForm] = useState(false)
-    const [expenseName, setExpenseName] = useState('')
-    const [expenseAmount, setExpenseAmount] = useState('')
-    const [expenseCategory, setExpenseCategory] = useState('otros')
-    const [expenseLoading, setExpenseLoading] = useState(false)
+    const [showSavingsForm, setShowSavingsForm] = useState(false)
 
     // Search & filter
     const [expenseSearch, setExpenseSearch] = useState('')
@@ -61,15 +44,8 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
     const [editName, setEditName] = useState('')
     const [editAmount, setEditAmount] = useState('')
     const [editCategory, setEditCategory] = useState('otros')
+    const [editPayDay, setEditPayDay] = useState('')
     const [editLoading, setEditLoading] = useState(false)
-
-    // Savings form
-    const [showSavingsForm, setShowSavingsForm] = useState(false)
-    const [savingsName, setSavingsName] = useState('')
-    const [savingsGoal, setSavingsGoal] = useState('')
-    const [savingsDesc, setSavingsDesc] = useState('')
-    const [savingsDeadline, setSavingsDeadline] = useState('')
-    const [savingsLoading, setSavingsLoading] = useState(false)
 
     // Contribution
     const [contributionTarget, setContributionTarget] = useState<string | null>(null)
@@ -78,6 +54,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
     const allJobs = jobs ?? []
     const activeJobs = allJobs.filter(j => j.active === 'Activo')
     const totalIncome = activeJobs.reduce((s, j) => s + j.price, 0)
+    const saved1 = totalIncome * 0.10
     const totalExpenses = expenses.filter(e => e.active).reduce((s, e) => s + e.amount, 0)
     const balance = totalIncome - totalExpenses
     const totalSaved = savings.reduce((s, p) => s + p.current_amount, 0)
@@ -95,32 +72,27 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
         setEditName(expense.name)
         setEditAmount(String(expense.amount))
         setEditCategory(expense.category)
+        setEditPayDay(expense.pay_day ? String(expense.pay_day) : '')
     }
 
     function cancelEdit() {
         setEditingId(null)
-        setEditName(''); setEditAmount(''); setEditCategory('otros')
+        setEditName(''); setEditAmount(''); setEditCategory('otros'); setEditPayDay('')
     }
 
-    async function handleAddExpense() {
-        if (!expenseName || !expenseAmount) return
-        setExpenseLoading(true)
-        try {
-            const data = await postExpense({ name: expenseName, amount: Number(expenseAmount), category: expenseCategory, active: true })
-            if (data) setExpenses(prev => [data[0] as expenseType, ...prev])
-            setExpenseName(''); setExpenseAmount(''); setExpenseCategory('otros')
-            setShowExpenseForm(false)
-        } catch { /* error already logged */ }
-        setExpenseLoading(false)
+    async function handleAddExpense(payload: ExpenseFormPayload) {
+        const data = await postExpense({ ...payload, active: true })
+        if (data) setExpenses(prev => [data[0] as expenseType, ...prev])
     }
 
     async function handleUpdateExpense() {
         if (!editingId || !editName || !editAmount) return
         setEditLoading(true)
         try {
-            await updateExpense(editingId, { name: editName, amount: Number(editAmount), category: editCategory })
+            const pay_day = parsePayDay(editPayDay)
+            await updateExpense(editingId, { name: editName, amount: Number(editAmount), category: editCategory, pay_day })
             setExpenses(prev => prev.map(e =>
-                e.id === editingId ? { ...e, name: editName, amount: Number(editAmount), category: editCategory } : e
+                e.id === editingId ? { ...e, name: editName, amount: Number(editAmount), category: editCategory, pay_day } : e
             ))
             cancelEdit()
         } catch { /* error already logged */ }
@@ -141,20 +113,15 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
         } catch { /* error already logged */ }
     }
 
-    async function handleAddSavings() {
-        if (!savingsName || !savingsGoal) return
-        setSavingsLoading(true)
-        try {
-            const data = await postSavingsProject({
-                name: savingsName, goal_amount: Number(savingsGoal),
-                current_amount: 0, description: savingsDesc,
-                deadline: savingsDeadline || undefined,
-            })
-            if (data) setSavings(prev => [data[0] as savingsProjectType, ...prev])
-            setSavingsName(''); setSavingsGoal(''); setSavingsDesc(''); setSavingsDeadline('')
-            setShowSavingsForm(false)
-        } catch { /* error already logged */ }
-        setSavingsLoading(false)
+    async function handleAddSavings(payload: SavingsFormPayload) {
+        const data = await postSavingsProject({
+            name: payload.name,
+            goal_amount: payload.goal_amount,
+            current_amount: 0,
+            description: payload.description,
+            deadline: payload.deadline,
+        })
+        if (data) setSavings(prev => [data[0] as savingsProjectType, ...prev])
     }
 
     async function handleDeleteSavings(id: string) {
@@ -174,10 +141,8 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
         } catch { /* error already logged */ }
     }
 
-    const selectClass = inputClass
-
     return (
-        <section className='w-full z-40 xl:w-10/12 overflow-hidden px-5 pt-10 pb-28 md:pb-10 flex items-center justify-start flex-col'>
+        <section className='w-full z-40 md:px-44 overflow-hidden px-5 pt-10 pb-28 md:pb-10 flex items-center justify-start flex-col'>
             <div className="w-full flex flex-col py-5 md:flex-row justify-between items-center">
                 <div className="text-left w-full border-b border-slate-200 dark:border-slate-700 mb-4 md:border-0 md:mb-0">
                     <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-50">Finanzas Personales</h3>
@@ -187,18 +152,18 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
 
             <div className="w-full flex flex-col gap-6">
                 {/* Tab buttons */}
-                <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-1 w-full sm:w-fit gap-1">
-                    {(['sueldos', 'gastos', 'presupuestos', 'analisis'] as Tab[]).map(tab => (
+                <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-1 w-full sm:w-fit gap-1 overflow-x-auto">
+                    {(['sueldos', 'gastos', 'calendario', 'presupuestos', 'analisis'] as Tab[]).map(tab => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
-                            className={`flex-1 sm:flex-none px-3 sm:px-5 py-2 text-xs sm:text-sm font-medium rounded-md transition-all ${
+                            className={`flex-1 sm:flex-none px-3 sm:px-5 py-2 text-xs sm:text-sm font-medium rounded-md transition-all whitespace-nowrap ${
                                 activeTab === tab
                                     ? 'bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 shadow-sm'
                                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
                             }`}
                         >
-                            {tab === 'sueldos' ? 'Sueldos' : tab === 'gastos' ? 'Gastos' : tab === 'presupuestos' ? 'Presupuestos' : 'Análisis'}
+                            {tab === 'sueldos' ? 'Sueldos' : tab === 'gastos' ? 'Gastos' : tab === 'calendario' ? 'Calendario' : tab === 'presupuestos' ? 'Presupuestos' : 'Análisis'}
                         </button>
                     ))}
                 </div>
@@ -206,7 +171,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                 {/* ── SUELDOS ── */}
                 {activeTab === 'sueldos' && (
                     <div className="flex flex-col gap-5">
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                             <div className="bg-slate-100 dark:bg-slate-800 rounded-lg p-4">
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Ingreso mensual</p>
                                 <p className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100">{fmt(totalIncome)}</p>
@@ -221,6 +186,12 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Disponible</p>
                                 <p className={`text-xl sm:text-2xl font-bold ${balance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                                     {fmt(balance)}
+                                </p>
+                            </div>
+                            <div className={`col-span-2 md:col-span-1 rounded-lg p-4 ${balance >= 0 ? 'bg-green-50 dark:bg-green-900/20' : 'bg-red-50 dark:bg-red-900/20'}`}>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">10% Ahorrado</p>
+                                <p className={`text-xl sm:text-2xl font-bold ${balance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                                    {fmt(saved1)}
                                 </p>
                             </div>
                         </div>
@@ -303,7 +274,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                         <div className="flex items-center justify-between">
                             <h4 className="font-medium text-slate-700 dark:text-slate-200">Gastos fijos</h4>
                             <button
-                                onClick={() => { setShowExpenseForm(!showExpenseForm); cancelEdit() }}
+                                onClick={() => { setShowExpenseForm(v => !v); cancelEdit() }}
                                 className={btnPrimary + ' flex items-center gap-1.5'}
                             >
                                 <Plus size={14} />
@@ -311,28 +282,11 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                             </button>
                         </div>
 
-                        {/* Add form */}
-                        {showExpenseForm && (
-                            <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 flex flex-col gap-3 border border-slate-200 dark:border-slate-700">
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                    <input type="text" placeholder="Nombre del gasto" value={expenseName}
-                                        onChange={e => setExpenseName(e.target.value)} className={inputClass} />
-                                    <input type="number" placeholder="Monto" value={expenseAmount}
-                                        onChange={e => setExpenseAmount(e.target.value)} className={inputClass} />
-                                    <select value={expenseCategory} onChange={e => setExpenseCategory(e.target.value)} className={selectClass}>
-                                        {CATEGORIES.map(c => (
-                                            <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="flex gap-2 justify-end">
-                                    <button onClick={() => setShowExpenseForm(false)} className={btnGhost}>Cancelar</button>
-                                    <button onClick={handleAddExpense} disabled={expenseLoading} className={btnPrimary}>
-                                        {expenseLoading ? 'Guardando...' : 'Guardar'}
-                                    </button>
-                                </div>
-                            </div>
-                        )}
+                        <ExpenseForm
+                            open={showExpenseForm}
+                            onClose={() => setShowExpenseForm(false)}
+                            onSubmit={handleAddExpense}
+                        />
 
                         {/* Search + category filters */}
                         {expenses.length > 0 && (
@@ -383,7 +337,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                             </div>
                         )}
 
-                        {/* Expenses list */}
+                        {/* Expenses table */}
                         {expenses.length === 0 ? (
                             <div className="text-center py-16 text-slate-400 dark:text-slate-500">
                                 <p>No hay gastos fijos registrados</p>
@@ -393,91 +347,123 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                                 <p>Sin resultados para la búsqueda</p>
                             </div>
                         ) : (
-                            <div className="flex flex-col gap-2">
-                                {filteredExpenses.map(expense => (
-                                    <div
-                                        key={expense.id}
-                                        className={`bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-lg transition-opacity ${!expense.active ? 'opacity-60' : ''}`}
-                                    >
-                                        {editingId === expense.id ? (
-                                            /* Edit row */
-                                            <div className="p-3 flex flex-col gap-3">
-                                                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                                                    <input type="text" value={editName} onChange={e => setEditName(e.target.value)}
-                                                        className={inputClass} placeholder="Nombre" />
-                                                    <input type="number" value={editAmount} onChange={e => setEditAmount(e.target.value)}
-                                                        className={inputClass} placeholder="Monto" />
-                                                    <select value={editCategory} onChange={e => setEditCategory(e.target.value)} className={selectClass}>
-                                                        {CATEGORIES.map(c => (
-                                                            <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
-                                                        ))}
-                                                    </select>
-                                                </div>
-                                                <div className="flex gap-2 justify-end">
-                                                    <button onClick={cancelEdit} className={btnGhost}>Cancelar</button>
-                                                    <button onClick={handleUpdateExpense} disabled={editLoading} className={btnPrimary}>
-                                                        {editLoading ? 'Guardando...' : 'Guardar cambios'}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            /* Display row — two-line on mobile */
-                                            <div className="px-4 py-3 flex flex-col gap-1.5">
-                                                {/* Top: name + amount */}
-                                                <div className="flex items-center justify-between gap-2">
-                                                    <span className="flex-1 min-w-0 text-slate-700 dark:text-slate-200 text-sm font-medium truncate">
-                                                        {expense.name}
-                                                    </span>
-                                                    <span className="font-semibold text-slate-800 dark:text-slate-100 text-sm shrink-0">
+                            <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700">
+                                <table className="w-full text-sm">
+                                    <thead className="bg-slate-50 dark:bg-slate-900">
+                                        <tr>
+                                            <th className="text-left px-4 py-3 text-slate-500 dark:text-slate-400 font-normal border-b border-slate-200 dark:border-slate-700">Nombre</th>
+                                            <th className="text-left px-4 py-3 text-slate-500 dark:text-slate-400 font-normal border-b border-slate-200 dark:border-slate-700 hidden sm:table-cell">Categoría</th>
+                                            <th className="text-left px-4 py-3 text-slate-500 dark:text-slate-400 font-normal border-b border-slate-200 dark:border-slate-700 hidden md:table-cell">Fecha de pago</th>
+                                            <th className="text-right px-4 py-3 text-slate-500 dark:text-slate-400 font-normal border-b border-slate-200 dark:border-slate-700">Precio</th>
+                                            <th className="text-right px-4 py-3 text-slate-500 dark:text-slate-400 font-normal border-b border-slate-200 dark:border-slate-700">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
+                                        {filteredExpenses.map(expense => (
+                                            editingId === expense.id ? (
+                                                <tr key={expense.id} className="bg-slate-50 dark:bg-slate-800/70">
+                                                    <td colSpan={5} className="px-4 py-3">
+                                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+                                                            <input type="text" value={editName} onChange={e => setEditName(e.target.value)}
+                                                                className={inputClass} placeholder="Nombre" />
+                                                            <select value={editCategory} onChange={e => setEditCategory(e.target.value)} className={inputClass}>
+                                                                {CATEGORIES.map(c => (
+                                                                    <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
+                                                                ))}
+                                                            </select>
+                                                            <input type="number" min={1} max={31} value={editPayDay} onChange={e => setEditPayDay(e.target.value)}
+                                                                className={inputClass} placeholder="Día de pago (1-31)" />
+                                                            <input type="number" value={editAmount} onChange={e => setEditAmount(e.target.value)}
+                                                                className={inputClass} placeholder="Monto" />
+                                                        </div>
+                                                        <div className="flex gap-2 justify-end mt-3">
+                                                            <button onClick={cancelEdit} className={btnGhost}>Cancelar</button>
+                                                            <button onClick={handleUpdateExpense} disabled={editLoading} className={btnPrimary}>
+                                                                {editLoading ? 'Guardando...' : 'Guardar cambios'}
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ) : (
+                                                <tr key={expense.id} className={`hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${!expense.active ? 'opacity-60' : ''}`}>
+                                                    <td className="px-4 py-3 text-slate-800 dark:text-slate-200 font-medium">
+                                                        <div className="flex flex-col gap-1">
+                                                            <span className="truncate">{expense.name}</span>
+                                                            <span className="sm:hidden">
+                                                                <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${CATEGORY_COLORS[expense.category] ?? CATEGORY_COLORS['otros']}`}>
+                                                                    {expense.category}
+                                                                </span>
+                                                                {expense.pay_day && (
+                                                                    <span className="ml-2 text-xs text-slate-400">día {expense.pay_day}</span>
+                                                                )}
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-4 py-3 hidden sm:table-cell">
+                                                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${CATEGORY_COLORS[expense.category] ?? CATEGORY_COLORS['otros']}`}>
+                                                            {expense.category}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-4 py-3 text-slate-500 dark:text-slate-400 hidden md:table-cell tabular-nums">
+                                                        {expense.pay_day ? `Día ${expense.pay_day}` : '—'}
+                                                    </td>
+                                                    <td className="px-4 py-3 text-right font-semibold text-slate-800 dark:text-slate-100 tabular-nums">
                                                         {fmt(expense.amount)}
-                                                    </span>
-                                                </div>
-                                                {/* Bottom: badge + actions */}
-                                                <div className="flex items-center justify-between gap-2">
-                                                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium shrink-0 capitalize ${CATEGORY_COLORS[expense.category] ?? CATEGORY_COLORS['otros']}`}>
-                                                        {expense.category}
-                                                    </span>
-                                                    <div className="flex items-center gap-2 shrink-0">
-                                                        <button
-                                                            onClick={() => handleToggleExpense(expense.id!, expense.active)}
-                                                            className={`text-xs px-2 py-0.5 rounded border transition-colors ${
-                                                                expense.active
-                                                                    ? 'border-green-300 dark:border-green-700 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20'
-                                                                    : 'border-slate-300 dark:border-slate-600 text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'
-                                                            }`}
-                                                        >
-                                                            {expense.active ? 'activo' : 'inactivo'}
-                                                        </button>
-                                                        <button
-                                                            onClick={() => { startEdit(expense); setShowExpenseForm(false) }}
-                                                            className="text-slate-400 hover:text-purple-500 dark:hover:text-purple-400 transition-colors"
-                                                            title="Editar"
-                                                        >
-                                                            <Pencil size={15} />
-                                                        </button>
-                                                        <button
-                                                            onClick={() => handleDeleteExpense(expense.id!)}
-                                                            className="text-red-400 hover:text-red-600 transition-colors"
-                                                        >
-                                                            <Trash2 size={15} />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                                <div className="flex justify-between items-center px-4 py-2 border-t-2 border-slate-200 dark:border-slate-700 mt-1">
-                                    <span className="text-xs text-slate-400 dark:text-slate-500">
-                                        {filteredExpenses.length} de {expenses.length} gastos
-                                    </span>
-                                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                        Total activos: {fmt(totalExpenses)}
-                                    </span>
-                                </div>
+                                                    </td>
+                                                    <td className="px-4 py-3">
+                                                        <div className="flex items-center justify-end gap-2">
+                                                            <button
+                                                                onClick={() => handleToggleExpense(expense.id!, expense.active)}
+                                                                className={`hidden sm:inline-block text-xs px-2 py-0.5 rounded border transition-colors ${
+                                                                    expense.active
+                                                                        ? 'border-green-300 dark:border-green-700 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20'
+                                                                        : 'border-slate-300 dark:border-slate-600 text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'
+                                                                }`}
+                                                            >
+                                                                {expense.active ? 'activo' : 'inactivo'}
+                                                            </button>
+                                                            <button
+                                                                onClick={() => { startEdit(expense); setShowExpenseForm(false) }}
+                                                                className="text-slate-400 hover:text-purple-500 dark:hover:text-purple-400 transition-colors"
+                                                                title="Editar"
+                                                            >
+                                                                <Pencil size={15} />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleDeleteExpense(expense.id!)}
+                                                                className="text-red-400 hover:text-red-600 transition-colors"
+                                                                title="Eliminar"
+                                                            >
+                                                                <Trash2 size={15} />
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        ))}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr className="border-t-2 border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900">
+                                            <td className="px-4 py-3 text-xs text-slate-400 dark:text-slate-500">
+                                                {filteredExpenses.length} de {expenses.length} gastos
+                                            </td>
+                                            <td className="hidden sm:table-cell"></td>
+                                            <td className="hidden md:table-cell px-4 py-3 font-semibold text-slate-700 dark:text-slate-200">Total activos</td>
+                                            <td className="px-4 py-3 text-right font-bold text-slate-800 dark:text-white tabular-nums">
+                                                {fmt(totalExpenses)}
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                         )}
                     </div>
+                )}
+
+                {/* ── CALENDARIO ── */}
+                {activeTab === 'calendario' && (
+                    <ExpenseCalendar expenses={expenses} fmt={fmt} />
                 )}
 
                 {/* ── ANÁLISIS ── */}
@@ -496,35 +482,17 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
 
                         <div className="flex items-center justify-between">
                             <h4 className="font-medium text-slate-700 dark:text-slate-200">Proyectos de ahorro</h4>
-                            <button onClick={() => setShowSavingsForm(!showSavingsForm)} className={btnPrimary + ' flex items-center gap-1.5'}>
+                            <button onClick={() => setShowSavingsForm(v => !v)} className={btnPrimary + ' flex items-center gap-1.5'}>
                                 <Plus size={14} />
                                 Nuevo proyecto
                             </button>
                         </div>
 
-                        {showSavingsForm && (
-                            <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 flex flex-col gap-3 border border-slate-200 dark:border-slate-700">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <input type="text" placeholder="Nombre del proyecto" value={savingsName}
-                                        onChange={e => setSavingsName(e.target.value)} className={inputClass} />
-                                    <input type="number" placeholder="Objetivo ($)" value={savingsGoal}
-                                        onChange={e => setSavingsGoal(e.target.value)} className={inputClass} />
-                                    <input type="text" placeholder="Descripción (opcional)" value={savingsDesc}
-                                        onChange={e => setSavingsDesc(e.target.value)} className={inputClass} />
-                                    <div className="flex flex-col gap-1">
-                                        <label className="text-xs text-slate-500 dark:text-slate-400">Fecha límite (opcional)</label>
-                                        <input type="date" value={savingsDeadline}
-                                            onChange={e => setSavingsDeadline(e.target.value)} className={inputClass} />
-                                    </div>
-                                </div>
-                                <div className="flex gap-2 justify-end">
-                                    <button onClick={() => setShowSavingsForm(false)} className={btnGhost}>Cancelar</button>
-                                    <button onClick={handleAddSavings} disabled={savingsLoading} className={btnPrimary}>
-                                        {savingsLoading ? 'Guardando...' : 'Crear proyecto'}
-                                    </button>
-                                </div>
-                            </div>
-                        )}
+                        <SavingsForm
+                            open={showSavingsForm}
+                            onClose={() => setShowSavingsForm(false)}
+                            onSubmit={handleAddSavings}
+                        />
 
                         {savings.length === 0 ? (
                             <div className="text-center py-16 text-slate-400 dark:text-slate-500">

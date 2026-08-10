@@ -150,7 +150,7 @@ export default function ProjectClient({ project: init, contributions: initContri
     }
 
     return (
-        <section className="w-full z-40 xl:w-10/12 overflow-hidden px-5 py-10 flex flex-col gap-6">
+        <section className="w-full z-40 md:px-20 overflow-hidden px-5 py-10 flex flex-col gap-6">
 
             {/* ── Header ── */}
             <div>

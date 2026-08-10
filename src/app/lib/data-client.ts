@@ -130,10 +130,10 @@ const logSupabaseError = (label: string, error: unknown) => {
     }
 }
 
-const postExpense = async ({ name, amount, category, active }: expenseType) => {
+const postExpense = async ({ name, amount, category, active, pay_day }: expenseType) => {
     const { data, error } = await supabaseClient
         .from("expenses")
-        .insert([{ name, amount, category, active }])
+        .insert([{ name, amount, category, active, pay_day: pay_day ?? null }])
         .select();
     console.log({ data, error });
     if (error) {
@@ -188,7 +188,7 @@ const updateSavingsAmount = async (id: string, current_amount: number) => {
     }
 }
 
-const updateExpense = async (id: string, fields: Pick<expenseType, 'name' | 'amount' | 'category'>) => {
+const updateExpense = async (id: string, fields: Pick<expenseType, 'name' | 'amount' | 'category' | 'pay_day'>) => {
     const { error } = await supabaseClient.from("expenses").update(fields).eq("id", id);
     if (error) {
         logSupabaseError("Error al editar gasto:", error);
