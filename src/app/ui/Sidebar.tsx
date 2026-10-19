@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import { LogOut, Computer, MenuIcon, Sun, Moon, ChevronRight, House, Star, Shovel, Calculator, Wallet, Shirt } from 'lucide-react'
+import { LogOut, Computer, MenuIcon, Sun, Moon, ChevronRight, House, Star, Shovel, Calculator, Wallet, Shirt, Dumbbell, UserRound, Car } from 'lucide-react'
 import logo1 from '../assets/xs-black.png';
 import logo2 from '../assets/xs-white.png';
 import { useTheme } from "next-themes"
@@ -20,6 +20,8 @@ export default function Sidebar() {
         { id: 5, content: "Calculadora", link: "/dashboard/calculator", icon: Calculator },
         { id: 6, content: "Finanzas", link: "/dashboard/budgets", icon: Wallet },
         { id: 7, content: "Ropa", link: "/dashboard/clothes", icon: Shirt },
+        { id: 8, content: "Gym", link: "/dashboard/training", icon: Dumbbell },
+        { id: 9, content: "Vehículos", link: "/dashboard/vehicles", icon: Car },
     ]
 
 
@@ -48,6 +50,10 @@ export default function Sidebar() {
                         </nav>
                     </div>
                     <div className="w-full flex items-center flex-col gap-4">
+                        <Link href="/dashboard/profile" className={`${toggled ? "w-full px-5" : "w-fit px-3"} h-12 flex items-center gap-2 bg-slate-200 dark:bg-transparent font-medium py-0.5 rounded-md text-md transition hover:scale-105 ${pathname === "/dashboard/profile" ? "bg-slate-400" : ""}`}>
+                            <UserRound className="text-black dark:text-white bg-none" />
+                            <span className={`${toggled ? "inline" : "hidden"}`}>Mi perfil</span>
+                        </Link>
                         <ToggleTheme />
                         <Link href="/logout" className={`${toggled ? "w-full px-5" : "w-fit px-3"} h-12 flex items-center gap-2 bg-slate-200 dark:bg-transparent font-medium py-0.5 rounded-md text-md transition hover:scale-105`}>
                             <button><LogOut className="text-black dark:text-white bg-none" /></button>

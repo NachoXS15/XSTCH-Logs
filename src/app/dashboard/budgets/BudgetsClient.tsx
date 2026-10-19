@@ -5,6 +5,7 @@ import { jobsType, expenseType, savingsProjectType } from '@/app/lib/definitions
 import {
     postExpense, deleteExpense, toggleExpense, updateExpense,
     postSavingsProject, deleteSavingsProject, updateSavingsAmount,
+    postJob,
 } from '@/app/lib/data-client'
 import { Plus, Trash2, Pencil, Search, X } from 'lucide-react'
 import { InstagramIcon } from '@/app/ui/Icons'
@@ -12,6 +13,7 @@ import AnalysisTab from './AnalysisTab'
 import ExpenseCalendar from '@/app/ui/budgets/ExpenseCalendar'
 import ExpenseForm, { ExpenseFormPayload } from '@/app/ui/budgets/ExpenseForm'
 import SavingsForm, { SavingsFormPayload } from '@/app/ui/budgets/SavingsForm'
+import SalaryForm, { SalaryFormPayload } from '@/app/ui/budgets/SalaryForm'
 import { CATEGORIES, CATEGORY_COLORS, btnGhost, btnPrimary, inputClass, parsePayDay } from '@/app/ui/budgets/shared'
 import Link from 'next/link'
 import { usePriceVisibility } from './PriceVisibilityContext'
@@ -32,6 +34,8 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
     const [expenses, setExpenses] = useState<expenseType[]>(init_expenses ?? [])
     const [savings, setSavings] = useState<savingsProjectType[]>(init_savings ?? [])
 
+    const [jobsList, setJobsList] = useState<jobsType[]>(jobs ?? [])
+    const [showSalaryForm, setShowSalaryForm] = useState(false)
     const [showExpenseForm, setShowExpenseForm] = useState(false)
     const [showSavingsForm, setShowSavingsForm] = useState(false)
 
@@ -51,7 +55,7 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
     const [contributionTarget, setContributionTarget] = useState<string | null>(null)
     const [contributionAmount, setContributionAmount] = useState('')
 
-    const allJobs = jobs ?? []
+    const allJobs = jobsList
     const activeJobs = allJobs.filter(j => j.active === 'Activo')
     const totalIncome = activeJobs.reduce((s, j) => s + j.price, 0)
     const saved1 = totalIncome * 0.10
@@ -78,6 +82,11 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
     function cancelEdit() {
         setEditingId(null)
         setEditName(''); setEditAmount(''); setEditCategory('otros'); setEditPayDay('')
+    }
+
+    async function handleAddSalary(payload: SalaryFormPayload) {
+        const data = await postJob({ ...payload, active: 'Activo', partner: false })
+        if (data) setJobsList(prev => [data[0] as jobsType, ...prev])
     }
 
     async function handleAddExpense(payload: ExpenseFormPayload) {
@@ -196,6 +205,24 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                             </div>
                         </div>
 
+                        {/* Header + add button */}
+                        <div className="flex items-center justify-between">
+                            <h4 className="font-bold text-slate-700 dark:text-slate-200">Sueldos</h4>
+                            <button
+                                onClick={() => setShowSalaryForm(v => !v)}
+                                className={btnPrimary + ' flex items-center gap-1.5'}
+                            >
+                                <Plus size={14} />
+                                Agregar
+                            </button>
+                        </div>
+
+                        <SalaryForm
+                            open={showSalaryForm}
+                            onClose={() => setShowSalaryForm(false)}
+                            onSubmit={handleAddSalary}
+                        />
+
                         {activeJobs.length === 0 ? (
                             <div className="text-center py-16 text-slate-400 dark:text-slate-500">
                                 <p>No hay trabajos activos registrados</p>
@@ -218,13 +245,13 @@ export default function BudgetsClient({ jobs, expenses: init_expenses, savingsPr
                                             <tr key={job.id ?? i} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
                                                 <td className="px-4 py-3 text-slate-800 dark:text-slate-200">{job.client_name}</td>
                                                 <td className="px-4 py-3 hidden sm:table-cell">
-                                                    <a href={`https://instagram.com/${job.account}`} target="_blank" className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300 hover:underline">
+                                                    {!job.account ? <span className="text-slate-400">-</span> : <a href={`https://instagram.com/${job.account}`} target="_blank" className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300 hover:underline">
                                                         <InstagramIcon />
                                                         <span className="text-sm">{job.account}</span>
-                                                    </a>
+                                                    </a>}
                                                 </td>
                                                 <td className="px-4 py-3 text-slate-500 dark:text-slate-400 hidden md:table-cell">{job.pay_method || '-'}</td>
-                                                <td className="px-4 py-3 text-slate-500 dark:text-slate-400 hidden md:table-cell">{job.date}</td>
+                                                <td className="px-4 py-3 text-slate-500 dark:text-slate-400 hidden md:table-cell">{job.date || '-'}</td>
                                                 <td className="px-4 py-3 text-slate-500 dark:text-slate-400 hidden md:table-cell">{job.obvs || '-'}</td>
                                                 <td className="px-4 py-3 text-right font-medium text-slate-800 dark:text-slate-200">
                                                     {fmt(job.price)}

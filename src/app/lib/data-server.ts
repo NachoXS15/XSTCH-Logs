@@ -1,5 +1,5 @@
 import { createClient } from '../utils/supabase/server';
-import {clientType, jobsType, studentType, expenseType, savingsProjectType, projectContributionType, projectExpenseType, clothesType, outfitType} from './definitions';
+import {clientType, jobsType, studentType, expenseType, savingsProjectType, projectContributionType, projectExpenseType, clothesType, outfitType, profileType, bodyMeasurementType, exerciseType, routineType, routineExerciseType, vehicleType, vehicleProblemType} from './definitions';
 
 //clients
 const fetchClients = async(): Promise <clientType[]> => {
@@ -33,7 +33,7 @@ const deleteClient = async(id:string) => {
         console.log("Cliente eliminado");
     } catch (error) {
         console.log("Error al eliminar", error);
-        
+
     }
 }
 
@@ -165,4 +165,87 @@ const fetchOutfits = async(): Promise<outfitType[]> => {
     }
 }
 
-export {fetchClients, fetchClientByID, deleteClient, fetchStudents, fetchStudentByID, fetchJobs, fetchJobsByID, fetchExpenses, fetchSavingsProjects, fetchSavingsProjectById, fetchProjectContributions, fetchProjectExpenses, fetchClothes, fetchOutfits};
+//------------
+//perfil personal
+const fetchProfile = async(): Promise<profileType | null> => {
+    try {
+        const supabase = await createClient();
+        const { data, error } = await supabase.from('profile').select('*').limit(1).maybeSingle();
+        if (error) throw error;
+        return data as profileType | null
+    } catch (error) {
+        console.error("Error: ", error);
+        return null;
+    }
+}
+
+const fetchBodyMeasurements = async(): Promise<bodyMeasurementType[]> => {
+    try {
+        const supabase = await createClient();
+        const { data } = await supabase.from('body_measurements').select('*').order('date', {ascending: true});
+        return (data as bodyMeasurementType[]) ?? []
+    } catch (error) {
+        console.error("Error: ", error);
+        return [];
+    }
+}
+
+//------------
+//gym
+const fetchExercises = async(): Promise<exerciseType[]> => {
+    try {
+        const supabase = await createClient();
+        const { data } = await supabase.from('exercises').select('*').order('muscle_group', {ascending: true}).order('name', {ascending: true});
+        return (data as exerciseType[]) ?? []
+    } catch (error) {
+        console.error("Error: ", error);
+        return [];
+    }
+}
+
+const fetchRoutines = async(): Promise<routineType[]> => {
+    try {
+        const supabase = await createClient();
+        const { data } = await supabase.from('routines').select('*').order('created_at', {ascending: false});
+        return (data as routineType[]) ?? []
+    } catch (error) {
+        console.error("Error: ", error);
+        return [];
+    }
+}
+
+const fetchRoutineExercises = async(): Promise<routineExerciseType[]> => {
+    try {
+        const supabase = await createClient();
+        const { data } = await supabase.from('routine_exercises').select('*').order('order', {ascending: true});
+        return (data as routineExerciseType[]) ?? []
+    } catch (error) {
+        console.error("Error: ", error);
+        return [];
+    }
+}
+
+//vehicles
+const fetchVehicles = async(): Promise<vehicleType[]> => {
+    try {
+        const supabase = await createClient();
+        const { data } = await supabase.from('vehicles').select('*').order('created_at', {ascending: true});
+        return (data ?? []) as vehicleType[]
+    } catch (error) {
+        console.error("Error: ", error);
+        return [];
+    }
+}
+
+const fetchVehicleProblems = async(): Promise<vehicleProblemType[]> => {
+    try {
+        const supabase = await createClient();
+        const { data } = await supabase.from('vehicle_problems').select('*').order('reported_at', {ascending: false});
+        return (data ?? []) as vehicleProblemType[]
+    } catch (error) {
+        console.error("Error: ", error);
+        return [];
+    }
+}
+
+export {fetchClients, fetchClientByID, deleteClient, fetchStudents, fetchStudentByID, fetchJobs, fetchJobsByID, fetchExpenses, fetchSavingsProjects, fetchSavingsProjectById, fetchProjectContributions, fetchProjectExpenses, fetchClothes, fetchOutfits, fetchProfile, fetchBodyMeasurements, fetchExercises, fetchRoutines, fetchRoutineExercises, fetchVehicles, fetchVehicleProblems};

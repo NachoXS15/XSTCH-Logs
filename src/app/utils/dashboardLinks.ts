@@ -7,6 +7,8 @@ const Links = [
     {title: "Calculadora de Costo", desc: "Lista de precios y cuánto cobrar", link: "/dashboard/calculator"},
     {title: "Finanzas", desc: "Sueldos, gastos fijos y proyectos de ahorro", link: "/dashboard/budgets"},
     {title: "Ropero", desc: "Gestión de ropa y prendas", link: "/dashboard/clothes"},
+    {title: "Gym", desc: "Ejercicios por músculo y rutinas de entrenamiento", link: "/dashboard/training"},
+    {title: "Vehículos", desc: "Datos de cada vehículo y registro de problemas", link: "/dashboard/vehicles"},
 ]
 
 export default Links
